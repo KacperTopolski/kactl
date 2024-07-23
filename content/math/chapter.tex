@@ -3,11 +3,12 @@
 
 \chapter{Mathematics}
 
-\section{Equations}
-\[ax^2+bx+c=0 \Rightarrow x = \frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
+% \section{Equations}
+% \[ax^2+bx+c=0 \Rightarrow x = \frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
 
-The extremum is given by $x = -b/2a$.
+% The extremum is given by $x = -b/2a$.
 
+\section{Cramer's rule}
 \[\begin{aligned}ax+by=e\\cx+dy=f\end{aligned}
 \Rightarrow
 \begin{aligned}x=\dfrac{ed-bf}{ad-bc}\\y=\dfrac{af-ec}{ad-bc}\end{aligned}\]
@@ -27,8 +28,8 @@ Non-distinct roots $r$ become polynomial factors, e.g. $a_n = (d_1n + d_2)r^n$.
 \sin(v\pm w) =\sin v\cos w\pm \cos v\sin w &&& \cos(v\pm w) =\cos v\cos w\mp \sin v\sin w\\
 \sin v+\sin w =2\sin\dfrac{v+w}{2}\cos\dfrac{v-w}{2} &&& \cos v+\cos w =2\cos\dfrac{v+w}{2}\cos\dfrac{v-w}{2} \\
 |\sin \frac{x}{2}| = \sqrt{\frac{1-\cos x}{2}} &&& |\cos \frac{x}{2}| = \sqrt{\frac{1+\cos x}{2}} \\
-\tan(v\pm w) =\dfrac{\tan v\pm\tan w}{1\mp\tan v\tan w} &&& |\tan \frac{x}{2}| = \sqrt{\frac{1-\cos x}{1+\cos x}} \\ 
-\end{align*} 
+\tan(v\pm w) =\dfrac{\tan v\pm\tan w}{1\mp\tan v\tan w} &&& |\tan \frac{x}{2}| = \sqrt{\frac{1-\cos x}{1+\cos x}} \\
+\end{align*}
 }}
 
 \[ (V+W)\tan(v-w)/2{}=(V-W)\tan(v+w)/2 \]
@@ -77,7 +78,7 @@ z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 \begin{align*}
         \int \sqrt{a^2+x^2} dx = \frac{x}{2}\sqrt{a^2+x^2} + \frac{a^2}{2}\ln (x+\sqrt{a^2+x^2}) &&&  \int \sqrt{a^2-x^2} dx = \frac{x}{2}\sqrt{a^2-x^2} + \frac{a^2}{2}\arcsin\frac{x}{|a|} \\
         \int \frac{dx}{\sqrt{a^2-x^2}} = \arcsin\frac{x}{|a|} = -\arccos\frac{x}{|a|}  &&& \int \frac{dx}{\sqrt{a^2+x^2}} = \ln (x+\sqrt{a^2+x^2}) \\
-        \text{Sub } s = \tan(x/2) \text{ to get: } dx =  \frac{2\ ds}{1+s^2}, &&& \ \sin x = \frac{2s}{1+s^2},\ \cos x = \frac{1-s^2}{1+s^2} \\ 
+        \text{Sub } s = \tan(x/2) \text{ to get: } dx =  \frac{2\ ds}{1+s^2}, &&& \ \sin x = \frac{2s}{1+s^2},\ \cos x = \frac{1-s^2}{1+s^2} \\
          \int_a^bf(x)g(x)dx = [F(x)g(x)]_a^b-\int_a^bF(x)g'(x)dx &&& \text{(Integration by parts)} \\
         \int\tan ax = -\dfrac{\ln|\cos ax|}{a} &&& \int x\sin ax = \dfrac{\sin ax-ax \cos ax}{a^2} \\
         \int e^{-x^2} = \frac{\sqrt \pi}{2} \text{erf}(x), \ \ \int xe^{ax}dx = \frac{e^{ax}}{a^2}(ax-1) &&&\dfrac{d}{dx}\tan x = 1+\tan^2x, \ \  \dfrac{d}{dx}\arctan x = \dfrac{1}{1+x^2} \\
