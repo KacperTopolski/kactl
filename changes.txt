@@ -1,0 +1,23 @@
+Antek 07/08/2024
+
+	1. Dodano 4 kolumnę
+	2. Zmniejszono czcionki miejscami
+	3. Dodano syntax highlighting
+	4. Usunięto równanie kwadratowe
+	5. Usunięto drzewo przedziałowe
+	6. Usuinięto drzewo trwałe z lazy
+	7. Usunięto wzmiankę o lagrange
+	8. Usunięto klasę intów modularnych
+	9. Usunięto szybkie potęgowanie modulo
+	10. Usunięto obliczanie odwrotności liczb modulo
+	11. Usunięto mnożenie liczb 64-bitowych modulo
+	12. Usunięto tw Bezout
+	13. Usunięto chińską klikę
+	14. Usunięto obrazki do oczywistych funkcji geometrycznych:
+		- odległość od prostej
+		- odległość od odcinka
+		- przecięcie odcinków
+		- przecięcie prostych
+		- otoczka wypukła (lol)
+	15. Usunięto LCA poprzez Binary Lifting
+	16. Usunięto tabelę wartości n! (python lepszy)
