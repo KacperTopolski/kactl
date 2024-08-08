@@ -1,40 +1,41 @@
 /**
- * Author: Lukas Polacek
- * Date: 2009-10-28
+ * Author: Krzysztof Potępa
+ * Date: 2024
  * License: CC0
- * Source:
- * Description: Blazing Fast Bipartite Matching. Can call on some already matched set for better performance. Extending matching by K is faster than by N.
- * Time: O(Enough)
- * Usage: initialize mt to all -1, mt[i] is the match of vertex i
- * Status: works
+ * Description: match[v] = vert matched to v or -1, returns num edges in matching
+ * Time: O(?)
  */
 #pragma once
-
-int turbo(int v, vector<vi> &g, vi& mt, vi& vis) {
-	if (vis[v])
-		return 0;
-	vis[v] = 1;
-	for (auto u : g[v])
-		if (mt[u] == -1 || turbo(mt[u], g, mt, vis)) {
-			mt[u] = v;
-			mt[v] = u;
-			return 1;
+int matching(vector<vi>& G, vi& match) {
+	vector<bool> seen; int n = 0, k = 1;
+	match.assign(sz(G), -1);
+	auto dfs = [&](auto f, int i) -> int {
+		if (seen[i]) { return 0; } seen[i] = 1;
+		for (auto e : G[i]) {
+			if (match[e] < 0 || f(f, match[e])) {
+				match[i] = e; match[e] = i; return 1;
+			}
 		}
-	return 0;
-}
-
-// vertices dont need to be [left][right] in order, just bipartite
-int turboMatching(vector<vi> &g, vi &mt) {
-	int n = sz(g);
-	vi vis(n);
-	int res = 0, flow = 1;
-	while (flow) {
-		flow = 0;
-		fill(all(vis), 0);
-		rep(i, n)
-			if (mt[i] == -1 && turbo(i, g, mt, vis))
-				flow ++;
-		res += flow;
+		return 0;
+	};
+	while (k) {
+		seen.assign(sz(G), 0); k = 0;
+		rep(i, sz(G)) if (match[i] < 0) k += dfs(dfs, i);
+		n += k;
 	}
-	return res;
+	return n;
 }
+vi vertexCover(vector<vi>& G, vi& match) {
+	vi ret, col(sz(G)), seen(sz(G));
+	auto dfs = [&](auto f, int i, int c) -> void {
+		if (col[i]) { return; } col[i] = c+1;
+		for (auto e : G[i]) f(f, e, !c);
+	};
+	auto aug = [&](auto f, int i) -> void {
+		if (seen[i] || col[i] != 1) { return;} seen[i]=1;
+		for (auto e : G[i]) seen[e] = 1, f(f, match[e]);
+	};
+	rep(i, sz(G)) dfs(dfs, i, 0);
+	rep(i, sz(G)) if (match[i]<0) aug(aug, i);
+	rep(i, sz(G)) if (seen[i]==col[i]-1)ret.push_back(i);
+	return ret; }

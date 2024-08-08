@@ -16,11 +16,8 @@
  */
 
 struct Matching : vi { // Usage: Matching match(num_white);
-	vector<vi> adj;
-	vi rank, low, pos, vis, seen;
-	int k{0};
+	vector<vi> adj; vi rank, low, pos, vis, seen; int k{0};
 	Matching(int n = 0) : vi(n, -1), rank(n) {} 
-
 	bool add(vi vec) { //match.add(indices_of_white_neighbours);
 		adj.push_back(move(vec));
 		low.push_back(0); pos.push_back(0); vis.push_back(0);
@@ -37,7 +34,6 @@ struct Matching : vi { // Usage: Matching match(num_white);
 		}
 		return 0;
 	} //returns 1 if matching size increased
-
 	bool dfs(int v, int g) {
 		if (vis[v] < k) vis[v] = k, seen.push_back(v);
 		while (low[v] < g) {
@@ -50,6 +46,4 @@ struct Matching : vi { // Usage: Matching match(num_white);
 				pos[v] = 0, low[v]++;
 			}
 		}
-		return 0;
-	}
-};
+		return 0; } };
