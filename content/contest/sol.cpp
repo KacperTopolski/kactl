@@ -2,7 +2,7 @@
 using namespace std;
 #define fwd(i, a, n) for (int i = (a); i < (n); i++)
 #define rep(i, n) fwd(i, 0, n)
-#define all(X) begin(X), end(X)
+#define all(X) X.begin(), X.end()
 #define sz(X) ssize(X)
 #define pb push_back
 #define eb emplace_back
@@ -11,11 +11,11 @@ using namespace std;
 using pii = pair<int, int>; using vi = vector<int>;
 using ll = long long; using ld = long double;
 #ifdef LOC
-#define DTP(x,y) auto operator<<(auto&o, auto a)->decltype(y,o) {o<<"("; x; return o<<")";}
-DTP(a.print(), a.print());
+auto SS = signal(6, [](int) { *(int *)0 = 0; });
+#define DTP(x, y) auto operator << (auto &o, auto a) -> decltype(y, o) { o << "("; x; return o << ")"; }
 DTP(o << a.st << ", " << a.nd, a.nd);
 DTP(for (auto i : a) o << i << ", ", all(a));
-void dump(auto... x){((cerr << x << ", "), ...)<<'\n';}
+void dump(auto... x) { (( cerr << x << ", " ), ...) << '\n'; }
 #define deb(x...) cerr << setw(4) << __LINE__ << ":[" #x "]: ", dump(x)
 #else
 #define deb(...) 0
@@ -25,7 +25,6 @@ int32_t main() {
 	cout << fixed << setprecision(10);
 	#ifdef LOCF
 	cout.flush(); cerr << "- - - - - - - - -\n";
-	(void)!system("grep VmPeak /proc/$PPID/status "
-	"| sed s/....kB/\' MB\'/1 >&2"); // 4x.kB ....kB
+	(void)!system("grep VmPeak /proc/$PPID/status | sed s/....kB/\' MB\'/1 >&2"); // 4x.kB ....kB
 	#endif
 }
