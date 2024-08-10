@@ -25,8 +25,7 @@ struct PSegmentTree { // default: update set_pos, query sum
 	vector<node> t;
 	PSegmentTree(int N) : N(N) {
 		t.push_back(node(idnt)); // 0th node is the root of an empty tree
-								 // t.reserve() in case of memory issues
-	}
+	} // t.reserve() in case of memory issues
 	int cpy(int v) {
 		t.push_back(t[v]);
 		return sz(t) - 1;

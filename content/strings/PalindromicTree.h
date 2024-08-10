@@ -4,7 +4,7 @@
  * License: ???
  * Source: ???
  * Description: Computes plaindromic tree: for each end position in the string
- * we store longest palindrome ending in that position. \texttt{link} is the 
+ * we store longest palindrome ending in that position. \texttt{link} is the
  * suffix palindrome links, eg ababa -> aba. Can be used to compute shortest
  * decomposition of strings to palindromes in O(n log n) time - use [DP] lines.
  * Time: O(N)
@@ -21,7 +21,7 @@ struct PalTree {
 	vi diff{0, 0};  //[DP] len[i]-len[link[i]]
 	vi slink{0, 0}; //[DP] like link but to having different `diff`
 	vi series{0, 0};//[DP] dp for series (groups of pals with =diff)
-	vi ans{0};      //[DP] ans for prefix 
+	vi ans{0};      //[DP] ans for prefix
 	int ext(int i) {
 		while(len[i]+2>sz(txt) || txt[sz(txt)-len[i]-2]!=txt.back())
 			i = link[i];
@@ -34,19 +34,18 @@ struct PalTree {
 			link.push_back(to[ext(link[last])][x]);
 			to[last][x] = sz(to);
 			to.push_back({});
-			diff.push_back(len.back() - len[link.back()]);	            //[DP]
-			slink.push_back(diff.back() == diff[link.back()] ?	        //[DP]
-				slink[link.back()] : link.back());                      //[DP]
-			series.push_back(0);	                                    //[DP]
+			diff.push_back(len.back() - len[link.back()]); //[DP]
+			slink.push_back(diff.back() == diff[link.back()] ? slink[link.back()] : link.back()); //[DP]
+			series.push_back(0); //[DP]
 		}
 		last = to[last][x];
-		ans.push_back(INT_MAX);	 	                                    //[DP]
-		for(int i = last; len[i] > 0; i = slink[i]) {	                //[DP]
-			series[i] = ans[sz(ans) - len[slink[i]] - diff[i] - 1];     //[DP]
-			if(diff[i] == diff[link[i]])	                            //[DP]
-				series[i] = min(series[i], series[link[i]]);            //[DP]
-			//For even only palindromes set ans only for even sz(txt)	//[DP]
-			ans.back() = min(ans.back(), series[i] + 1);	            //[DP]
+		ans.push_back(INT_MAX); //[DP]
+		for(int i = last; len[i] > 0; i = slink[i]) { //[DP]
+			series[i] = ans[sz(ans) - len[slink[i]] - diff[i] - 1]; //[DP]
+			if(diff[i] == diff[link[i]]) //[DP]
+				series[i] = min(series[i], series[link[i]]); //[DP]
+			//For even only palindromes set ans only for even sz(txt) //[DP]
+			ans.back() = min(ans.back(), series[i] + 1); //[DP]
 		}
 	}
 };

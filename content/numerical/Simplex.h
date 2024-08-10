@@ -59,7 +59,8 @@ struct LPSolver {
 			rep(i,m) {
 				if (D[i][s] <= eps) continue;
 				if (r == -1 || MP(D[i][n+1] / D[i][s], B[i])
-				             < MP(D[r][n+1] / D[r][s], B[r])) r = i;
+				             < MP(D[r][n+1] / D[r][s], B[r]))
+					r = i;
 			}
 			if (r == -1) return false;
 			pivot(r, s);
@@ -71,7 +72,8 @@ struct LPSolver {
 		fwd(i,1,m) if (D[i][n+1] < D[r][n+1]) r = i;
 		if (D[r][n+1] < -eps) {
 			pivot(r, n);
-			if (!simplex(2) || D[m+1][n+1] < -eps) return -inf;
+			if (!simplex(2) || D[m+1][n+1] < -eps)
+				return -inf;
 			rep(i,m) if (B[i] == -1) {
 				int s = 0;
 				fwd(j,1,n+1) ltj(D[i]);

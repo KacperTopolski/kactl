@@ -4,7 +4,7 @@
  * License: CC0
  * Source: N/A
  * Description: Min cost K-flow. Supports fast 1st phase distance computation
- * Time: O(INIT + F * nlogn) INIT <= V * E and depends on first dist computation
+ * Time: O(INIT + Fn\log n) $INIT \le V E$ and depends on first dist computation
  * Status: tested on https://codeforces.com/gym/102759/problem/F and kattis:maxflowmincost
  */
 
@@ -74,9 +74,9 @@ struct MCMF {
 		int it = N, ch = 1; ll v;
 		while (ch-- && it--)
 			rep(i,N) if (pi[i] != INF)
-			  for (edge& e : ed[i]) if (e.cap)
-				  if ((v = pi[i] + e.cost) < pi[e.to])
-					  pi[e.to] = v, ch = 1;
+				for (edge& e : ed[i]) if (e.cap)
+					if ((v = pi[i] + e.cost) < pi[e.to])
+						pi[e.to] = v, ch = 1;
 		assert(it >= 0); // negative cost cycle
 	}
 };
