@@ -11,48 +11,48 @@
  */
 
 struct Sqr {
-   int begin, end, len;
+	int begin, end, len;
 };
 
 vector<Sqr> lorentz(const string &s) {
-   vector<Sqr> ans;
-   vi pos(sz(s) / 2 + 2, -1);
+	vector<Sqr> ans;
+	vi pos(sz(s) / 2 + 2, -1);
 
-   fwd(mid, 1, sz(s)) {
-      int part = mid & ~(mid - 1), off = mid - part;
-      int end = min(mid + part, sz(s));
-      auto a = s.substr(off, part);
-      auto b = s.substr(mid, end - mid);
+	fwd(mid, 1, sz(s)) {
+		int part = mid & ~(mid - 1), off = mid - part;
+		int end = min(mid + part, sz(s));
+		auto a = s.substr(off, part);
+		auto b = s.substr(mid, end - mid);
 
-      string ra(a.rbegin(), a.rend());
-      string rb(b.rbegin(), b.rend());
+		string ra(a.rbegin(), a.rend());
+		string rb(b.rbegin(), b.rend());
 
-      rep(j, 2) {
-         // Set # to some unused character!
-         vi z1 = Z(ra, true);
-         vi z2 = Z(b + "#" + a, true);
-         z1.push_back(0);
-         z2.push_back(0);
+		rep(j, 2) {
+			// Set # to some unused character!
+			vi z1 = Z(ra, true);
+			vi z2 = Z(b + "#" + a, true);
+			z1.push_back(0);
+			z2.push_back(0);
 
-         rep(c, sz(a)) {
-            int l = sz(a) - c;
-            int x = c - min(l - 1, z1[l]);
-            int y = c - max(l - z2[sz(b) + c + 1], j);
-            if (x > y)
-               continue;
+			rep(c, sz(a)) {
+				int l = sz(a) - c;
+				int x = c - min(l - 1, z1[l]);
+				int y = c - max(l - z2[sz(b) + c + 1], j);
+				if (x > y)
+					continue;
 
-            int sb = (j ? end - y - l * 2 : off + x);
-            int se = (j ? end - x - l * 2 + 1 : off + y + 1);
-            int &p = pos[l];
+				int sb = (j ? end - y - l * 2 : off + x);
+				int se = (j ? end - x - l * 2 + 1 : off + y + 1);
+				int &p = pos[l];
 
-            if (p != -1 && ans[p].end == sb)
-               ans[p].end = se;
-            else
-               p = sz(ans), ans.push_back({sb, se, l});
-         }
-         a.swap(rb);
-         b.swap(ra);
-      }
-   }
-   return ans;
+				if (p != -1 && ans[p].end == sb)
+					ans[p].end = se;
+				else
+					p = sz(ans), ans.push_back({sb, se, l});
+			}
+			a.swap(rb);
+			b.swap(ra);
+		}
+	}
+	return ans;
 }

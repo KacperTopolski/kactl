@@ -10,7 +10,7 @@
  *    \item depth[v] = depth of v in centroid tree (0 for root) = sz(ind[v])-1
  *    \item size[v] = size of centroid subtree of v
  *    \item ind[v][i] = index of vertex v in i-th centroid subtree from root, preorder
- *    \item subtree[v] = list of vertices in centroid subtree of v 
+ *    \item subtree[v] = list of vertices in centroid subtree of v
  *    \item dists[v] = distances from v to vertices in its centroid subtree (in the order of subtree[v])
  *    \item neigh[v] = neighbours of v in its centroid subtree
  *    \item dir[v][i] = index of centroid neighbour that is first vertex on path from centroid v to i-th vertex of centroid subtree (-1 for centroid)
@@ -21,17 +21,15 @@
 
 #pragma once
 
-struct CentroidTree {  
+struct CentroidTree {
 	vector<vi> child, ind, dists, subtree, neigh, dir;
 	vi par, depth, size;
 	int root; // Root centroid
 
 	CentroidTree() {}
 	CentroidTree(vector<vi>& G)
-		: child(sz(G)), ind(sz(G)), dists(sz(G)), subtree(sz(G)), 
-			neigh(sz(G)), dir(sz(G)), par(sz(G), -2), depth(sz(G)), size(sz(G)) 
-		{	root = decomp(G, 0, 0);		}
-	
+		: child(sz(G)), ind(sz(G)), dists(sz(G)), subtree(sz(G)), neigh(sz(G)), dir(sz(G)), par(sz(G), -2), depth(sz(G)), size(sz(G))
+		{ root = decomp(G, 0, 0);	}
 
 	void dfs(vector<vi>& G, int v, int p) {
 		size[v] = 1;
@@ -39,8 +37,7 @@ struct CentroidTree {
 			dfs(G, e, v), size[v] += size[e];
 	}
 
-	void layer(vector<vi>& G, int v,
-	           int p, int c, int d) {
+	void layer(vector<vi>& G, int v, int p, int c, int d) {
 		ind[v].push_back(sz(subtree[c]));
 		subtree[c].push_back(v); dists[c].push_back(d);
 		dir[c].push_back(sz(neigh[c])-1); // possibly add extra functionalities here
@@ -55,8 +52,7 @@ struct CentroidTree {
 		int p = -1, s = size[v];
 	loop:
 		for(auto e: G[v]) {
-			if (e != p && par[e] == -2 &&
-			    size[e] > s/2) {
+			if (e != p && par[e] == -2 && size[e] > s/2) {
 				p = v; v = e; goto loop;
 			}
 		}

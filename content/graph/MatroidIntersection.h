@@ -3,7 +3,7 @@
  * Date: 2022-10-26
  * License: ???
  * Source: ???
- * Description: Find largest subset S of [n] such that S is independent in both 
+ * Description: Find largest subset S of [n] such that S is independent in both
  * matroid A and B, given by their oracles, see example implementations below.
  * Returns vector V such that V[i] = 1 iff i-th element is included in found set;
  * Time: O(r^2 \cdot (init + n \cdot add)), where r is max independent set.
@@ -15,13 +15,16 @@ template<class T, class U>
 vector<bool> intersectMatroids(T& A, U& B, int n) {
 	vector<bool> ans(n);
 	bool ok = 1;
-	// NOTE: for weighted matroid intersection find shortest augmenting paths
-	// first by weight change, then by length using Bellman-Ford, 
+// NOTE: for weighted matroid intersection find
+// shortest augmenting paths first by weight change,
+// then by length using Bellman-Ford,
+
 	// Speedup trick (only for unweighted):
 	A.init(ans); B.init(ans);
-	rep(i, n) 
+	rep(i, n)
 		if (A.canAdd(i) && B.canAdd(i))
-			ans[i] = 1, A.init(ans), B.init(ans); //End of speedup
+			ans[i] = 1, A.init(ans), B.init(ans);
+	//End of speedup
 
 	while (ok) {
 		vector<vi> G(n);

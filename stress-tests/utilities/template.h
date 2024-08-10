@@ -13,10 +13,10 @@ typedef vector<int> vi;
 
 auto &operator<<(auto &out, pair<auto, auto> a) { return out << "(" << a.st << ", " << a.nd << ")"; }
 auto &operator<<(auto &out, auto a) {
-    out << "{";
-    for (auto b : a)
-        out << b << ", ";
-    return out << "}";
+	out << "{";
+	for (auto b : a)
+		out << b << ", ";
+	return out << "}";
 }
 void dump(auto... x) { ((cerr << x << ", "), ...) << '\n'; }
 #define debug(x...) cerr << __LINE__ << " [" #x "]: ", dump(x)
@@ -26,16 +26,16 @@ void dump(auto... x) { ((cerr << x << ", "), ...) << '\n'; }
 #include <fpu_control.h>
 namespace wsl {
 auto is_wsl = [](){
-    ifstream stream("/proc/version");
-    string str;
-    getline(stream, str);
-    for (char &ch : str)
-        ch = tolower((unsigned char) ch);
-    if (str.find("microsoft") == string::npos)
-        return false;
-    unsigned short Cw = 0x37f;
-    _FPU_SETCW(Cw);
-    return true;
+	ifstream stream("/proc/version");
+	string str;
+	getline(stream, str);
+	for (char &ch : str)
+		ch = (char) tolower((unsigned char) ch);
+	if (str.find("microsoft") == string::npos)
+		return false;
+	unsigned short Cw = 0x37f;
+	_FPU_SETCW(Cw);
+	return true;
 }();
 }
 #endif

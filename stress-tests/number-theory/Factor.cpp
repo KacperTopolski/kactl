@@ -4,18 +4,18 @@
 
 mt19937_64 uni(time(0));
 void assertValid(ull N, vector<ull> prFac){
-    ull cur=1;
-    for (auto i: prFac){
-        if (!isPrime(i)){
-            cout<<N<<endl;
-            cout<<i<<endl;
-            assert(isPrime(i));
-        }
-        cur *= i;
-    }
-    if (cur!= N)
-        cout<<cur<<' '<<N<<endl;
-    assert(cur == N);
+	ull cur=1;
+	for (auto i: prFac){
+		if (!isPrime(i)){
+			cout<<N<<endl;
+			cout<<i<<endl;
+			assert(isPrime(i));
+		}
+		cur *= i;
+	}
+	if (cur!= N)
+		cout<<cur<<' '<<N<<endl;
+	assert(cur == N);
 }
 int main() {
 	assert(factor(1).empty());
