@@ -25,8 +25,8 @@ vector<P> hullSum(vector<P> A, vector<P> B) {
 	vector<P> sum, e1, e2, es(sz(A) + sz(B));
 	P pivot = edgeSeq(A, e1) + edgeSeq(B, e2);
 	merge(all(e1), all(e2), es.begin(), [&](P a, P b){
-        return Angle(a.x, a.y) < Angle(b.x,b.y);
-    });
+		return Angle(a.x, a.y) < Angle(b.x,b.y);
+	});
 	sum.push_back(pivot);
 	for(auto e: es) sum.push_back(sum.back() + e);
 	sum.pop_back();

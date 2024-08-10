@@ -23,32 +23,32 @@ constexpr int MOD = 998244353;
 vi phi(1e7 + 1);
 
 void calcPhi() {
-   iota(all(phi), 0);
-   fwd(i, 2, sz(phi)) if (phi[i] == i) for (int j = i; j < sz(phi); j += i) phi[j] = phi[j] / i * (i - 1);
+	iota(all(phi), 0);
+	fwd(i, 2, sz(phi)) if (phi[i] == i) for (int j = i; j < sz(phi); j += i) phi[j] = phi[j] / i * (i - 1);
 }
 
 vector<ll> phiSum; // [k] = sum from 0 to k-1
 void calcPhiSum() {
-   calcPhi();
-   phiSum.resize(sz(phi) + 1);
-   rep(i, sz(phi)) phiSum[i + 1] = (phiSum[i] + phi[i]) % MOD;
+	calcPhi();
+	phiSum.resize(sz(phi) + 1);
+	rep(i, sz(phi)) phiSum[i + 1] = (phiSum[i] + phi[i]) % MOD;
 }
 
 // Get prefix sum of phi(0) + ... + phi(n-1).
 // WARNING: Call calcPhiSum first! For MOD > 4*10^9, answer will overflow.
 ll getPhiSum(ll n) {
-   static unordered_map<ll, ll> big;
-   if (n < sz(phiSum))
-      return phiSum[n];
-   if (big.count(--n))
-      return big[n];
+	static unordered_map<ll, ll> big;
+	if (n < sz(phiSum))
+		return phiSum[n];
+	if (big.count(--n))
+		return big[n];
 
-   ll ret = (n % 2 ? n % MOD * ((n + 1) / 2 % MOD) : n / 2 % MOD * (n % MOD + 1)) % MOD;
+	ll ret = (n % 2 ? n % MOD * ((n + 1) / 2 % MOD) : n / 2 % MOD * (n % MOD + 1)) % MOD;
 
-   for (ll s, i = 2; i <= n; i = s + 1) {
-      s = n / (n / i);
-      ret -= (s - i + 1) % MOD * getPhiSum(n / i + 1) % MOD;
-   }
+	for (ll s, i = 2; i <= n; i = s + 1) {
+		s = n / (n / i);
+		ret -= (s - i + 1) % MOD * getPhiSum(n / i + 1) % MOD;
+	}
 
-   return big[n] = ret = (ret % MOD + MOD) % MOD;
+	return big[n] = ret = (ret % MOD + MOD) % MOD;
 }

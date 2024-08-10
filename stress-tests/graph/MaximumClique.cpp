@@ -18,22 +18,21 @@ struct timeit {
 
 
 int main() {
-    fwd(it, 0, 100000) {
-        int n =(rand()%32)+1;
-        vb ed(n);
-        vector<maximal::B> ed2(n);
-        int p =rand()%100;
-        rep(i, n) rep(j, i) {
-            ed[i][j] = (rand() % 100) < p;
-            ed[j][i] = ed[i][j];
-            ed2[i][j] = ed[i][j];
-            ed2[j][i] = ed[j][i];
-        }
-        Maxclique clique2(ed);
-        int mx = 0;
-        maximal::cliques(ed2, [&](auto x){mx = max(mx, int(x.count()));});
-        assert(mx == sz(clique2.maxClique()));
-    }
-    cout<<"Tests passed!"<<endl;
+	fwd(it, 0, 100000) {
+		int n =(rand()%32)+1;
+		vb ed(n);
+		vector<maximal::B> ed2(n);
+		int p =rand()%100;
+		rep(i, n) rep(j, i) {
+			ed[i][j] = (rand() % 100) < p;
+			ed[j][i] = ed[i][j];
+			ed2[i][j] = ed[i][j];
+			ed2[j][i] = ed[j][i];
+		}
+		Maxclique clique2(ed);
+		int mx = 0;
+		maximal::cliques(ed2, [&](auto x){mx = max(mx, int(x.count()));});
+		assert(mx == sz(clique2.maxClique()));
+	}
+	cout<<"Tests passed!"<<endl;
 }
-

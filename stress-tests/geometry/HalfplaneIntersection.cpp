@@ -396,112 +396,112 @@ struct HPI {
 }
 
 struct HPI {
-    bool useInt;
-    HPI(bool u) : useInt(u) {}
-    new_int::HPI hpi1;
-    old_int::HPI hpi2;
-    new_dbl::HPI hpi3;
-    old_dbl::HPI hpi4;
+	bool useInt;
+	HPI(bool u) : useInt(u) {}
+	new_int::HPI hpi1;
+	old_int::HPI hpi2;
+	new_dbl::HPI hpi3;
+	old_dbl::HPI hpi4;
 
-    void add(double a, double b, double c) {
-        if (useInt) {
-            hpi1.add(new_int::Line(a, b, c));
-            hpi2.add(old_int::Line(a, b, c));
-        }
-        hpi3.add(new_dbl::Line(a, b, c));
-        hpi4.add(old_dbl::Line(a, b, c));
-    }
+	void add(double a, double b, double c) {
+		if (useInt) {
+			hpi1.add(new_int::Line(a, b, c));
+			hpi2.add(old_int::Line(a, b, c));
+		}
+		hpi3.add(new_dbl::Line(a, b, c));
+		hpi4.add(old_dbl::Line(a, b, c));
+	}
 
-    int uniq(vector<int> v) {
-        sort(all(v));
-        v.erase(unique(all(v)), v.end());
-        return sz(v);
-    }
+	int uniq(vector<int> v) {
+		sort(all(v));
+		v.erase(unique(all(v)), v.end());
+		return sz(v);
+	}
 
-    int type(bool &ok) {
-        vector<int> types, sides, empty;
-        if (useInt) {
-            types.push_back(hpi1.type());
-            types.push_back(hpi2.type());
-            sides.push_back(sz(hpi1.s));
-            sides.push_back(sz(hpi2.s));
-        }
-        types.push_back(hpi3.type());
-        types.push_back(hpi4.type());
-        sides.push_back(sz(hpi3.s));
-        sides.push_back(sz(hpi4.s));
-        for (int i : types)
-            empty.push_back(!i);
-        // debug(types, sides, empty);
-        ok &= uniq(empty) == 1;
-        // ok &= uniq(types) == 1;
-        // ok &= uniq(sides) == 1;
-        return *types.begin();
-    }
+	int type(bool &ok) {
+		vector<int> types, sides, empty;
+		if (useInt) {
+			types.push_back(hpi1.type());
+			types.push_back(hpi2.type());
+			sides.push_back(sz(hpi1.s));
+			sides.push_back(sz(hpi2.s));
+		}
+		types.push_back(hpi3.type());
+		types.push_back(hpi4.type());
+		sides.push_back(sz(hpi3.s));
+		sides.push_back(sz(hpi4.s));
+		for (int i : types)
+			empty.push_back(!i);
+		// debug(types, sides, empty);
+		ok &= uniq(empty) == 1;
+		// ok &= uniq(types) == 1;
+		// ok &= uniq(sides) == 1;
+		return *types.begin();
+	}
 };
 
 void test_special() {
-    for (int i = 0; 20*i < int(1e5); ++i) {
-        bool test_ok = true;
-        HPI hpi(true);
-        hpi.add(17*i, -11*i, -5*i);
-        hpi.add(-18*i, 12*i, -10*i);
-        hpi.add(-16*i, 10*i, 20*i);
-        hpi.type(test_ok);
-        if (!test_ok) {
-            debug(i, 20*i);
-            assert(false);
-        }
-    }
+	for (int i = 0; 20*i < int(1e5); ++i) {
+		bool test_ok = true;
+		HPI hpi(true);
+		hpi.add(17*i, -11*i, -5*i);
+		hpi.add(-18*i, 12*i, -10*i);
+		hpi.add(-16*i, 10*i, 20*i);
+		hpi.type(test_ok);
+		if (!test_ok) {
+			debug(i, 20*i);
+			assert(false);
+		}
+	}
 }
 
 void test_int() {
-    vector<pii> params;
-    for (int dist : {2, 5, 10})
-        for (int range : {500, 1000, 2000, 5000, 10000, 100000})
-            if (range % dist == 0)
-                params.emplace_back(dist, range*10);
+	vector<pii> params;
+	for (int dist : {2, 5, 10})
+		for (int range : {500, 1000, 2000, 5000, 10000, 100000})
+			if (range % dist == 0)
+				params.emplace_back(dist, range*10);
 
-    rep(seed, 1e6) {
-        auto [dist, range] = params[seed % sz(params)];
-        mt19937_64 rnd(seed);
-        uniform_int_distribution<int> unif(-dist, dist);
-        auto gen = [&]() {return unif(rnd) * range / dist; };
+	rep(seed, 1e6) {
+		auto [dist, range] = params[seed % sz(params)];
+		mt19937_64 rnd(seed);
+		uniform_int_distribution<int> unif(-dist, dist);
+		auto gen = [&]() {return unif(rnd) * range / dist; };
 
-        bool test_ok = true;
-        HPI hpi(true);
-        while (hpi.type(test_ok) && test_ok) {
-            int a = gen(), b = gen(), c = gen();
-            hpi.add(a, b, c);
-        }
-        if (!test_ok) {
-            debug(seed, dist, range);
-            assert(false);
-        }
-    }
+		bool test_ok = true;
+		HPI hpi(true);
+		while (hpi.type(test_ok) && test_ok) {
+			int a = gen(), b = gen(), c = gen();
+			hpi.add(a, b, c);
+		}
+		if (!test_ok) {
+			debug(seed, dist, range);
+			assert(false);
+		}
+	}
 }
 void test_float() {
-    rep(seed, 1e6) {
-        mt19937_64 rnd(seed);
-        uniform_real_distribution<double> unif(-1e6, 1e6);
-        auto gen = [&](){return unif(rnd); };
+	rep(seed, 1e6) {
+		mt19937_64 rnd(seed);
+		uniform_real_distribution<double> unif(-1e6, 1e6);
+		auto gen = [&](){return unif(rnd); };
 
-        bool test_ok = true;
-        HPI hpi(false);
-        while (hpi.type(test_ok) && test_ok) {
-            double a = gen(), b = gen(), c = gen();
-            hpi.add(a, b, c);
-        }
-        if (!test_ok) {
-            debug(seed);
-            assert(false);
-        }
-    }
+		bool test_ok = true;
+		HPI hpi(false);
+		while (hpi.type(test_ok) && test_ok) {
+			double a = gen(), b = gen(), c = gen();
+			hpi.add(a, b, c);
+		}
+		if (!test_ok) {
+			debug(seed);
+			assert(false);
+		}
+	}
 }
 
 int main() {
-    test_special();
-    test_int();
-    test_float();
-    cout<<"Tests passed!"<<endl;
+	test_special();
+	test_int();
+	test_float();
+	cout<<"Tests passed!"<<endl;
 }

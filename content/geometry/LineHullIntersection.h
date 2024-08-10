@@ -6,10 +6,10 @@
  * Description: Line-convex polygon intersection. The polygon must be ccw and have no collinear points.
  * lineHull(line, poly) returns a pair describing the intersection of a line with the polygon:
  *  \begin{itemize*}
- *    \item $(-1, -1)$ if no collision,
- *    \item $(i, -1)$ if touching the corner $i$,
- *    \item $(i, i)$ if along side $(i, i+1)$,
- *    \item $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$.
+ *  \item $(-1, -1)$ if no collision,
+ *  \item $(i, -1)$ if touching the corner $i$,
+ *  \item $(i, i)$ if along side $(i, i+1)$,
+ *  \item $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$.
  *  \end{itemize*}
  *  In the last case, if a corner $i$ is crossed, this is treated as happening on side $(i, i+1)$.
  *  The points are returned in the same order as the line hits the polygon.
@@ -33,7 +33,7 @@ template <class P> int extrVertex(vector<P> &poly, function<P(P)> dir) {
 	}
 	return lo;
 } //also, use extrVertex<P>(poly, [&](P) {return v.perp();}) for vector v
-  // to get the first ccw point of a hull with the max projection onto v
+// to get the first ccw point of a hull with the max projection onto v
 
 #define cmpL(i) sgn(a.cross(poly[i], b))
 template <class P> array<int, 2> lineHull(P a, P b, vector<P> &poly) {
