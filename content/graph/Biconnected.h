@@ -7,7 +7,7 @@
  * bi.verts[i] = vertices of i-th component,
  * bi.edges[i] = edges of i-th component,
  * Bridges $\iff$ components with 2 vertices,
- * Articulation points $\iff$ vertices in > 1 comp,
+ * Articulation points $\iff$ vertices in $> 1$ comp,
  * Isolated vertex $\iff$ empty component list
  * Time: O(|E| + |V|)
  */

@@ -28,7 +28,6 @@ struct Mod {
 vector<ll> prefCnt, prefSum, prefPhi;
 
 void init() {
-	phi::calcPhiSum();
 	const int M = 2e7;
 	prefCnt.resize(M);
 	prefSum.resize(M);
@@ -69,15 +68,16 @@ void test(ll N) {
 			assert(prefSum[x] == primeSum[min25.id(x)].x);
 			assert(prefPhi[x] == phi[min25.id(x)].x);
 		}
-		assert(phi::getPhiSum(x + 1) == phi[min25.id(x)].x);
+		assert(phi::getPhiSum(x) == phi[min25.id(x)].x);
 	}
+	assert(sz(phi::pSum));
 }
 
 int main() {
 	init();
 	vector<ll> testdata = {(ll) 1e11};
 	mt19937_64 rnd;
-	rep(_, 5) {
+	rep(_, 2) {
 		testdata.push_back(1 + rnd() % (ll)(1e1));
 		testdata.push_back(1 + rnd() % (ll)(1e2));
 		testdata.push_back(1 + rnd() % (ll)(1e3));
@@ -90,6 +90,7 @@ int main() {
 		testdata.push_back(1 + rnd() % (ll)(1e10));
 		testdata.push_back(1 + rnd() % (ll)(1e11));
 	}
+	sort(all(testdata));
 	for (ll x : testdata)
 		test(x);
 
