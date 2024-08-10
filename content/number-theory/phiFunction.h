@@ -3,7 +3,7 @@
  * Date: 2009-09-25
  * License: CC0
  * Source: http://en.wikipedia.org/wiki/Euler's_totient_function
- * Description: Prefix (inclusive) prefix sums of \emph{Euler's $\phi$}.
+ * Description: Inclusive prefix sums of \emph{Euler's $\phi$}.
  * Time:  O(n^{2/3})
  * Status: Stress tested
  */
@@ -22,7 +22,7 @@ void calcPhiSum() {
 	}
 }
 
-ll getPhiSum(ll n) {
+ll getPhiSum(ll n) { // phi(0) + ... + phi(n)
 	static unordered_map<ll, ll> big;
 	if (!sz(pSum))
 		calcPhiSum();

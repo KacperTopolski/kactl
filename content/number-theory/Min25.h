@@ -3,14 +3,14 @@
  * Date: 2024-07-31
  * License: N/A
  * Source: https://codeforces.com/blog/entry/92703
- * Description: Calculates prefsums of multiplicative function at each floor(N/i). id(N/i) returns index of N/i in keys[].
+ * Description: Calculates prefsums of multiplicative function at each floor(N/i). keys[id(N/i)]=N/i.
  * Remember about overflows. See example below.
  * Time: O(\frac{n^{3/4}}{\log n})
  * Status: Stress-tested
  */
 #pragma once
 
-vector<ll> global_primes; // global_primes.back() > sqrt(N); use e.g. sieve of Eratosthenes
+vector<ll> global_primes; // global_primes[-1]>sqrt(N)
 
 template<typename T>
 struct Min25 {
@@ -27,7 +27,8 @@ struct Min25 {
 		assert(keys[id] == x);
 		return id;
 	}
-	// f has to be TOTALLY multiplicative, pref(x) is regular prefix sum function of f
+// f has to be TOTALLY multiplicative
+// pref(x) is regular prefix sum function of f
 	vector<T> overPrimes(auto pref) {
 		vector<T> dp(sz(keys));
 		rep(i, sz(keys))
@@ -39,7 +40,8 @@ struct Min25 {
 		}
 		return dp;
 	}
-	// dp are prefix sums of f over primes, f(prime, power, prime**power) calculates f on primes powers
+// dp are prefix sums of f over primes
+// f(p, k, p**k) calculates f on primes powers
 	void fullSum(vector<T> &dp, auto f) {
 		for (ll p : primes | views::reverse) {
 			for (int i = sz(keys) - 1; i >= 0 && p * p <= keys[i]; --i) {
@@ -51,12 +53,10 @@ struct Min25 {
 	}
 };
 
-/*vector<ll> example(Min25<ll> &min25) {
-	auto primeCnt = min25.overPrimes([](ll x){return x; }); // f(x)=1 over primes
-	auto primeSum = min25.overPrimes([](ll x){return x*(x+1)/2; }); // f(x)=x over primes
-	vector<ll> phi;
-	rep(i, sz(min25.keys))
-		phi.push_back(primeSum[i] - primeCnt[i]); // f(x)=x-1 over primes i.e. phi(x)=f(x)
-	min25.fullSum(phi, [](int p, int k, ll pk){return pk - pk / p; }); // f(x)=phi(x) over all numbers
-	return phi;
-}*/
+vector<ll> exampleUsage(Min25<ll> &m) { // OVERFLOWS!
+	auto primeCnt = m.overPrimes([](ll x){return x; });
+	auto primeSum = m.overPrimes([](ll x){return x*(x+1)/2; });
+	vector<ll> phi; rep(i, sz(m.keys))
+		phi.push_back(primeSum[i] - primeCnt[i]);
+	m.fullSum(phi, [](int p,int k,ll pk){return pk-pk/p; });
+	return phi; }
