@@ -30,7 +30,7 @@ auto is_wsl = [](){
 	string str;
 	getline(stream, str);
 	for (char &ch : str)
-		ch = tolower((unsigned char) ch);
+		ch = (char) tolower((unsigned char) ch);
 	if (str.find("microsoft") == string::npos)
 		return false;
 	unsigned short Cw = 0x37f;
