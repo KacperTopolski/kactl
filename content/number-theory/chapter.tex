@@ -28,6 +28,17 @@
 	\kactlimport{phiFunction.h}
 	\kactlimport{Min25.h}
 
+\section{Pisano period}
+	$\pi(n)$ is a period of Fibbonacci sequence modulo n.
+	\mbox{$\pi(nm)=\pi(n)\pi(m)$ for $n \perp m$, $\pi(p^k)=p^{k-1}\pi(p)$.}
+	\[\pi(p) \left\{
+	\begin{array}{ll}
+		=3 & p=2\\
+		=20 & p=5\\
+		\mid p-1 & p\equiv_{10} \pm 1 \\
+		\mid 2(p+1) & p\equiv_{10} \pm 3
+	\end{array}\right.\]
+	\mbox{$F_i \equiv_p -F_{i+p+1}$ for $p\equiv_{10} \pm 3$. $\pi(n) \le 4n$ for $n\neq 2\cdot 5^r$.}
 \section{Fractions}
 	\kactlimport{ContinuedFractions.h}
 	\kactlimport{FracBinarySearch.h}
