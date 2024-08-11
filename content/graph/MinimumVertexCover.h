@@ -17,17 +17,17 @@ vi cover(vector<vi> &g, int n, int m) { // sizes of left and right sets, g = [le
 	vector<bool> lfound(n, true), seen(n + m);
 	fwd(i, n, n + m) if (match[i] != -1) lfound[match[i]] = false;
 	vi q, cover;
-	rep(i,n) if (lfound[i]) q.push_back(i);
+	rep(i,n) if (lfound[i]) q.pb(i);
 	while (!q.empty()) {
 		int i = q.back(); q.pop_back();
 		lfound[i] = 1;
 		for (int e : g[i]) if (!seen[e] && match[e] != -1) {
 			seen[e] = true;
-			q.push_back(match[e]);
+			q.pb(match[e]);
 		}
 	}
-	rep(i,n) if (!lfound[i]) cover.push_back(i);
-	fwd(i, n, n + m) if (seen[i]) cover.push_back(i);
+	rep(i,n) if (!lfound[i]) cover.pb(i);
+	fwd(i, n, n + m) if (seen[i]) cover.pb(i);
 	assert(sz(cover) == res);
 	return cover;
 }

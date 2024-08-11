@@ -18,7 +18,7 @@ vector<string> duval(const string &s) {
 		while (j < n && s[k] <= s[j])
 			k = (s[k] < s[j] ? i : k + 1), j++;
 		while (i <= k)
-			ret.push_back(s.substr(i, j - k)), i += j - k;
+			ret.pb(s.substr(i, j - k)), i += j - k;
 	}
 	return ret;
 }

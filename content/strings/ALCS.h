@@ -58,7 +58,7 @@ struct ALCS {
 		string ret;
 		while (i > 0 && j < k) {
 			if (ih[i][k--] <= j) {
-				ret.push_back(B[k]);
+				ret.pb(B[k]);
 				while (A[--i] != B[k])
 					;
 			}

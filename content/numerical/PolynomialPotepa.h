@@ -61,7 +61,7 @@ Poly invert(const Poly &P, int n) {
 	assert(!P.empty() && P[0].x);
 	Poly tmp{P[0]}, ret = {P[0].inv()};
 	for (int i = 1; i < n; i *= 2) {
-		fwd(j, i, min(i * 2, sz(P))) tmp.push_back(P[j]);
+		fwd(j, i, min(i * 2, sz(P))) tmp.pb(P[j]);
 		(ret *= Poly{2} - tmp * ret).resize(i * 2);
 	}
 	ret.resize(n);
@@ -128,7 +128,7 @@ Poly derivate(Poly P) {
 // Integrate polynomial; time: O(n)
 Poly integrate(Poly P) {
 	if (!P.empty()) {
-		P.push_back(0);
+		P.pb(0);
 		for (int i = sz(P); --i;)
 			P[i] = P[i - 1] / i;
 		P[0] = 0;
@@ -148,7 +148,7 @@ Poly exp(Poly P, int n) {
 	assert(P.empty() || !P[0].x);
 	Poly tmp{P[0] + 1}, ret = {1};
 	for (int i = 1; i < n; i *= 2) {
-		fwd(j, i, min(i * 2, sz(P))) tmp.push_back(P[j]);
+		fwd(j, i, min(i * 2, sz(P))) tmp.pb(P[j]);
 		(ret *= (tmp - log(ret, i * 2))).resize(i * 2);
 	}
 	ret.resize(n);
@@ -173,7 +173,7 @@ bool sqrt(Poly &P, int n) {
 
 	Poly tmp{P[tail]}, ret = {sq};
 	for (int i = 1; i < n - tail / 2; i *= 2) {
-		fwd(j, i, min(i * 2, sz(P) - tail)) tmp.push_back(P[tail + j]);
+		fwd(j, i, min(i * 2, sz(P) - tail)) tmp.pb(P[tail + j]);
 		(ret += tmp * invert(ret, i * 2)).resize(i * 2);
 		each(e, ret) e /= 2;
 	}

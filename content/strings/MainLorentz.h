@@ -31,8 +31,8 @@ vector<Sqr> lorentz(const string &s) {
 			// Set # to some unused character!
 			vi z1 = Z(ra, true);
 			vi z2 = Z(b + "#" + a, true);
-			z1.push_back(0);
-			z2.push_back(0);
+			z1.pb(0);
+			z2.pb(0);
 
 			rep(c, sz(a)) {
 				int l = sz(a) - c;
@@ -48,7 +48,7 @@ vector<Sqr> lorentz(const string &s) {
 				if (p != -1 && ans[p].end == sb)
 					ans[p].end = se;
 				else
-					p = sz(ans), ans.push_back({sb, se, l});
+					p = sz(ans), ans.pb({sb, se, l});
 			}
 			a.swap(rb);
 			b.swap(ra);

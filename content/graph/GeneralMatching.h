@@ -13,7 +13,7 @@ int blossom(vector<vi>& G, vi& match) {
 	auto blos = [&](int v, int w, int a) {
 		while (orig[v] != a) {
 			par[v] = w; w = match[v];
-			if (lab[w] == 1) lab[w] = 0, q.push_back(w);
+			if (lab[w] == 1) lab[w] = 0, q.pb(w);
 			orig[v] = orig[w] = a; v = par[w];
 		}
 	};
@@ -38,7 +38,7 @@ int blossom(vector<vi>& G, vi& match) {
 					ans++;
 					goto nxt;
 				}
-				lab[match[x]] = 0; q.push_back(match[x]);
+				lab[match[x]] = 0; q.pb(match[x]);
 			} else if (lab[x] == 0 && orig[v]!=orig[x]) {
 				int a = orig[v], b = orig[x];
 				for (cnt++;; swap(a, b)) if (a+1) {

@@ -41,8 +41,8 @@ vector<bool> intersectMatroids(T& A, U& B, int n) {
 			ans[i] = 0;
 			A.init(ans); B.init(ans);
 			rep(j, n) if (i != j && !ans[j]) {
-				if (A.canAdd(j)) G[i].push_back(j); //-cost[j]
-				if (B.canAdd(j)) G[j].push_back(i); // cost[i]
+				if (A.canAdd(j)) G[i].pb(j); //-cost[j]
+				if (B.canAdd(j)) G[j].pb(i); // cost[i]
 			}
 			ans[i] = 1;
 		}
@@ -124,8 +124,8 @@ struct CographOracle {
 		cnt = 0;
 		rep(i,sz(S)) if (!S[i]) {
 			pii e = elems[i];
-			G[e.st].push_back(e.nd);
-			G[e.nd].push_back(e.st);
+			G[e.st].pb(e.nd);
+			G[e.nd].pb(e.st);
 		}
 		rep(v, n) if (!pre[v]) dfs(v, -1);
 	}

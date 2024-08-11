@@ -16,13 +16,13 @@ struct Eppstein {
 	Eppstein(vector<vector<Edge>>& G, int s, int t) {
 		int n = sz(G); vector<vector<Edge>> H(n);
 		rep(i,n) for(auto &e : G[i])
-			H[e.st].push_back({i,e.nd});
+			H[e.st].pb({i,e.nd});
 		vi ord, par(n, -1); vector<T> d(n, -INF);
 		Q.push({d[t] = 0, t});
 		while (!Q.empty()) {
 			auto v = Q.top(); Q.pop();
 			if (d[v.nd] == v.st) {
-				ord.push_back(v.nd);
+				ord.pb(v.nd);
 				for(auto &e : H[v.nd])
 				if (v.st-e.nd > d[e.st]) {
 					Q.push({d[e.st] = v.st-e.nd, e.st});
@@ -44,7 +44,7 @@ struct Eppstein {
 		P[0].x.st = s; Q.push({0, 0});
 	}
 	int push(int t, Edge x) {
-		P.push_back(P[t]);
+		P.pb(P[t]);
 		if (!P[t = sz(P)-1].s || P[t].x.nd >= x.nd)
 			swap(x, P[t].x);
 		if (P[t].s) {

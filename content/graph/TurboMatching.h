@@ -37,5 +37,5 @@ vi vertexCover(vector<vi>& G, vi& match) {
 	};
 	rep(i, sz(G)) dfs(dfs, i, 0);
 	rep(i, sz(G)) if (match[i]<0) aug(aug, i);
-	rep(i, sz(G)) if (seen[i]==col[i]-1)ret.push_back(i);
+	rep(i, sz(G)) if (seen[i]==col[i]-1)ret.pb(i);
 	return ret; }

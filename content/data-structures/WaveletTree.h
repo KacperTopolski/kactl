@@ -24,10 +24,10 @@ struct WaveletTree {
 	void build(int i, int b, int e) {
 		if (i >= len) return;
 		int m = (b+e) / 2;
-		left[i].push_back(0);
+		left[i].pb(0);
 		for(auto &x : seq[i]) {
-			left[i].push_back(left[i].back() + (x < m));
-			seq[i*2 + (x >= m)].push_back(x);
+			left[i].pb(left[i].back() + (x < m));
+			seq[i*2 + (x >= m)].pb(x);
 		}
 		build(i*2, b, m); build(i*2+1, m, e);
 	} // Find k-th (0 indexed) smallest element in [begin;end)

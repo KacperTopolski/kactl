@@ -14,9 +14,9 @@ vi dominators(vector<vi>& G, int root) {
 	auto dfs = [&] (auto f, int v, int p) -> void {
 		if (pre[v] == -1) {
 			par[v] = p; pre[v] = sz(ord);
-			ord.push_back(v);
+			ord.pb(v);
 			for (auto e :  G[v])
-				in[e].push_back(v), f(f, e, v);
+				in[e].pb(v), f(f, e, v);
 		}
 	};
 	auto find = [&](auto f, int v) -> pii {
@@ -34,7 +34,7 @@ vi dominators(vector<vi>& G, int root) {
 			sdom[find(find, e).st]);
 		for (auto u : bucket[v]) rdom[u]=find(find,u).st;
 		sdom[v] = b; anc[v] = par[v];
-		bucket[ord[sdom[v]]].push_back(v);
+		bucket[ord[sdom[v]]].pb(v);
 	}
 	for (auto v : ord) idom[v] = (rdom[v] == v ?
 		ord[sdom[v]] : idom[rdom[v]]);

@@ -24,10 +24,10 @@ struct PSegmentTree { // default: update set_pos, query sum
 	int N;
 	vector<node> t;
 	PSegmentTree(int N) : N(N) {
-		t.push_back(node(idnt)); // 0th node is the root of an empty tree
+		t.pb(node(idnt)); // 0th node is the root of an empty tree
 	} // t.reserve() in case of memory issues
 	int cpy(int v) {
-		t.push_back(t[v]);
+		t.pb(t[v]);
 		return sz(t) - 1;
 	}
 	// creates lgN +- eps new nodes

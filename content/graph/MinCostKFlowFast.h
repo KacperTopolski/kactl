@@ -25,8 +25,8 @@ struct MCMF {
 	MCMF(int N) : N(N), ed(N), seen(N), dist(N), pi(N), par(N) {}
 	void addEdge(int from, int to, ll cap, ll cost) {
 		if (from == to) return;
-		ed[from].push_back(edge{ from,to,sz(ed[to]),cap,cost,0 });
-		ed[to].push_back(edge{ to,from,sz(ed[from])-1,0,-cost,0 });
+		ed[from].pb(edge{ from,to,sz(ed[to]),cap,cost,0 });
+		ed[to].pb(edge{ to,from,sz(ed[from])-1,0,-cost,0 });
 	}
 	void path(int s) {
 		fill(all(seen), 0); fill(all(dist), INF);

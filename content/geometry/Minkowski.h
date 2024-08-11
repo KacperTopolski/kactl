@@ -17,7 +17,7 @@
 P edgeSeq(vector<P> p, vector<P>& edges) {
 	int i = 0, n = sz(p);
 	rep(j, n) if (tie(p[i].y, p[i].x) > tie(p[j].y, p[j].x)) i = j;
-	rep(j, n) edges.push_back(p[(i+j+1)%n] - p[(i+j)%n]);
+	rep(j, n) edges.pb(p[(i+j+1)%n] - p[(i+j)%n]);
 	return p[i];
 }
 
@@ -27,8 +27,8 @@ vector<P> hullSum(vector<P> A, vector<P> B) {
 	merge(all(e1), all(e2), es.begin(), [&](P a, P b){
 		return Angle(a.x, a.y) < Angle(b.x,b.y);
 	});
-	sum.push_back(pivot);
-	for(auto e: es) sum.push_back(sum.back() + e);
+	sum.pb(pivot);
+	for(auto e: es) sum.pb(sum.back() + e);
 	sum.pop_back();
 	return sum; //can have collinear vertices!
 }

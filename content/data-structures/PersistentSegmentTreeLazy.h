@@ -33,12 +33,12 @@ struct LazyPSegmentTree { // default: update +, query max
 	int N;
 	vector<node> t;
 	LazyPSegmentTree(int N) : N(N) {
-		t.push_back(
+		t.pb(
 			node(idntV, idntL)); // 0th node is the root of an empty tree
 								 // t.reserve() in case of memory issues
 	}
 	int cpy(int v) {
-		t.push_back(t[v]);
+		t.pb(t[v]);
 		return sz(t) - 1;
 	}
 	void aplV(int v, lazy lz) {

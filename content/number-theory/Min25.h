@@ -18,9 +18,9 @@ struct Min25 {
 	vector<ll> keys, primes;
 	Min25(ll N_) : N(N_) {
 		for (ll l = 1; l <= N; ++l)
-			keys.push_back(l = N / (N / l));
+			keys.pb(l = N / (N / l));
 		for (int i = 0; global_primes[i] * global_primes[i] <= N; ++i)
-			primes.push_back(global_primes[i]);
+			primes.pb(global_primes[i]);
 	}
 	ll id(ll x) {
 		ll id = x < N / x ? x - 1 : sz(keys) - N / x;
@@ -57,6 +57,6 @@ vector<ll> exampleUsage(Min25<ll> &m) { // OVERFLOWS!
 	auto primeCnt = m.overPrimes([](ll x){return x; });
 	auto primeSum = m.overPrimes([](ll x){return x*(x+1)/2; });
 	vector<ll> phi; rep(i, sz(m.keys))
-		phi.push_back(primeSum[i] - primeCnt[i]);
+		phi.pb(primeSum[i] - primeCnt[i]);
 	m.fullSum(phi, [](int p,int k,ll pk){return pk-pk/p; });
 	return phi; }

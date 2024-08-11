@@ -49,14 +49,14 @@ struct PermGroup {
 	}
 	void ins(const vi& cur, int k) {
 		if (check(cur,k)) return;
-		g[k].gen.push_back(cur);
+		g[k].gen.pb(cur);
 		rep(i,n) if (g[k].flag[i]) updateX(cur*g[k].sigma[i],k);
 	}
 
 	ll order(vector<vi> gen) {
 		if(sz(gen) == 0) return 1;
 		n = sz(gen[0]);
-		rep(i,n) g.push_back(Group(n,i));
+		rep(i,n) g.pb(Group(n,i));
 		for(auto a: gen)
 				ins(a, n-1); // insert perms into group one by one
 		ll tot = 1; // watch out for overflows, can be up to n!

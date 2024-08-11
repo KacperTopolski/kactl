@@ -19,18 +19,18 @@ vi perfectEliminationOrder(vector<vi>& g) { // 0-indexed, adj list
 	int top = 0, n = sz(g);
 	vi ord, vis(n), indeg(n);
 	vector<vi> bucket(n);
-	rep(i, n) bucket[0].push_back(i);
+	rep(i, n) bucket[0].pb(i);
 	for(int i = 0; i < n; ) {
 		while(bucket[top].empty()) --top;
 		int u = bucket[top].back();
 		bucket[top].pop_back();
 		if(vis[u]) continue;
-		ord.push_back(u);
+		ord.pb(u);
 		vis[u] = 1;
 		++i;
 		for(int v : g[u]) {
 			if(vis[v]) continue;
-			bucket[++indeg[v]].push_back(v);
+			bucket[++indeg[v]].pb(v);
 			top = max(top, indeg[v]);
 		}
 	}

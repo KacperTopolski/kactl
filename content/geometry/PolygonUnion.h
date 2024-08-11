@@ -28,10 +28,10 @@ double polyUnion(vector<vector<P>>& poly) {
 				if (sc != sd) {
 					double sa = C.cross(D, A), sb = C.cross(D, B);
 					if (min(sc, sd) < 0)
-						segs.emplace_back(sa / (sa - sb), sgn(sc - sd));
+						segs.eb(sa / (sa - sb), sgn(sc - sd));
 				} else if (!sc && !sd && j<i && sgn((B-A).dot(D-C))>0){
-					segs.emplace_back(rat(C - A, B - A), 1);
-					segs.emplace_back(rat(D - A, B - A), -1);
+					segs.eb(rat(C - A, B - A), 1);
+					segs.eb(rat(D - A, B - A), -1);
 				}
 			}
 		}
