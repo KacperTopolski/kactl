@@ -74,4 +74,4 @@
 
   Define Dirichlet convolution as $f * g(n) = \sum_{d|n}f(d)g(n/d)$.
   Let $s_f(n) = \sum_{i=1}^n{f(i)}$.
-  Then $s_f(n) = \frac{s_{f*g}(n) - \sum^n_{d=2}s_f(\lfloor \frac{n}{d} \rfloor) g(d)}{g(1)}$.
+  Then $s_f(n)g(1) = s_{f*g}(n) - \sum^n_{d=2}s_f(\lfloor \frac{n}{d} \rfloor) g(d)$.
