@@ -21,6 +21,9 @@ void dump(auto... x) { (( cerr << x << ", " ), ...) << '\n'; }
 #define deb(...) 0
 #endif
 
+// for old tests
+#define debug(x...) deb(x)
+
 // WSL1 is broken, remove once nobody in the team uses WSL1
 #if __has_include (<fpu_control.h>)
 #include <fpu_control.h>
