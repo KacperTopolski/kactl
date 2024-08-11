@@ -4,6 +4,5 @@ c() {
  -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address,undefined \
  -ggdb3 -DLOC $1.cpp -o$1; }
 cf() { g++ -std=c++20 -static -O3 -DLOCF $1.cpp -o$1; }
-r() { /usr/bin/time -f "%Es" ./$1; }
 libhash() { cat $1.cpp | cpp -dD -P -fpreprocessed | \
 tr -d '[:space:]'| md5sum |cut -c-6; }
