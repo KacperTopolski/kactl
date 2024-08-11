@@ -10,7 +10,7 @@
  */
 #pragma once
 struct SCC : vi {
-	vector<vi> comps; vi S; SCC() {}
+	vector<vi> comps; vi S;
 	SCC(vector<vi>& G) : vi(sz(G),-1), S(sz(G))
 	{ rep(i, sz(G)) if (!S[i]) dfs(G, i); }
 	int dfs(vector<vi>& G, int v) {

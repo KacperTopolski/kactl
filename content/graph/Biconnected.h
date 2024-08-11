@@ -20,20 +20,20 @@ struct Biconnected : vector<vi> {
 		resize(sz(G));
 		rep(i, sz(G)) S[i].x ?: dfs(G, i, -1);
 		rep(c, sz(verts)) for(auto v : verts[c])
-			at(v).push_back(c);
+			at(v).pb(c);
 	}
 	int dfs(vector<vi>& G, int v, int p) {
-		int low = S[v].x = sz(S)-1; S.push_back({v, -1});
+		int low = S[v].x = sz(S)-1; S.pb({v, -1});
 		for (auto e : G[v]) if (e != p) {
-			if (S[e].x < S[v].x) S.push_back({v, e});
+			if (S[e].x < S[v].x) S.pb({v, e});
 			low = min(low, S[e].x ?: dfs(G, e, v));
 		}
 		if (p + 1 && low >= S[p].x) {
-			verts.push_back({p}); edges.push_back({});
+			verts.pb({p}); edges.pb({});
 			fwd(i, S[v].x, sz(S)) {
 				if (S[i].y == -1)
-					verts.back().push_back(S[i].x);
-				else edges.back().push_back(S[i]);
+					verts.back().pb(S[i].x);
+				else edges.back().pb(S[i]);
 			}
 			S.resize(S[v].x);
 		}

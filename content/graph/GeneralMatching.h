@@ -1,61 +1,55 @@
 /**
- * Author: Lucian Bicsi
- * Date: 2021
- * License: CC0
+ * Author: Krzysztof Potępa
+ * Date: 2024
+ * License: N/A
  * Source: https://codeforces.com/blog/entry/92339?#comment-810242
  * Description: Matching for general graphs using Blossom algorithm.
- * Time: O(NM, surprisingly fast in practice)
+ * Time: O(NM, fast in practice)
  * Status: tested on library-checker
  */
-
-vi Blossom(vector<vi> &graph) {
-	int n = sz(graph), timer = -1;
-	vi mate(n, -1), label(n), parent(n), orig(n), aux(n, -1), q;
-	auto lca = [&](int x, int y) {
-		for (timer++; ; swap(x, y)) {
-			if (x == -1) continue;
-			if (aux[x] == timer) return x;
-			aux[x] = timer;
-			x = (mate[x] == -1 ? -1 : orig[parent[mate[x]]]);
-		}
-	};
-	auto blossom = [&](int v, int w, int a) {
+int blossom(vector<vi>& G, vi& match) {
+	int n = sz(G), cnt = -1, ans = 0;match.assign(n, -1);
+	vi lab(n), par(n), orig(n), aux(n, -1), q;
+	auto blos = [&](int v, int w, int a) {
 		while (orig[v] != a) {
-			parent[v] = w; w = mate[v];
-			if (label[w] == 1) label[w] = 0, q.push_back(w);
-			orig[v] = orig[w] = a; v = parent[w];
+			par[v] = w; w = match[v];
+			if (lab[w] == 1) lab[w] = 0, q.push_back(w);
+			orig[v] = orig[w] = a; v = par[w];
 		}
 	};
-	auto augment = [&](int v) {
-		while (v != -1) {
-			int pv = parent[v], nv = mate[pv];
-			mate[v] = pv; mate[pv] = v; v = nv;
+	rep(i, n) if (match[i] == -1)
+		for (auto e : G[i]) if (match[e] == -1) {
+			match[match[e] = i] = e; ans++; break;
 		}
-	};
-	auto bfs = [&](int root) {
-		fill(all(label), -1);
+	rep(root, n) if (match[root] == -1) {
+		fill(all(lab), -1);
 		iota(all(orig), 0);
-		q.clear();
-		label[root] = 0; q.push_back(root);
-		for (int i = 0; i < (int)q.size(); ++i) {
+		lab[root] = 0;
+		q = {root};
+		rep(i, sz(q)) {
 			int v = q[i];
-			for (auto x : graph[v]) {
-				if (label[x] == -1) {
-					label[x] = 1; parent[x] = v;
-					if (mate[x] == -1)
-						return augment(x), 1;
-					label[mate[x]] = 0; q.push_back(mate[x]);
-				} else if (label[x] == 0 && orig[v] != orig[x]) {
-					int a = lca(orig[v], orig[x]);
-					blossom(x, v, a); blossom(v, x, a);
+			for (auto x : G[v]) if (lab[x] == -1) {
+				lab[x] = 1; par[x] = v;
+				if (match[x] == -1) {
+					for (int y = x; y+1;) {
+						int p = par[y], w = match[p];
+						match[match[p] = y] = p; y = w;
+					}
+					ans++;
+					goto nxt;
 				}
+				lab[match[x]] = 0; q.push_back(match[x]);
+			} else if (lab[x] == 0 && orig[v]!=orig[x]) {
+				int a = orig[v], b = orig[x];
+				for (cnt++;; swap(a, b)) if (a+1) {
+					if (aux[a] == cnt) break;
+					aux[a] = cnt;
+					a = (match[a]+1 ?
+						orig[par[match[a]]] : -1);
+				}
+				blos(x, v, a); blos(v, x, a);
 			}
 		}
-		return 0;
-	};
-	// Time halves if you start with (any) maximal matching.
-	for (int i = 0; i < n; i++)
-		if (mate[i] == -1)
-			bfs(i);
-	return mate;
-}
+		nxt:;
+	}
+	return ans; }
