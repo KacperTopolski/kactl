@@ -3,13 +3,12 @@
  * Date: 2009-09-25
  * License: CC0
  * Source: http://en.wikipedia.org/wiki/Euler's_totient_function
- * Description: Inclusive prefix sums of \emph{Euler's $\phi$}.
+ * Description: Inclusive prefix sums of \emph{Euler's $\phi$}. For $\text{MOD} > 4\cdot 10^9$, answer will overflow.
  * Time:  O(n^{2/3})
  * Status: Stress tested
  */
 #pragma once
 
-// WARNING: For MOD > 4*10^9, answer will overflow.
 constexpr int MOD = 998244353;
 
 vector<ll> pSum; // [k] = phi sum from 0 to k
@@ -35,5 +34,5 @@ ll getPhiSum(ll n) { // phi(0) + ... + phi(n)
 		s = n / (n / i);
 		ret -= (s - i + 1) % MOD * getPhiSum(n / i) % MOD;
 	}
-	return big[n] = ret = (ret % MOD + MOD) % MOD;
+	return big[n] = (ret % MOD + MOD) % MOD;
 }
