@@ -101,29 +101,10 @@ void random_graph_testset(const string testset_name, const int minN, const int m
 
 void stress_tests() {
 	random_graph_testset("Tiny", 1, 10, 0, 100, -10, 100, 100);
-	//random_graph_testset("Medium", 50, 200, 0, 1000, -10, 10, 100);
 	cout << "Tests passed!" << endl;
 }
 
-void kactl_maxtests() {
-
-}
-
-void ujlib_maxtests() {
-
-}
-
-int main(int argc, char *argv[]) {
-	if (argc == 1) {
-		stress_tests();
-		return 0;
-	}
-	// used for benchmarking time
-	if (argv[1][0] == 'k') {
-		kactl_maxtests();
-	} else if (argv[1][0] == 'u') {
-		ujlib_maxtests();
-	} else {
-		fail("invalid argument");
-	}
+int main() {
+	stress_tests();
+	return 0;
 }
