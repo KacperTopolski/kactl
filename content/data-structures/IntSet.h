@@ -5,9 +5,9 @@
  * Description: bitset with fast predecessor and successor queries. Assumes x86 shift overflows. Extremely fast (50-200mln operations in 1 second).
  * Status: Tested on yosupo judge
  */
-#define B 64
 template<int N>
 struct IntSet {
+	static constexpr int B = 64;
 	uint64_t V[N / B + 1] = {};
 	IntSet<(N < B + 1 ? 0 : N / B + 1)> up;
 	bool has(int i) { return (V[i / B] >> i) & 1; }
@@ -37,4 +37,3 @@ struct IntSet<0> {
 	void add(int) {} void del(int) {}
 	int next(int) { return -1; }
 	int prev(int) { return -1; } };
-#undef B

@@ -3,18 +3,31 @@
 #include "../../content/data-structures/RMQ.h"
 
 int main() {
-	srand(2);
-	rep(N,100) {
-		vi v(N);
-		rep(i,N) v[i] = i;
-		random_shuffle(all(v));
-		RMQ<int> rmq(v);
-		rep(i,N) fwd(j,i+1,N+1) {
-			int m = rmq.query(i,j);
-			int n = 1 << 29;
-			fwd(k,i,j) n = min(n, v[k]);
-			assert(n == m);
+	mt19937 rng(2137);
+	auto rnd = [&] (int l, int r) {
+		return uniform_int_distribution<int>(l, r)(rng);
+	};
+	const int MAXIT = 100;
+	const int MAXN = 500;
+	rep(IT, MAXIT) {
+		fwd(N, 1, MAXN) {
+			vi v(N);
+			rep(i,N) v[i] = rnd(0, N);
+			shuffle(all(v), rng);
+			RMQ<int> rmq(v);
+			RMQF<int> rmqf(v);
+			rep(i,N) {
+				int n = 1 << 29;
+				fwd(j,i,N) {
+					int m = rmq.get(i, j);
+					int mf = rmqf.get(i, j);
+					n = min(n, v[j]);
+					assert(n == m);
+					assert(n == mf);
+				}
+			}
 		}
+		cout << "Passed testset#" << IT + 1 << "/" << MAXIT << '\n'; 
 	}
 	cout<<"Tests passed!"<<endl;
 }
