@@ -2,7 +2,7 @@
  * Author: Antoni Długosz
  * Date: 2024
  * License: N/A
- * Description: Provides lca(v, u) and compress(vi &ss) functions. Compress returns a list of (par, orig\_index) representing a tree rooted at 0. ss is the subset of nodes to be compressed.
+ * Description: Provides lca(v, u) and compress(ss) functions. Compress returns a list of (par, orig\_index) representing a tree rooted at 0. ss is the subset of nodes to be compressed.
  * Status: stress-tested
  */
 #pragma once
