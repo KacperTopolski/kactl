@@ -10,9 +10,9 @@
 struct LCA { // takes up 5 * N memory + RMQ (be careful)
 	vi t, it, et, rv; // time, inverse-time, euler-tour times
 	RMQ<int> rmq;  // times are given in dfs preorder
-	LCA(vector<vi> &g) : t(sz(g)), rv(sz(g)) {
+	LCA(vector<vi> &g, int r = 0) : t(sz(g)), rv(sz(g)) {
 		if (sz(g) == 0) return;
-		dfs(g, 0, -1);
+		dfs(g, r, -1);
 		rmq = RMQ<int>(et);
 	}
 	void dfs(vector<vi> &g, int v, int p) {
