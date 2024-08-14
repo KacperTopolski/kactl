@@ -2,13 +2,13 @@
  * Author: Antoni Długosz
  * Date: 2024
  * License: N / A
- * Description: RMQ on intervals [l, r]. Second one has linear memory and considerably faster preprocessing, but slower queries (preprocessing is usually the bottleneck). Size of array CANNOT be zero.
+ * Description: RMQ on intervals [l, r]. Second one has 2-3x less memory and is 2-3x faster Size of array CANNOT be zero.
  * Status: stress-tested
  */
 #pragma once
 template<class T>
 struct RMQ { // #define / undef min func for different merging
-	vector<vector<T> > s; RMQ() {} // need for RMQF
+	vector<vector<T> > s; RMQ(){} // only if needed
 	RMQ(vector<T>& a) : s(1, a) {
 		rep(d, __lg(sz(a))) {
 			s.eb(sz(a) - (1 << d) * 2 + 1);
@@ -26,9 +26,8 @@ struct RMQF {
 	static constexpr int B = 64; // not larger!
 	RMQ<T> s;
 	vector<uint64_t> m;
-	vector<T> a;
-	RMQF(vector<T>& A) : a(A) {
-		m.resize(sz(a));
+	vector<T> a, c; RMQF(){} // only if needed
+	RMQF(vector<T>& A) : m(sz(A)), a(A), c(sz(A)) {
 		vector<T> b(sz(a) / B + 1);
 		uint64_t mi = 0;
 		rep(i, sz(a)) {
@@ -36,14 +35,14 @@ struct RMQF {
 			mi <<= 1;
 			while (mi && a[i] < a[i - __builtin_ctzll(mi)])
 				mi ^= (1ull << __builtin_ctzll(mi));
-			m[i] = mi ^= 1;
+			m[i] = mi ^= 1; c[i] = a[i - __lg(m[i])];
 		}
 		s = RMQ(b);
 	}
 	T get(int l, int r) {
 		if (r - l + 1 < B)
 			return a[r - __lg(m[r] & ((1ull << (r - l + 1)) - 1))];
-		T k = min(a[r - __lg(m[r])], a[l + B - 1 - __lg(m[l + B - 1])]);
-		l = ((l + B - 1) / B), r = r / B - 1;
+		T k = min(c[r], c[l + B - 1]);
+		l = (l + B - 1) / B, r = r / B - 1;
 		if (l <= r) k = min(k, s.get(l, r));
 		return k; } };
