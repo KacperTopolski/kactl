@@ -1,87 +1,155 @@
 #include "../utilities/template.h"
-#include "../utilities/genTree.h"
 
 #include "../../content/graph/LCA.h"
-#include "../../content/graph/BinaryLifting.h"
-#include "../../content/data-structures/RMQ.h"
 
-namespace old {
-typedef vector<pii> vpi;
-typedef vector<vpi> graph;
+namespace KACTL {
+	template<class T>
+	struct KACTL_RMQ {
+		vector<vector<T>> jmp;KACTL_RMQ() {}
+		KACTL_RMQ(const vector<T>& V) : jmp(1, V) {
+			for (int pw = 1, k = 1; pw * 2 <= sz(V); pw *= 2, ++k) {
+				jmp.emplace_back(sz(V) - pw * 2 + 1);
+				rep(j,sz(jmp[k]))
+					jmp[k][j] = min(jmp[k - 1][j], jmp[k - 1][j + pw]);
+			}
+		}
+		T query(int a, int b) {
+			assert(a < b); // or return inf if a == b
+			int dep = 31 - __builtin_clz(b - a);
+			return min(jmp[dep][a], jmp[dep][b - (1 << dep)]);
+		}
+	};
+	struct LCA {
+		int T = 0;
+		vi time, path, ret;
+		KACTL_RMQ<int> rmq;
 
-struct LCA {
-	vi time;
-	vector<ll> dist;
-	RMQ<pii> rmq;
-
-	LCA(graph& C) : time(sz(C), -99), dist(sz(C)), rmq(dfs(C)) {}
-
-	vpi dfs(graph& C) {
-		vector<tuple<int, int, int, ll>> q(1);
-		vpi ret;
-		int T = 0, v, p, d; ll di;
-		while (!q.empty()) {
-			tie(v, p, d, di) = q.back();
-			q.pop_back();
-			if (d) ret.emplace_back(d, p);
+		LCA(vector<vi>& C) : time(sz(C)) {
+			if (sz(C) == 0) return;
+			dfs(C,0,-1);
+			rmq = KACTL_RMQ<int>(ret);
+		}
+		void dfs(vector<vi>& C, int v, int par) {
 			time[v] = T++;
-			dist[v] = di;
-			for(auto &e: C[v]) if (e.first != p)
-				q.emplace_back(e.first, v, d+1, di + e.second);
+			for (int y : C[v]) if (y != par) {
+				path.push_back(v), ret.push_back(time[v]);
+				dfs(C, y, v);
+			}
+		}
+
+		int lca(int a, int b) {
+			if (a == b) return a;
+			tie(a, b) = minmax(time[a], time[b]);
+			return path[rmq.query(a, b)];
+		}
+		//dist(a,b){return depth[a] + depth[b] - 2*depth[lca(a,b)];}
+	};
+
+	typedef vector<pair<int, int>> vpi;
+	vpi compressTree(LCA& lca, const vi& subset) {
+		if (sz(subset) == 0) return {};
+		static vi rev; rev.resize(sz(lca.time));
+		vi li = subset, &T = lca.time;
+		auto cmp = [&](int a, int b) { return T[a] < T[b]; };
+		sort(all(li), cmp);
+		int m = sz(li)-1;
+		rep(i,m) {
+			int a = li[i], b = li[i+1];
+			li.push_back(lca.lca(a, b));
+		}
+		sort(all(li), cmp);
+		li.erase(unique(all(li)), li.end());
+		rep(i,sz(li)) rev[li[i]] = i;
+		vpi ret = {pii(0, li[0])};
+		rep(i,sz(li)-1) {
+			int a = li[i], b = li[i+1];
+			ret.emplace_back(rev[lca.lca(a, b)], b);
 		}
 		return ret;
 	}
-
-	int query(int a, int b) {
-		if (a == b) return a;
-		a = time[a], b = time[b];
-		return rmq.query(min(a, b), max(a, b)).second;
-	}
-	ll distance(int a, int b) {
-		int lca = query(a, b);
-		return dist[a] + dist[b] - 2 * dist[lca];
-	}
 };
+
+mt19937 rng(2137);
+
+int rnd(int l, int r) {
+	return uniform_int_distribution<int>(l, r)(rng);
 }
 
+vi dfs(vector<vi> &g, vector<vi> &naive, int v, int p) {
+	vi a = {v};
+	naive[v][v] = v;
+	for (auto u : g[v])
+		if (u != p) {
+			vi s = dfs(g, naive, u, v);
+			for (auto x : s) for (auto y : a)
+				naive[x][y] = naive[y][x] = v;
+			a.insert(end(a), all(s));
+		}
+	return a;
+}
 
-void getPars(vector<vi> &tree, int cur, int p, int d, vector<int> &par, vector<int> &depth) {
-	par[cur] = p;
-	depth[cur] = d;
-	for(auto i: tree[cur]) if (i != p) {
-		getPars(tree, i, cur, d+1, par, depth);
+void test_nq(int n, int q) {
+	vector<pii> e;
+	fwd(i, 1, n) e.eb(i, rnd(0, i - 1));
+	vi id(n);
+	iota(all(id), 0);
+	shuffle(all(id), rng);
+	for (auto &[v, u] : e) {
+		v = id[v];
+		u = id[u];
+		if (rnd(0, 1)) swap(v, u);
+	}
+	vector<vi> g(n);
+	for (auto [v, u] : e) {
+		g[v].pb(u);
+		g[u].pb(v);
+	}
+	LCA lca(g);
+	KACTL::LCA kactl_lca(g);
+	vector<vi> naive(n, vi(n, -1));
+	dfs(g, naive, 0, -1);
+	rep(i, n) rep(j, n) {
+		int ujlib = lca.lca(i, j);
+		assert(ujlib == naive[i][j]);
+	}
+	int k = min(n, 7);
+	rep(m, (1 << k)) {
+		vi ss;
+		rep(i, k) if (m & (1 << i))
+			ss.pb(i);
+		vector<pii> ujlib = lca.compress(ss);
+		vector<pii> kactl = KACTL::compressTree(kactl_lca, ss);
+		sort(all(ujlib));
+		sort(all(kactl));
+		assert(ujlib == kactl);
+	}
+	rep(i, q) {
+		int siz = rnd(0, n);
+		vi zo(n);
+		rep(j, siz) zo[j] = 1;
+		shuffle(all(zo), rng);
+		vi ss;
+		rep(j, n) if (zo[j]) ss.pb(j);
+		vector<pii> ujlib = lca.compress(ss);
+		vector<pii> kactl = KACTL::compressTree(kactl_lca, ss);
+		sort(all(ujlib));
+		sort(all(kactl));
+		assert(ujlib == kactl);
 	}
 }
-void test_n(int n, int num) {
-	for (int out=0; out<num; out++) {
-		auto graph = genRandomTree(n);
-		vector<vi> tree(n);
-		vector<vector<pair<int, int>>> oldTree(n);
-		for (auto i: graph) {
-			tree[i.first].push_back(i.second);
-			tree[i.second].push_back(i.first);
-			oldTree[i.first].push_back({i.second, 1});
-			oldTree[i.second].push_back({i.first, 1});
-		}
-		vector<int> par(n), depth(n);
-		getPars(tree, 0, 0, 0, par, depth);
-		vector<vi> tbl = treeJump(par);
-		LCA new_lca(tree);
-		old::LCA old_lca(oldTree);
-		for (int i=0; i<100; i++) {
-			int a = rand()%n, b = rand()%n;
-			int binLca = lca(tbl, depth, a, b);
-			int newLca = new_lca.lca(a,b);
-			int oldLca = old_lca.query(a,b);
-			assert(oldLca == newLca);
-			assert(binLca == newLca);
-		}
-	}
-}
 
-signed main() {
-	test_n(10, 1000);
-	test_n(100, 100);
-	test_n(1000, 10);
+int main() {
+	const int IT = 100;
+	const int MAXN = 50;
+	const int MINQ = 20;
+	rep(i, IT) {
+		fwd(N, 1, MAXN + 1) {
+			fwd(Q, MINQ, max(MINQ, 5 * N + 1) + 1) {
+				test_nq(N, Q);
+			}
+			cout << "checkpoint for N = " << N << '\n';
+		}
+		cout << "testset #" << i + 1 / IT << " passed!\n";
+	}
 	cout<<"Tests passed!"<<endl;
 }

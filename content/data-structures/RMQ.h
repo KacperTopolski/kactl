@@ -10,6 +10,7 @@ template<class T>
 struct RMQ { // #define / undef min func for different merging
 	vector<vector<T> > s; RMQ(){} // only if needed
 	RMQ(vector<T>& a) : s(1, a) {
+		if (!sz(a)) return;
 		rep(d, __lg(sz(a))) {
 			s.eb(sz(a) - (1 << d) * 2 + 1);
 			rep(j, sz(s[d + 1]))

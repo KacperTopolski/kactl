@@ -10,7 +10,7 @@ int main() {
 	const int MAXIT = 100;
 	const int MAXN = 500;
 	rep(IT, MAXIT) {
-		fwd(N, 1, MAXN) {
+		rep(N, MAXN) {
 			vi v(N);
 			rep(i,N) v[i] = rnd(0, N);
 			shuffle(all(v), rng);
