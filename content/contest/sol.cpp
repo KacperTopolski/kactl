@@ -1,3 +1,10 @@
+/**
+ * Author: Antoni Dlugosz
+ * Date: 2024
+ * License: N/A
+ * Description: Tempelka
+ */
+
 #include <bits/stdc++.h>
 using namespace std;
 #define fwd(i, a, n) for (int i = (a); i < (n); i++)
