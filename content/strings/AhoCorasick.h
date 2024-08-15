@@ -1,85 +1,54 @@
 /**
- * Author: Simon Lindholm
- * Date: 2015-02-18
- * License: CC0
- * Source: marian's (TC) code
- * Description: Aho-Corasick automaton, used for multiple pattern matching.
- * Initialize with AhoCorasick ac(patterns); the automaton start node will be at index 0.
- * find(word) returns for each position the index of the longest word that ends there, or -1 if none.
- * findAll($-$, word) finds all words (up to $N \sqrt N$ many if no duplicate patterns)
- * that start at each position (shortest first).
- * Duplicate patterns are allowed; empty patterns are not.
- * To find the longest words that start at each position, reverse all input.
- * For large alphabets, split each symbol into chunks, with sentinel bits for symbol boundaries.
- * Time: construction takes $O(26N)$, where $N =$ sum of length of patterns.
- * find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$.
- * Status: stress-tested
+ * Author: Krzysztof Potępa
+ * Date: 2024
+ * License: N / A
+ * Description: Aho-Corasick algorithm for linear-time multipattern matching. Self explanatory. Call Build after adding all patterns.
  */
 #pragma once
-
-struct AhoCorasick {
-	enum {alpha = 26, first = 'A'}; // change this!
-	struct Node {
-		// (nmatches is optional)
-		int back, next[alpha], start = -1, end = -1, nmatches = 0;
-		Node(int v) { memset(next, v, sizeof(next)); }
-	};
-	vector<Node> N;
-	vi backp;
-	void insert(string& s, int j) {
-		assert(!s.empty());
-		int n = 0;
-		for (char c : s) {
-			int& m = N[n].next[c - first];
-			if (m == -1) { n = m = sz(N); N.eb(-1); }
-			else n = m;
+constexpr char AMIN = 'a'; // Smallest letter
+constexpr int ALPHA = 26;  // Alphabet size
+struct Aho {
+	vector<array<int, ALPHA>> nxt{1};
+	vi suf = {-1}, accLink = {-1};
+	vector<vi> accept{1};
+	// Add string with given ID to structure
+	// Returns index of accepting node
+	int add(const string& str, int id) {
+		int i = 0;
+		for (auto c : str) {
+			if (!nxt[i][c-AMIN]) {
+				nxt[i][c-AMIN] = sz(nxt);
+				nxt.pb({}); suf.pb(-1);
+				accLink.pb(1); accept.pb({});
+			} // creates new node above
+			i = nxt[i][c-AMIN];
 		}
-		if (N[n].end == -1) N[n].start = j;
-		backp.pb(N[n].end);
-		N[n].end = j;
-		N[n].nmatches++;
-	}
-	AhoCorasick(vector<string>& pat) : N(1, -1) {
-		rep(i,sz(pat)) insert(pat[i], i);
-		N[0].back = sz(N);
-		N.eb(0);
-
-		queue<int> q;
-		for (q.push(0); !q.empty(); q.pop()) {
-			int n = q.front(), prev = N[n].back;
-			rep(i,alpha) {
-				int &ed = N[n].next[i], y = N[prev].next[i];
-				if (ed == -1) ed = y;
-				else {
-					N[ed].back = y;
-					(N[ed].end == -1 ? N[ed].end : backp[N[ed].start])
-						= N[y].end;
-					N[ed].nmatches += N[y].nmatches;
-					q.push(ed);
-				}
+		accept[i].pb(id);
+		return i;
+	} // Build automata; time: O(V*ALPHA)
+	void build() {
+		queue<int> que;
+		for (auto e : nxt[0]) if (e) {
+			suf[e] = 0; que.push(e);
+		}
+		while (!que.empty()) {
+			int i = que.front(), s = suf[i], j = 0;
+			que.pop();
+			for (auto &e : nxt[i]) {
+				if (e) que.push(e);
+				(e ? suf[e] : e) = nxt[s][j++];
 			}
-		}
-	}
-	vi find(string word) {
-		int n = 0;
-		vi res; // ll count = 0;
-		for (char c : word) {
-			n = N[n].next[c - first];
-			res.pb(N[n].end);
-			// count += N[n].nmatches;
-		}
-		return res;
-	}
-	vector<vi> findAll(vector<string>& pat, string word) {
-		vi r = find(word);
-		vector<vi> res(sz(word));
-		rep(i,sz(word)) {
-			int ind = r[i];
-			while (ind != -1) {
-				res[i - sz(pat[ind]) + 1].pb(ind);
-				ind = backp[ind];
-			}
-		}
-		return res;
-	}
-};
+			accLink[i] = (accept[s].empty() ?
+					accLink[s] : s);
+		} // propagate link information above
+	} // Append `c` to state `i`
+	int next(int i, char c) {
+		return nxt[i][c-AMIN];
+	} // Call `f` for each pattern accepted
+	  // when in state `i` with its ID as argument.
+	  // Return true from `f` to terminate early.
+	  // Calls are in descreasing length order.
+	void accepted(int i, auto f) {
+		while (i != -1) {
+			for (auto a :  accept[i]) if (f(a)) return;
+			i = accLink[i]; } } };
