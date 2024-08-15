@@ -1,61 +1,124 @@
 /**
- * Author: Simon Lindholm
- * Date: 2015-02-24
- * License: CC0
- * Source: Wikipedia, tinyKACTL
- * Description: Push-relabel using the highest label selection rule and the gap heuristic. Quite fast in practice.
- *  To obtain the actual flow, look at positive values only.
+ * Author: Krzysztof Potepa
+ * Date: 2024
+ * License: N/A
+ * Description: Fast.
  * Time: $O(V^2\sqrt E)$
  * Status: Tested on Kattis and SPOJ, and stress-tested
  */
 #pragma once
+using flow_t = int;
 
-
-struct PushRelabel {
+// Push-relabel algorithm for maximum flow;
+// O(V^2*sqrt(E)), but very fast in practice.
+struct MaxFlow {
 	struct Edge {
-		int dest, back;
-		ll f, c;
+		int to, inv;
+		flow_t rem, cap;
 	};
-	vector<vector<Edge>> g;
-	vector<ll> ec;
-	vector<Edge*> cur;
-	vector<vi> hs; vi H;
-	PushRelabel(int n) : g(n), ec(n), cur(n), hs(2*n), H(n) {}
-
-	void addEdge(int s, int t, ll cap, ll rcap=0) {
-		if (s == t) return;
-		g[s].pb({t, sz(g[t]), 0, cap});
-		g[t].pb({s, sz(g[s])-1, 0, rcap});
+	vector<basic_string<Edge>> G;
+	vector<flow_t> extra;
+	vi hei, arc, prv, nxt, act, bot;
+	queue<int> Q;
+	int n, high, cut, work;
+	// Initialize for k vertices
+	MaxFlow(int k = 0) : G(k) {}
+	// Add new vertex
+	int addVert() { G.pb({}); return sz(G)-1; }
+	// Add edge from u to v with capacity cap
+	// and reverse capacity rcap.
+	// Returns edge index in adjacency list of u.
+	int addEdge(int u, int v,
+	            flow_t cap, flow_t rcap = 0) {
+		G[u].pb({ v, sz(G[v]), 0, cap });
+		G[v].pb({ u, sz(G[u])-1, 0, rcap });
+		return sz(G[u])-1;
 	}
-
-	void addFlow(Edge& e, ll f) {
-		Edge &back = g[e.dest][e.back];
-		if (!ec[e.dest] && f) hs[H[e.dest]].pb(e.dest);
-		e.f += f; e.c -= f; ec[e.dest] += f;
-		back.f -= f; back.c += f; ec[back.dest] -= f;
+	void raise(int v, int h) {
+		prv[nxt[prv[v]] = nxt[v]] = prv[v];
+		hei[v] = h;
+		if (extra[v] > 0) {
+			bot[v] = act[h]; act[h] = v;
+			high = max(high, h);
+		}
+		if (h < n) cut = max(cut, h+1);
+		nxt[v] = nxt[prv[v] = h += n];
+		prv[nxt[nxt[h] = v]] = v;
 	}
-	ll calc(int s, int t) {
-		int v = sz(g); H[s] = v; ec[t] = 1;
-		vi co(2*v); co[0] = v-1;
-		rep(i,v) cur[i] = g[i].data();
-		for (Edge& e : g[s]) addFlow(e, e.c);
-
-		for (int hi = 0;;) {
-			while (hs[hi].empty()) if (!hi--) return -ec[s];
-			int u = hs[hi].back(); hs[hi].pop_back();
-			while (ec[u] > 0)  // discharge u
-				if (cur[u] == g[u].data() + sz(g[u])) {
-					H[u] = 1e9;
-					for (Edge& e : g[u]) if (e.c && H[u] > H[e.dest]+1)
-						H[u] = H[e.dest]+1, cur[u] = &e;
-					if (++co[H[u]], !--co[hi] && hi < v)
-						rep(i,v) if (hi < H[i] && H[i] < v)
-							--co[H[i]], H[i] = v + 1;
-					hi = H[u];
-				} else if (cur[u]->c && H[u] == H[cur[u]->dest]+1)
-					addFlow(*cur[u], min(ec[u], cur[u]->c));
-				else ++cur[u];
+	void global(int s, int t) {
+		hei.assign(n, n*2);
+		act.assign(n*2, -1);
+		iota(all(prv), 0);
+		iota(all(nxt), 0);
+		hei[t] = high = cut = work = 0;
+		hei[s] = n;
+		for (int x : {t, s})
+			for (Q.push(x); !Q.empty(); Q.pop()) {
+				int v = Q.front();
+				for (auto &e : G[v])
+					if (hei[e.to] == n*2 &&
+					    G[e.to][e.inv].rem)
+						Q.push(e.to), raise(e.to,hei[v]+1);
+			}
+	}
+	void push(int v, Edge& e, bool z) {
+		auto f = min(extra[v], e.rem);
+		if (f > 0) {
+			if (z && !extra[e.to]) {
+				bot[e.to] = act[hei[e.to]];
+				act[hei[e.to]] = e.to;
+			}
+			e.rem -= f; G[e.to][e.inv].rem += f;
+			extra[v] -= f; extra[e.to] += f;
 		}
 	}
-	bool leftOfMinCut(int a) { return H[a] >= sz(g); }
+	void discharge(int v) {
+		int h = n*2, k = hei[v];
+		rep(j, sz(G[v])) {
+			auto& e = G[v][arc[v]];
+			if (e.rem) {
+				if (k == hei[e.to]+1) {
+					push(v, e, 1);
+					if (extra[v] <= 0) return;
+				} else h = min(h, hei[e.to]+1);
+			}
+			if (++arc[v] >= sz(G[v])) arc[v] = 0;
+		}
+
+		if (k < n && nxt[k+n] == prv[k+n]) {
+			fwd(j, k, cut) while (nxt[j+n] < n)
+				raise(nxt[j+n], n);
+			cut = k;
+		} else raise(v, h), work++;
+	}
+
+	// Compute maximum flow from src to dst
+	flow_t maxFlow(int src, int dst) {
+		extra.assign(n = sz(G), 0);
+		arc.assign(n, 0);
+		prv.resize(n*3);
+		nxt.resize(n*3);
+		bot.resize(n);
+		for (auto &v : G) for(auto e : v) e.rem = e.cap;
+		for (auto &e : G[src])
+			extra[src] = e.cap, push(src, e, 0);
+		global(src, dst);
+		for (; high; high--)
+			while (act[high] != -1) {
+				int v = act[high];
+				act[high] = bot[v];
+				if (v != src && hei[v] == high) {
+					discharge(v);
+					if (work > 4*n) global(src, dst);
+				}
+			}
+
+		return extra[dst];
+	}
+	// Get flow through e-th edge of vertex v
+	flow_t getFlow(int v, int e) {
+		return G[v][e].cap - G[v][e].rem;
+	}
+	// Get if v belongs to cut component with src
+	bool cutSide(int v) { return hei[v] >= n; }
 };

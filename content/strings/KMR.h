@@ -2,7 +2,7 @@
  * Author: Krzysztof Potępa
  * Date: 2024
  * License: N / A
- * Description: KMR algorithm for lexical string comparison. Niby nlog^2 ale to nie takie uczciwe nlog2 tylko z estede sortem.
+ * Description: KMR algorithm for lexical string comparison. Niby nlog2 ale to nie takie uczciwe nlog2 tylko z estede sortem.
  */
 struct KMR {
 	vector<vi> ids; KMR() {}
