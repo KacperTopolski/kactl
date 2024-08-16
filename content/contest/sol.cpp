@@ -10,7 +10,7 @@ using namespace std;
 #define fwd(i, a, n) for (int i = (a); i < (n); i++)
 #define rep(i, n) fwd(i, 0, n)
 #define all(X) X.begin(), X.end()
-#define sz(X) int(ssize(X))
+#define sz(X) int(size(X))
 #define pb push_back
 #define eb emplace_back
 #define st first
