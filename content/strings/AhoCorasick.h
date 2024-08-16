@@ -3,6 +3,7 @@
  * Date: 2024
  * License: N / A
  * Description: Aho-Corasick algorithm for linear-time multipattern matching. Self explanatory. Call Build after adding all patterns.
+ * Time: $O(26n) build$
  */
 #pragma once
 constexpr char AMIN = 'a'; // Smallest letter

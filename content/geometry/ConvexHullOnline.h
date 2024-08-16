@@ -3,8 +3,8 @@
  * Date: 2024-08-11
  * License: N/A
  * Source: https://github.com/tonowak/acmlib/blob/master/code/geo/convex-hull-online/main.cpp
- * Description: Allows for online point insertion. If exists, left vertical segment is included; right one is excluded.
- * To get a lower hull add (-x, -y) instead.
+ * Description: Allows online point insertion. If exists, left vertical segment is included; right one is excluded.
+ * To get a lower hull add (-x, -y) instead of (x, y).
  * Time: amortized O(\log n) per add
  * Status: stress-tested
 */

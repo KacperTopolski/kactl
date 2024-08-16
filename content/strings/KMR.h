@@ -2,7 +2,8 @@
  * Author: Krzysztof Potępa
  * Date: 2024
  * License: N / A
- * Description: KMR algorithm for lexical string comparison. Niby nlog2 ale to nie takie uczciwe nlog2 tylko z estede sortem.
+ * Description: KMR algorithm for lexical string comparison.
+ * Time: $O(n \log^2 n)$, but one of the logs is from std::sort
  */
 struct KMR {
 	vector<vi> ids; KMR() {}
@@ -12,7 +13,7 @@ struct KMR {
 		for (int h = 1; h <= sz(str); h *= 2) {
 			vector<pair<pii, int>> tmp;
 			rep(j, sz(str)) {
-				int a = ids.back()[j], b = -1; 
+				int a = ids.back()[j], b = -1;
 				if (j+h < sz(str)) b = ids.back()[j+h];
 				tmp.pb({ {a, b}, j });
 			}
