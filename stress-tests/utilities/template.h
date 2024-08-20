@@ -1,3 +1,4 @@
+#define LOC
 #include <bits/stdc++.h>
 #define int32_t void
 #define main _main_unused
