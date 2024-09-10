@@ -128,7 +128,16 @@ $$\prod_{n=1}^{\infty}\left(1-x^{n}\right)=1+\sum_{k=1}^\infty(-1)^k\left(x^{k(3
         \end{itemize}
         \small \[\text{Lemma: }\text{det}(M) = \sum_{(P_1, \dots, P_n):A \to B} \text{sgn}(\sigma(\mathcal P)) \prod_{i=1}^n \omega(P_i)\]
         Particularly useful when only identity permutation is possible.
-
+	
+	\subsection{Exponential formula}
+		\[ \exp(\sum_{n=1}^{\infty}\frac{a_n}{n!}x^n) = \sum_{n=0}^{\infty}\frac{b_n}{n!}x^n\]
+		\[b_n = n! \sum_{j_1 + 2j_2 + \dots + nj_n = n}\prod_{i=1}^{n}\frac{a_i^{j_i}}{(i!)^{j_i} j_i!}\]
+		$a_n$ counts the number of "connected" structures on labeled $n$-point set while $b_n$ counts the number
+		of all structures (Structure should be a disjoint union of connected structures for this to work). Examples:
+		\begin{itemize}[noitemsep]
+			\item $a_n$ - connected graphs, $b_n$ any graphs
+			\item $a_n$ - trees, $b_n$ graphs with no cycles etc.
+		\end{itemize}
 
 \section{Other}
 \kactlimport{DeBruijn.h}
