@@ -9,7 +9,7 @@
  */
 #pragma once
 
-const ll mod = 12345;
+// const ll mod = 12345;
 ll det(vector<vector<ll>>& a) {
 	int n = sz(a); ll ans = 1;
 	rep(i,n) {
