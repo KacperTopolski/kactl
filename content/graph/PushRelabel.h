@@ -99,7 +99,7 @@ struct MaxFlow {
 		prv.resize(n*3);
 		nxt.resize(n*3);
 		bot.resize(n);
-		for (auto &v : G) for(auto e : v) e.rem = e.cap;
+		for (auto &v : G) for(auto &e : v) e.rem = e.cap;
 		for (auto &e : G[src])
 			extra[src] = e.cap, push(src, e, 0);
 		global(src, dst);
