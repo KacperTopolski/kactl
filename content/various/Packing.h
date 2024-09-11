@@ -8,11 +8,8 @@
 // Utilities for packing precomputed tables.
 // Encodes 13 bits using two characters.
 
-// Example usage:
-//   Writer out;
-//   out.ints(-123, 8);
-//   out.done();
-//   cout << out.buf;
+// Writer out; out.ints(-123, 8);
+// out.done(); cout << out.buf;
 struct Writer {
 	string buf;
 	int cur = 0, has = 0;
@@ -21,9 +18,7 @@ struct Writer {
 		buf.pb(char(cur%91 + 35));
 		buf.pb(char(cur/91 + 35));
 		cur = has = 0;
-	}
-
-	// Write unsigned b-bit integer.
+	} // Write unsigned b-bit integer.
 	void intu(uint64_t v, int b) {
 		assert(b == 64 || v < (1ull<<b));
 		while (b--) {
@@ -31,23 +26,18 @@ struct Writer {
 			if (++has == 13) done();
 			v >>= 1;
 		}
-	}
-
-	// Write signed b-bit integer (sign included)
+	} // Write signed b-bit integer (sign included)
 	void ints(ll v, int b) {
 		intu(v < 0 ? -v*2+1 : v*2, b);
 	}
 };
 
-// Example usage:
-//   Reader in("packed_data");
-//   int firstValue = in.ints(8);
+// Reader in("packed_data"); int first = in.ints(8);
 struct Reader {
 	const char *buf;
 	ll cur = 0;
 
 	Reader(const char *s) : buf(s) {}
-
 	// Read unsigned b-bit integer.
 	uint64_t intu(int b) {
 		uint64_t n = 0;
@@ -60,11 +50,8 @@ struct Reader {
 			cur >>= 1;
 		}
 		return n;
-	}
-
-	// Read signed b-bit integer (sign included).
+	} // Read signed b-bit integer (sign included).
 	ll ints(int b) {
 		auto v = intu(b);
 		return (v%2 ? -1 : 1) * ll(v/2);
-	}
-};
+	} };

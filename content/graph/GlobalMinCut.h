@@ -17,8 +17,8 @@ pair<int, vi> globalMinCut(vector<vi> mat) {
 	fwd(ph,1,n) {
 		vi w = mat[0];
 		size_t s = 0, t = 0;
-		fwd(it,0,n-ph) { // O(V^2) -> O(E log V) with prio. queue
-			w[t] = INT_MIN;
+		fwd(it,0,n-ph) { // O(V^2) -> O(E log V) with
+			w[t] = INT_MIN; // prio. queue
 			s = t, t = max_element(all(w)) - w.begin();
 			rep(i,n) w[i] += mat[t][i];
 		}

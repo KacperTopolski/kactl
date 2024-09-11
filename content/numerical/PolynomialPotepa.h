@@ -3,14 +3,12 @@
 /**
  *
  * Author: Krzysztof Potępa
- * Description: Poynomials. Implement Zp,
- * or modify to use ll modulo mod.
+ * Description: Poynomials. Implement Zp.
  * Time: see below
  */
 
 using Poly = vector<Zp>;
 
-// Cut off trailing zeroes; time: O(n)
 void norm(Poly &P) {
 	while (!P.empty() && !P.back().x)
 		P.pop_back();
@@ -23,7 +21,6 @@ Zp eval(const Poly &P, Zp x) {
 	return n;
 }
 
-// Add polynomial; time: O(n)
 Poly &operator+=(Poly &l, const Poly &r) {
 	l.resize(max(sz(l), sz(r)));
 	rep(i, sz(r)) l[i] += r[i];
@@ -32,7 +29,6 @@ Poly &operator+=(Poly &l, const Poly &r) {
 }
 Poly operator+(Poly l, const Poly &r) { return l += r; }
 
-// Subtract polynomial; time: O(n)
 Poly &operator-=(Poly &l, const Poly &r) {
 	l.resize(max(sz(l), sz(r)));
 	rep(i, sz(r)) l[i] -= r[i];
@@ -41,16 +37,13 @@ Poly &operator-=(Poly &l, const Poly &r) {
 }
 Poly operator-(Poly l, const Poly &r) { return l -= r; }
 
-// Multiply by polynomial; time: O(n lg n)
 Poly &operator*=(Poly &l, const Poly &r) {
 	if (min(sz(l), sz(r)) < 50) {
 		// Naive multiplication
 		Poly p(sz(l) + sz(r));
 		rep(i, sz(l)) rep(j, sz(r)) p[i + j] += l[i] * r[j];
 		l.swap(p);
-	} else {
-		// FFT multiplication
-	}
+	} else { /* FFT multiplication*/ }
 	norm(l);
 	return l;
 }
@@ -116,7 +109,6 @@ Poly pow(Poly a, ll e, const Poly &m) {
 	return t;
 }
 
-// Derivate polynomial; time: O(n)
 Poly derivate(Poly P) {
 	if (!P.empty()) {
 		fwd(i, 1, sz(P)) P[i - 1] = P[i] * i;
@@ -125,7 +117,6 @@ Poly derivate(Poly P) {
 	return P;
 }
 
-// Integrate polynomial; time: O(n)
 Poly integrate(Poly P) {
 	if (!P.empty()) {
 		P.pb(0);

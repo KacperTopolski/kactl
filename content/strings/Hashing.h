@@ -5,14 +5,16 @@
  * Source: own work
  * Description: Self-explanatory methods for string hashing.
  * Status: stress-tested
+ * Time: O(1)
  */
 #pragma once
 
-// Arithmetic mod 2^64-1. 2x slower than mod 2^64 and more
-// code, but works on evil test data (e.g. Thue-Morse, where
-// ABBA... and BAAB... of length 2^10 hash the same mod 2^64).
-// "typedef ull H;" instead if you think test data is random,
-// or work mod 10^9+7 if the Birthday paradox is not a problem.
+// Arithmetic mod 2^64-1. 2x slower than mod 2^64 and
+// more code, but works on evil test data (e.g. Thue-
+// Morse, where ABBA... and BAAB... of length 2^10 hash
+// the same mod 2^64). "typedef ull H;" instead if
+// you think test data is random, or work mod 10^9+7
+// if the Birthday paradox is not a problem.
 typedef uint64_t ull;
 struct H {
 	ull x; H(ull x=0) : x(x) {}
@@ -23,32 +25,5 @@ struct H {
 	ull get() const { return x + !~x; }
 	bool operator==(H o) const { return get() == o.get(); }
 	bool operator<(H o) const { return get() < o.get(); }
-};
-static const H C = (ll)1e11+3; // (order ~ 3e9; random also ok)
-
-struct HashInterval {
-	vector<H> ha, pw;
-	HashInterval(string& str) : ha(sz(str)+1), pw(ha) {
-		pw[0] = 1;
-		rep(i,sz(str))
-			ha[i+1] = ha[i] * C + str[i],
-			pw[i+1] = pw[i] * C;
-	}
-	H hashInterval(int a, int b) { // hash [a, b)
-		return ha[b] - ha[a] * pw[b - a];
-	}
-};
-
-vector<H> getHashes(string& str, int length) {
-	if (sz(str) < length) return {};
-	H h = 0, pw = 1;
-	rep(i,length)
-		h = h * C + str[i], pw = pw * C;
-	vector<H> ret = {h};
-	fwd(i,length,sz(str)) {
-		ret.pb(h = h * C + str[i] - pw * str[i-length]);
-	}
-	return ret;
-}
-
-H hashString(string& s){H h{}; for(char c:s) h=h*C+c;return h;}
+}; // (order ~ 3e9; random also ok)
+static const H C = (ll)1e11+3;

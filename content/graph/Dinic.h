@@ -13,8 +13,8 @@ struct Dinic {
 	struct Edge {
 		int to, rev;
 		ll c, oc;
-		ll flow() { return max(oc - c, 0LL); } // if you need flows
-	};
+		ll flow() { return max(oc - c, 0LL); }
+	}; // if you need flows ^
 	vi lvl, ptr, q;
 	vector<vector<Edge>> adj;
 	Dinic(int n) : lvl(n), ptr(n), q(n), adj(n) {}
@@ -36,8 +36,8 @@ struct Dinic {
 	}
 	ll calc(int s, int t) {
 		ll flow = 0; q[0] = s;
-		rep(L,31) do { // 'int L=30' maybe faster for random data
-			lvl = ptr = vi(sz(q));
+		rep(L,31) do { // 'int L=30' maybe faster for
+			lvl = ptr = vi(sz(q)); // random data
 			int qi = 0, qe = lvl[s] = 1;
 			while (qi < qe && !lvl[t]) {
 				int v = q[qi++];
