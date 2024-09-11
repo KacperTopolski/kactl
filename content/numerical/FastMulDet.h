@@ -36,7 +36,7 @@ ll detOnce(int n, auto f) {
 	ll prod = 1;
 	for (ll x : r) prod = prod * x % mod;
 	int sg = n % 2 ? 1 : -1;
-	return (mod + ber[n-1] * sg) % mod * modpow(prod, mod-2) % mod;
+	return (mod + ber[n-1] * sg) * modpow(prod, mod-2) % mod;
 }
 ll det(int n, auto f) {
 	return detOnce(n, f) ?: detOnce(n, f); }
