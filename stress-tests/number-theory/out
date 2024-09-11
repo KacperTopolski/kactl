@@ -1,0 +1,106 @@
+GF2k.cpp: In function ‘int main()’:
+GF2k.cpp:85:32: warning: conversion from ‘int’ to ‘unsigned char’ may change value [-Wconversion]
+   85 |                 dGF2_8::poly = i;
+      |                                ^
+GF2k.cpp:86:33: warning: conversion from ‘int’ to ‘short unsigned int’ may change value [-Wconversion]
+   86 |                 dGF2_16::poly = i;
+      |                                 ^
+GF2k.cpp: In instantiation of ‘bool test() [with T = GF<unsigned char, 27>]’:
+GF2k.cpp:74:13:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned char’ [-Wnarrowing]
+   14 |                 T x{rnd()};
+      |                     ~~~^~
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned char’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘bool test() [with T = GF<short unsigned int, 4107>]’:
+GF2k.cpp:75:14:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘short unsigned int’ [-Wnarrowing]
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘short unsigned int’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘bool test() [with T = GF<unsigned int, 27>]’:
+GF2k.cpp:76:14:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned int’ [-Wnarrowing]
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned int’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘bool test() [with T = dynGF<unsigned char>]’:
+GF2k.cpp:92:21:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned char’ [-Wnarrowing]
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned char’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘bool test() [with T = dynGF<short unsigned int>]’:
+GF2k.cpp:93:22:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘short unsigned int’ [-Wnarrowing]
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘short unsigned int’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘bool test() [with T = dynGF<unsigned int>]’:
+GF2k.cpp:94:22:   required from here
+GF2k.cpp:14:24: warning: narrowing conversion of ‘rnd.std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::operator()()’ from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned int’ [-Wnarrowing]
+GF2k.cpp:14:24: warning: conversion from ‘std::mersenne_twister_engine<long unsigned int, 64, 312, 156, 31, 13043109905998158313, 29, 6148914691236517205, 17, 8202884508482404352, 37, 18444473444759240704, 43, 6364136223846793005>::result_type’ {aka ‘long unsigned int’} to ‘unsigned int’ may change value [-Wconversion]
+GF2k.cpp: In instantiation of ‘auto& operator<<(auto:60&, dynGF<T>) [with T = __int128 unsigned; auto:60 = std::basic_ostream<char>]’:
+../utilities/../../content/contest/sol.cpp:25:32:   required from ‘void dump(auto:58 ...) [with auto:58 = {dynGF<__int128 unsigned>, dynGF<__int128 unsigned>, dynGF<__int128 unsigned>}]’
+GF2k.cpp:19:4:   required from ‘bool test() [with T = dynGF<__int128 unsigned>]’
+GF2k.cpp:96:23:   required from here
+GF2k.cpp:70:19: error: ambiguous overload for ‘operator<<’ (operand types are ‘std::basic_ostream<char>’ and ‘__int128 unsigned’)
+   70 |         return os << (g.x + 0);
+      |                ~~~^~~~~~~~~~~~
+In file included from /nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/bits/unique_ptr.h:42,
+                 from /nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/memory:78,
+                 from /nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/x86_64-unknown-linux-gnu/bits/stdc++.h:56,
+                 from ../utilities/template.h:4,
+                 from GF2k.cpp:1:
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:168:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  168 |       operator<<(long __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:172:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  172 |       operator<<(unsigned long __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:176:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(bool) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  176 |       operator<<(bool __n)
+      |       ^~~~~~~~
+In file included from /nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:880:
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/bits/ostream.tcc:96:5: note: candidate: ‘std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(short int) [with _CharT = char; _Traits = std::char_traits<char>]’
+   96 |     basic_ostream<_CharT, _Traits>::
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:183:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(short unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  183 |       operator<<(unsigned short __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/bits/ostream.tcc:110:5: note: candidate: ‘std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char; _Traits = std::char_traits<char>]’
+  110 |     basic_ostream<_CharT, _Traits>::
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:194:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  194 |       operator<<(unsigned int __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:203:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  203 |       operator<<(long long __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:207:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  207 |       operator<<(unsigned long long __n)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:222:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(double) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  222 |       operator<<(double __f)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:226:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(float) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  226 |       operator<<(float __f)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:234:7: note: candidate: ‘std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long double) [with _CharT = char; _Traits = std::char_traits<char>; __ostream_type = std::basic_ostream<char>]’
+  234 |       operator<<(long double __f)
+      |       ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:564:5: note: candidate: ‘std::basic_ostream<_CharT, _Traits>& std::operator<<(basic_ostream<_CharT, _Traits>&, char) [with _CharT = char; _Traits = char_traits<char>]’
+  564 |     operator<<(basic_ostream<_CharT, _Traits>& __out, char __c)
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:570:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, char) [with _Traits = char_traits<char>]’
+  570 |     operator<<(basic_ostream<char, _Traits>& __out, char __c)
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:581:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, signed char) [with _Traits = char_traits<char>]’
+  581 |     operator<<(basic_ostream<char, _Traits>& __out, signed char __c)
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:586:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, unsigned char) [with _Traits = char_traits<char>]’
+  586 |     operator<<(basic_ostream<char, _Traits>& __out, unsigned char __c)
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:595:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, wchar_t) [with _Traits = char_traits<char>]’ (deleted)
+  595 |     operator<<(basic_ostream<char, _Traits>&, wchar_t) = delete;
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:600:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, char8_t) [with _Traits = char_traits<char>]’ (deleted)
+  600 |     operator<<(basic_ostream<char, _Traits>&, char8_t) = delete;
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:605:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, char16_t) [with _Traits = char_traits<char>]’ (deleted)
+  605 |     operator<<(basic_ostream<char, _Traits>&, char16_t) = delete;
+      |     ^~~~~~~~
+/nix/store/skkw2fidr9h2ikq8gzgfm6rysj1mal0r-gcc-13.2.0/include/c++/13.2.0/ostream:609:5: note: candidate: ‘std::basic_ostream<char, _Traits>& std::operator<<(basic_ostream<char, _Traits>&, char32_t) [with _Traits = char_traits<char>]’ (deleted)
+  609 |     operator<<(basic_ostream<char, _Traits>&, char32_t) = delete;
+      |     ^~~~~~~~
