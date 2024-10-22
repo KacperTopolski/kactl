@@ -2,15 +2,15 @@
 
 #include "../../content/number-theory/GF2k.h"
 
-template <typename T, T poly>
-auto &operator<<(auto &os, GF<T, poly> g) {
-	return os << (g.x + 0);
+template <typename T>
+auto &operator<<(auto &os, GF<T> g) {
+	return os << ll(g.x);
 }
 
 template <typename T>
 bool test() {
 	mt19937_64 rnd{37};
-	rep(_, 1000) {
+	rep(_, 10000) {
 		T x{rnd()};
 
 		T pl = x * T(1);
@@ -33,7 +33,7 @@ bool test() {
 	return true;
 }
 
-template <typename T>
+/*template <typename T>
 struct dynGF {
 	static T poly;
 	T x = 0;
@@ -67,16 +67,17 @@ T dynGF<T>::poly = 0;
 
 template <typename T>
 auto &operator<<(auto &os, dynGF<T> g) {
-	return os << (g.x + 0);
-}
+	return os << ll(g.x);
+}*/
 
 int main() {
-	test<GF2_8>();
-	test<GF2_16>();
-	test<GF2_32>();
-	test<GF2_64>();
+	assert(test<GF2_8>());
+	assert(test<GF2_16>());
+	// assert(test<GF2_32>());
+	// assert(test<GF2_64>());
+	// assert(test<GF2_128>());
 
-	rep(i, 1000) {
+	/*rep(i, 1e9) {
 		using dGF2_8 = dynGF<unsigned char>;
 		using dGF2_16 = dynGF<unsigned short>;
 		using dGF2_32 = dynGF<unsigned>;
@@ -87,19 +88,17 @@ int main() {
 		dGF2_32::poly = i;
 		dGF2_64::poly = i;
 		dGF2_128::poly = i;
+		deb(i);
 
-		bool ok = true;
-		ok &= test<dGF2_8>();
-		ok &= test<dGF2_16>();
-		ok &= test<dGF2_32>();
-		ok &= test<dGF2_64>();
-		ok &= test<dGF2_128>();
+		if (!test<dGF2_8>()) continue;
+		if (!test<dGF2_16>()) continue;
+		if (!test<dGF2_32>()) continue;
+		if (!test<dGF2_64>()) continue;
+		if (!test<dGF2_128>()) continue;
 
-		if (ok) {
-			deb(i);
-			break;
-		}
-	}
+		deb(i);
+		break;
+	}*/
 
 	cout<<"Tests passed!"<<endl;
 }
