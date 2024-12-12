@@ -51,5 +51,5 @@ struct Aho {
 	  // Calls are in descreasing length order.
 	void accepted(int i, auto f) {
 		while (i != -1) {
-			for (auto a :  accept[i]) if (f(a)) return;
+			for (auto a : accept[i]) if (f(a)) return;
 			i = accLink[i]; } } };
