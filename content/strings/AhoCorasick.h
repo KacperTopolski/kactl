@@ -28,7 +28,7 @@ struct Aho {
 		return i;
 	} // Build automata; time: O(V*ALPHA)
 	void build() {
-		queue<int> que;
+		static queue<int> que;
 		for (auto e : nxt[0]) if (e) {
 			suf[e] = 0; que.push(e);
 		}

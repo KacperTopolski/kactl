@@ -9,6 +9,7 @@
  * ($p_k/q_k$ alternates between $>x$ and $<x$.)
  * If $x$ is rational, $y$ eventually becomes $\infty$;
  * if $x$ is the root of a degree $2$ polynomial the $a$'s eventually become cyclic.
+ * If $|p/q - x| \le 1/2qq$, then $p/q$ is a convergent.
  * Time: O(\log N)
  * Status: stress-tested for n <= 300
  */
