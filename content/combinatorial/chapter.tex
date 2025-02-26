@@ -41,7 +41,7 @@ $$\prod_{n=1}^{\infty}\left(1-x^{n}\right)=1+\sum_{k=1}^\infty(-1)^k\left(x^{k(3
 		\end{center}
 
 	\subsection{Lucas' Theorem}
-		Let $n,m$ be non-negative integers and $p$ a prime. Write $n=n_kp^k+...+n_1p+n_0$ and $m=m_kp^k+...+m_1p+m_0$. Then $\binom{n}{m} \equiv \prod_{i=0}^k\binom{n_i}{m_i} \pmod{p}$.
+		Let $n,m$ be non-negative integers and $p$ a prime. Write $n=n_kp^k+...+n_1p+n_0$ and $m=m_kp^k+...+m_1p+m_0$. Then $\binom{n}{m} \equiv_p \prod_{i=0}^k\binom{n_i}{m_i}$. For multinomial coefficient first check if there is a carry (then result is zero) or apply the binomial case recursively.
 
 	\subsection{Binomials}
 		\kactlimport{multinomial.h}
@@ -75,6 +75,7 @@ $$\prod_{n=1}^{\infty}\left(1-x^{n}\right)=1+\sum_{k=1}^\infty(-1)^k\left(x^{k(3
 		$${n \brace 1} = {n \brace n} = 1$$
 		$${n \brace k} = \frac{1}{k!}\sum_{j=0}^k (-1)^{k-j}\binom{k}{j}j^n$$
 		$$x^n = \sum_{k=0}^n {n\brace k}x^{\underline{k}}, \ \ \ x^n = \sum_{k=0}^n (-1)^{n-k} {n\brace k} x^{\overline{k}} $$
+		$${n \brace k} \equiv_2 \binom{n-\lceil\frac{k+1}{2}\rceil}{\lfloor\frac{k-1}{2}\rfloor}$$
 
 	\subsection{Eulerian numbers}
 		Number of permutations $\pi \in S_n$ in which exactly $k$ elements are greater than the previous element. $k$ $j$:s s.t. $\pi(j)>\pi(j+1)$, $k+1$ $j$:s s.t. $\pi(j)\geq j$, $k$ $j$:s s.t. $\pi(j)>j$.
