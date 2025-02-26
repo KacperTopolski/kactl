@@ -14,8 +14,9 @@ using namespace __gnu_pbds;
 template <class T> using Tree = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 Tree<int> t, t2;
-auto it = t.insert(10).first; // it == t.upper_bound(9);
+auto it = t.insert(10).first; // it == t.upper_bound(9)
 t.order_of_key(10); // # of entries strictly smaller than key
+it = t.find_by_order(7); // 0 based indexing
 t.join(t2); // fast only if max(T) < min(T2) or min(T) > max(T2)
 
 // Hash Table: faster but can lead to MLE (1.5x worse performance), initial capacity must = 2^k
