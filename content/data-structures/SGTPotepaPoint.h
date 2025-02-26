@@ -12,12 +12,10 @@ struct SegTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
 	T f(T a, T b) { return max(a, b); }
-	#endif //!HIDE
 
 	vector<T> V;
 	int len = 1;
 
-	// Initialize tree for n elements; time: O(n)
 	SegTree(int n = 0, T def = 0) {
 		while (len < n) len *= 2;
 		V.resize(len+n, def);
@@ -26,7 +24,6 @@ struct SegTree {
 			V[i] = f(V[i*2], V[i*2+1]);
 	}
 
-	// Set element `i` to `val`; time: O(lg n)
 	void set(int i, T val) {
 		V[i += len] = val;
 		while (i /= 2) V[i] = f(V[i*2], V[i*2+1]);

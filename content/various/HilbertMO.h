@@ -12,9 +12,7 @@
 
 struct Query {
 	int begin, end;
-};
-
-// Get point index on Hilbert curve
+}; // Get point index on Hilbert curve
 ll hilbert(int x, int y, int s, ll c = 0) {
 	if (s <= 1) return c;
 	s /= 2; c *= 4;
@@ -23,9 +21,7 @@ ll hilbert(int x, int y, int s, ll c = 0) {
 	if (x < s)
 		return hilbert(2*s-y-1, s-x-1, s, c);
 	return hilbert(y-s, x-s, s, c+3);
-}
-
-// Get good order of queries; time: O(n lg n)
+} // Get good order of queries; time: O(n lg n)
 vi moOrder(vector<Query>& queries, int maxN) {
 	int s = 1;
 	while (s < maxN) s *= 2;
@@ -39,5 +35,4 @@ vi moOrder(vector<Query>& queries, int maxN) {
 	sort(all(ret), [&](int l, int r) {
 		return ord[l] < ord[r];
 	});
-	return ret;
-}
+	return ret; }
