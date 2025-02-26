@@ -3,11 +3,13 @@
 
 \chapter{Mathematics}
 
-\section{Equations}
+% \section{Equations}
 
-\[\begin{aligned}ax+by=e\\cx+dy=f\end{aligned}
-\Rightarrow
-\begin{aligned}x=\dfrac{ed-bf}{ad-bc}\\y=\dfrac{af-ec}{ad-bc}\end{aligned}\]
+% \[\begin{aligned}ax+by=e\\cx+dy=f\end{aligned}
+% \Rightarrow
+% \begin{aligned}x=\dfrac{ed-bf}{ad-bc}\\y=\dfrac{af-ec}{ad-bc}\end{aligned}\]
+
+\section{Cramer's rule}
 
 In general, given an equation $Ax = b$, the solution to a variable $x_i$ is given by
 \[x_i = \frac{\det A_i'}{\det A} \]
@@ -38,6 +40,12 @@ where $r=\sqrt{a^2+b^2}, \phi=\operatorname{atan2}(b,a)$.
 }}
 
 \section{Geometry}
+
+\subsection{Pick's theorem}
+Suppose that a polygon has integer coordinates for all of its vertices. Then
+$$
+\text{area}=\text{interior points} + \frac{\text{boundary points}}{2} - 1
+$$
 
 \subsection{Triangles}
 \scalebox{0.9}{\parbox{\linewidth}{
