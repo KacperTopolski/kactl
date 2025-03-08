@@ -20,7 +20,7 @@ vi mo(vector<pii> Q) {
 	vi s(sz(Q)), res = s;
 #define K(x) pii(x.first/blk, x.second ^ -(x.first/blk & 1))
 	iota(all(s), 0);
-	sort(all(s), [&](int s, int t){ return K(Q[s]) < K(Q[t]); });
+	sort(all(s), [&](int ss, int tt){ return K(Q[ss]) < K(Q[tt]); });
 	for (int qi : s) {
 		pii q = Q[qi];
 		while (L > q.first) add(--L, 0);

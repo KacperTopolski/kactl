@@ -40,7 +40,7 @@ struct PushRelabel {
 		back.c += f;
 		ec[back.dest] -= f;
 	}
-	ll calc(int s, int t) {
+	ll maxFlow(int s, int t) {
 		int v = sz(g);
 		H[s] = v;
 		ec[t] = 1;

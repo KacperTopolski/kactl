@@ -1,17 +1,6 @@
 #include "../utilities/template.h"
 
 const ll mod = 5;
-ll modpow(ll a, ll e) {
-	if (e == 0) return 1;
-	ll x = modpow(a * a % mod, e >> 1);
-	return e & 1 ? x * a % mod : x;
-}
-
-#define mod dummy
-#define modpow dummy2
-#include "../../content/number-theory/ModPow.h"
-#undef mod
-#undef modpow
 
 #include "../../content/numerical/BerlekampMassey.h"
 

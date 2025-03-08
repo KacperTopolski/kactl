@@ -14,7 +14,7 @@ struct Tree {
 	static constexpr T unit = INT_MIN;
 	T f(T a, T b) { return max(a, b); } // (any associative fn)
 	vector<T> s; int n;
-	Tree(int n = 0, T def = unit) : s(2*n, def), n(n) {}
+	Tree(int nn = 0, T def = unit) : s(2*nn, def), n(nn) {}
 	void update(int pos, T val) {
 		for (s[pos += n] = val; pos /= 2;)
 			s[pos] = f(s[pos * 2], s[pos * 2 + 1]);

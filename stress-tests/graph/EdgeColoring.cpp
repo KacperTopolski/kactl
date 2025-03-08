@@ -7,7 +7,7 @@
 
 void test(int n, const vector<pii>& ed) {
 	vi deg(n);
-	for (pii e : ed) ++deg[e.first], ++deg[e.second];
+	for (auto [x, y] : ed) ++deg[x], ++deg[y];
 	int maxdeg = n == 0 ? 0 : *max_element(all(deg));
 	vi cols = edgeColoring(n, ed);
 	assert(sz(cols) == sz(ed));
@@ -46,7 +46,7 @@ void testCorrect() {
 				} while (next_permutation(all(ed)));
 			} else {
 				int its = n == 5 ? 10 : 5;
-				fwd(it,0,its) {
+				fwd(ite,0,its) {
 					shuffle_vec(ed);
 					for (auto& e : ed) if (randBool()) swap(e.first, e.second);
 					test(n, ed);

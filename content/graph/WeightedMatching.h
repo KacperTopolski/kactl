@@ -9,23 +9,27 @@
  * cost[N][M], where cost[i][j] = cost for L[i] to be matched with R[j] and
  * returns (min cost, match), where L[i] is matched with
  * R[match[i]]. Negate costs for max cost. Requires $N \le M$.
- * Time: O(N^2M)
+ * Time: O(N^2 M)
  * Status: Tested on kattis:cordonbleu, stress-tested
  */
 #pragma once
 
-pair<int, vi> hungarian(const vector<vi> &a) {
+using T = ll;
+const T INF = 1e18;
+pair<T, vi> hungarian(vector<vector<T>> &a) {
 	if (a.empty()) return {0, {}};
 	int n = sz(a) + 1, m = sz(a[0]) + 1;
-	vi u(n), v(m), p(m), ans(n - 1);
+	vector<T> u(n), v(m);
+	vi p(m), ans(n - 1);
 	fwd(i,1,n) {
 		p[0] = i;
 		int j0 = 0; // add "dummy" worker 0
-		vi dist(m, INT_MAX), pre(m, -1);
-		vector<bool> done(m + 1);
+		vector<T> dist(m, INF);
+		vi pre(m, -1), done(m + 1);
 		do { // dijkstra
 			done[j0] = true;
-			int i0 = p[j0], j1, delta = INT_MAX;
+			int i0 = p[j0], j1;
+			T delta = INF;
 			fwd(j,1,m) if (!done[j]) {
 				auto cur = a[i0 - 1][j - 1] - u[i0] - v[j];
 				if (cur < dist[j]) dist[j] = cur, pre[j] = j0;

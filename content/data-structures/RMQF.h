@@ -1,18 +1,19 @@
 /**
  * Author: Antoni Długosz
  * Date: 2024
- * License: N / A
- * Description: RMQ on intervals [l, r]. Second one has 2-3x less memory and is 2-3x faster Size of array CANNOT be zero.
+ * License: N/A
+ * Description: Faster RMQ on intervals [l, r]. Uses 2-3x less memory and is 2-3x faster.
  * Status: stress-tested
  */
 #pragma once
+#include "RMQ.h"
 template<class T>
 struct RMQF {
 	static constexpr int B = 32; // not larger!
 	RMQ<T> s;
 	vector<uint32_t> m;
-	vector<T> a, c; RMQF(){} // only if needed
-	RMQF(vector<T>& A) : m(sz(A)), a(A), c(sz(A)) {
+	vector<T> a, c;
+	RMQF(vector<T> A = {}) : m(sz(A)), a(A), c(sz(A)) {
 		vector<T> b(sz(a) / B + 1);
 		uint32_t mi = 0;
 		rep(i, sz(a)) {

@@ -23,9 +23,9 @@ vector<Edge> gomoryHu(int N, vector<Edge> ed) {
 	vector<Edge> tree;
 	vi par(N);
 	fwd(i,1,N) {
-		Dinic D(N); // Dinic also works
+		Dinic D(N); // other flows also work
 		for (Edge t : ed) D.addEdge(t[0], t[1], t[2], t[2]);
-		tree.pb({i, par[i], D.calc(i, par[i])});
+		tree.pb({i, par[i], D.maxFlow(i, par[i])});
 		fwd(j,i+1,N)
 			if (par[j] == par[i] && D.leftOfMinCut(j)) par[j] = i;
 	}

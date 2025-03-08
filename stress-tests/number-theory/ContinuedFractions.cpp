@@ -1,6 +1,9 @@
 #include "../utilities/template.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
 #include "../../content/number-theory/ContinuedFractions.h"
+#pragma GCC diagnostic pop
 
 int main() {
 	fwd(n,1,300) {

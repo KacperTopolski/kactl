@@ -29,7 +29,7 @@ string tempfilename;
 void test(const string& s, vi ints = {}) {
 	gc.bc = gc.be = 0;
 	ofstream fout(tempfilename);
-	fout << s;
+	std::operator<<(fout, s);
 	fout.close();
 	FILE* ret = freopen(tempfilename.c_str(), "r", stdin);
 	assert(ret == stdin);

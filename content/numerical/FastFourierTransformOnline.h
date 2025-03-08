@@ -1,6 +1,3 @@
-#pragma once
-#include "NumberTheoreticTransform.h"
-
 /**
  * Author: teapotd
  * License: N / A
@@ -8,6 +5,9 @@
  * Time: O(N \log^2 N)
  * Status: compiles
  */
+
+#pragma once
+#include "NumberTheoreticTransform.h"
 
 void onlineConv(vector<ll>& out, int m, auto f, auto g) {
 	int len = m & ~(m-1), b = m-len;

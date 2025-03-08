@@ -1,23 +1,21 @@
-#include <bits/stdc++.h>
+#include "../utilities/template.h"
+#include "../utilities/genPolygon.h"
+#include "../utilities/random.h"
 
-#define all(x) begin(x), end(x)
-typedef long long ll;
-using namespace std;
+// according to Point.h, floats should be compared with eps
+// ... but it is not clear what epsilon should be used
+int sgn(int x) { return (x>0) - (x<0); }
+int sgn(double x, double eps=0) { return (x>eps) - (x<eps); }
 
-#define fwd(i, a, b) for (int i = a; i < (b); ++i)
-#define rep(i, n) fwd(i, 0, n)
-#define all(x) begin(x), end(x)
-#define sz(x) (int)(x).size()
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 
 #include "../../content/geometry/Point.h"
 #include "../../content/geometry/sideOf.h"
 #include "../../content/geometry/PolygonArea.h"
 #include "../../content/geometry/PolygonUnion.h"
-#include "../utilities/genPolygon.h"
-#include "../utilities/random.h"
+
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 namespace blackhorse {
 
@@ -169,7 +167,7 @@ P rndUlp(int lim, long long ulps = 5) { return P(randNearIntUlps(lim, ulps), ran
 
 P rndEps(int lim, double eps) { return P(randNearIntEps(lim, eps), randNearIntEps(lim, eps)); }
 
-void testRandom(int n, int numPts = 10, int lim = 5, bool brute = false) {
+void testRandom(int n, int numPts = 10, int lim = 5) {
 	vector<vector<P>> polygons;
 	for (int i = 0; i < n; i++) {
 		vector<P> pts;
@@ -200,21 +198,14 @@ void testRandom(int n, int numPts = 10, int lim = 5, bool brute = false) {
 	auto val3 = blackhorse::polygon_union(polygons2.data(), sz(polygons2));
 	auto val4 = lovelive::polygon_union(polygons3.data(), sz(polygons3));
 	if (abs(val1 - val3) > 1e-8 || abs(val1 - val4) > 1e-8) {
-		rep(i, n) {
-			for (auto &x : polygons[i]) {
-				cout << x << ' ';
-			}
-			cout << endl;
-		}
-		abort();
+		deb(val1, val3, val4);
+		deb(polygons);
+		exit(-1);
 	}
 }
 
 int main() {
-	// int s = (int)time(0);
-	int s = 1;
-	// cout << "seed " << s << endl;
-	srand(s);
+	srand(1);
 	for (int i = 0; i < 100; i++) {
 		testRandom(2, 5, 5);
 	}
@@ -224,5 +215,6 @@ int main() {
 	for (int i = 0; i < 50; i++) {
 		testRandom(5, 100, 5);
 	}
+	cerr << "PolygonUnion has some epsilon issues" << endl;
 	cout << "Tests passed!" << endl;
 }

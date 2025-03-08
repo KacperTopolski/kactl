@@ -18,16 +18,16 @@ const SuperT EPS = 1e-12; // |pts| <= 10^6 (for T=dbl)
 
 struct Line {
 	T a,b,c;
-	Line(T a_=0, T b_=0, T c_=0): a(a_), b(b_), c(c_) {} //ax + by + c >= 0 (coords <= 10^9)
+	Line(T aa=0, T bb=0, T cc=0): a(aa), b(bb), c(cc) {} //ax + by + c >= 0 (coords <= 10^9)
 	Line(P p, P q): a(p.y-q.y), b(q.x-p.x), c(p.cross(q)) {} //p->q ccw (coords <= 10^6)
 	Line operator- () const {return Line(-a, -b, -c); }
 	bool up() const { return a?(a<0):(b>0);}
 	P v() const {return P(a,b);}
 	P vx() {return P(b,c);} P vy() {return P(a,c);}
 	T wek(Line p) const {return v().cross(p.v());}
-	bool operator<(Line b) const {
-		if (up() != b.up()) return up() > b.up();
-		return wek(b) > 0;
+	bool operator<(Line x) const {
+		if (up() != x.up()) return up() > x.up();
+		return wek(x) > 0;
 	}
 };
 bool parallel(Line a, Line b) {return !a.wek(b);}

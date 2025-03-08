@@ -9,16 +9,18 @@
  */
 #pragma once
 
-pair<int, vi> globalMinCut(vector<vi> mat) {
-	pair<int, vi> best = {INT_MAX, {}};
+using T = ll;
+const T INF = 1e18;
+pair<T, vi> globalMinCut(vector<vector<T>> mat) {
+	pair<T, vi> best = {INF, {}};
 	int n = sz(mat);
 	vector<vi> co(n);
 	rep(i,n) co[i] = {i};
 	fwd(ph,1,n) {
-		vi w = mat[0];
+		auto w = mat[0];
 		size_t s = 0, t = 0;
 		fwd(it,0,n-ph) { // O(V^2) -> O(E log V) with
-			w[t] = INT_MIN; // prio. queue
+			w[t] = -INF; // prio. queue
 			s = t, t = max_element(all(w)) - w.begin();
 			rep(i,n) w[i] += mat[t][i];
 		}
@@ -26,7 +28,7 @@ pair<int, vi> globalMinCut(vector<vi> mat) {
 		co[s].insert(co[s].end(), all(co[t]));
 		rep(i,n) mat[s][i] += mat[t][i];
 		rep(i,n) mat[i][s] = mat[s][i];
-		mat[0][t] = INT_MIN;
+		mat[0][t] = -INF;
 	}
 	return best;
 }

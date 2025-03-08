@@ -94,9 +94,9 @@ void random_graph_testset(const string testset_name, const int minN, const int m
 				tests += 1;
 			}
 		}
-		cout << testset_name << " test pack #" << it + 1 << "/" << IT << " passed! with " << negative_cycles << "/" << tests << " tests having negative cycles!\n";
+		// cout << testset_name << " test pack #" << it + 1 << "/" << IT << " passed! with " << negative_cycles << "/" << tests << " tests having negative cycles!\n";
 	}
-	cout << testset_name << " tests passed!\n";
+	// cout << testset_name << " tests passed!\n";
 }
 
 void stress_tests() {

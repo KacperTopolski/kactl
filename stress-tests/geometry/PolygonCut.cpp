@@ -1,14 +1,19 @@
 #include "../utilities/template.h"
 
+int sgn(double x, double eps=1e-8) { return (x>eps) - (x<eps); }
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #include "../../content/geometry/PolygonArea.h"
 #include "../../content/geometry/PolygonCut.h"
 #include "../../content/geometry/sideOf.h"
 #include "../../content/geometry/InsidePolygon.h"
 #include "../../content/geometry/SegmentIntersection.h"
+#pragma GCC diagnostic pop
 
 typedef Point<double> P;
 int main() {
-	fwd(it,0,500) {
+	rep(its,500) {
 		int N = rand() % 10 + 3;
 		vector<P> ps;
 		rep(i,N) ps.emplace_back(rand() % 10 - 5, rand() % 10 - 5);

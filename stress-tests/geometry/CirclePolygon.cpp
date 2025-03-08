@@ -3,6 +3,8 @@
 #include "../../content/geometry/CirclePolygonIntersection.h"
 #include "../utilities/genPolygon.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
 namespace orig{
 typedef Point<long double> P;
 long double areaCT(P pa, P pb, long double r) {
@@ -31,6 +33,7 @@ long double circlePoly(P c, long double r, vector<P> poly) {
 	return area;
 }
 }
+#pragma GCC diagnostic pop
 
 signed main() {
 	ios::sync_with_stdio(0);

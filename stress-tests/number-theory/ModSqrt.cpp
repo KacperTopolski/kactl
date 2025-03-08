@@ -1,11 +1,6 @@
 #include "../utilities/template.h"
 
-ll modpow(ll a, ll e, ll mod) {
-	if (e == 0) return 1;
-	ll x = modpow(a * a % mod, e >> 1, mod);
-	return e & 1 ? x * a % mod : x;
-}
-
+const ll mod = -1;
 #include "../../content/number-theory/ModSqrt.h"
 
 int main() {

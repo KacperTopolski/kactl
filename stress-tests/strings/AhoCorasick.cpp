@@ -8,7 +8,7 @@ void gen(string& s, int at, int alpha, F f) {
 	if (at == sz(s)) f();
 	else {
 		rep(i,alpha) {
-			s[at] = (char)('A' + i);
+			s[at] = (char)('a' + i);
 			gen(s, at+1, alpha, f);
 		}
 	}
@@ -18,7 +18,7 @@ void test(const string& s) {
 	vector<string> pats;
 	string cur;
 	rep(i,sz(s)) {
-		if (s[i] == 'A') {
+		if (s[i] == 'a') {
 			pats.push_back(cur);
 			cur = "";
 		}
@@ -27,9 +27,21 @@ void test(const string& s) {
 
 	string hay = cur;
 	trav(x, pats) if (x.empty()) return;
+	Aho aho;
+	rep(j, sz(pats)) aho.add(pats[j], j);
+	aho.build();
 
-	AhoCorasick ac(pats);
-	vector<vi> positions = ac.findAll(pats, hay);
+	vector<vi> positions(sz(hay));
+	int state = 0;
+
+	// This test does not work for empty string. Too bad.
+	rep(i, sz(hay)) {
+		state = aho.next(state, hay[i]);
+		aho.accepted(state, [&](int j) {
+			positions[i + 1 - sz(pats[j])].pb(j);
+			return false;
+		});
+	}
 
 	vi ord;
 	rep(i,sz(hay)) {

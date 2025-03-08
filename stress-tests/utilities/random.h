@@ -96,6 +96,9 @@ double randDoubleUniformBitPattern(double lo, double hi) {
 	return bitPatternToDouble(randRange(doubleToBitPattern(lo), doubleToBitPattern(hi)));
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+
 // add ~y ulps (units of last precision) to x, similar to calling next_after y times
 double addUlps(double x, int64_t y) {
 	if (x == 0 && y < 0) {
@@ -103,6 +106,8 @@ double addUlps(double x, int64_t y) {
 	}
 	return bitPatternToDouble(doubleToBitPattern(x) + y);
 }
+
+#pragma GCC diagnostic pop
 
 // random int in [-lim, lim], perturbed by a few ulps
 double randNearIntUlps(int lim, int64_t ulps = 5) {
@@ -114,8 +119,21 @@ double randNearIntEps(int lim, double eps) {
 	return randIncl(-lim, lim) + randDouble(-eps, eps);
 }
 
+struct RandInt {
+    using result_type = int;
+    static constexpr result_type min() {
+        return 0;
+    }
+    static constexpr result_type max() {
+        return RAND_MAX;
+    }
+    result_type operator()() {
+        return rand();
+    }
+};
+
 // like random_shuffle but uses rand() as RNG source
 template<class T>
 void shuffle_vec(T& vec) {
-	random_shuffle(begin(vec), end(vec), [](int lim) { return rand() % lim; });
+	shuffle(begin(vec), end(vec), RandInt());
 }
