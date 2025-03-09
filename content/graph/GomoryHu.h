@@ -6,12 +6,13 @@
  * Description: Given a list of edges representing an undirected flow graph,
  * returns edges of the Gomory-Hu tree. The max flow between any pair of
  * vertices is given by minimum edge weight along the Gomory-Hu tree path.
+ * Removing minimum edge gives a cut between these vertices of appropriate size.
  * Time: $O(V)$ Flow Computations
  * Status: Tested on CERC 2015 J, stress-tested
  *
  * Details: The implementation used here is not actually the original
  * Gomory-Hu, but Gusfield's simplified version: "Very simple methods for all
- * pairs network flow analysis". PushRelabel is used here, but any flow
+ * pairs network flow analysis". Dinic is used here, but any flow
  * implementation that supports `leftOfMinCut` also works.
  */
 #pragma once
@@ -19,15 +20,19 @@
 #include "Dinic.h"
 
 typedef array<ll, 3> Edge;
-vector<Edge> gomoryHu(int N, vector<Edge> ed) {
+vector<Edge> gomoryHu(int n, vector<Edge> ed) {
 	vector<Edge> tree;
-	vi par(N);
-	fwd(i,1,N) {
-		Dinic D(N); // other flows also work
+	vector<ll> par(n), f(n);
+	fwd(i, 1, n) {
+		Dinic D(n); // other flows also work
 		for (Edge t : ed) D.addEdge(t[0], t[1], t[2], t[2]);
-		tree.pb({i, par[i], D.maxFlow(i, par[i])});
-		fwd(j,i+1,N)
-			if (par[j] == par[i] && D.leftOfMinCut(j)) par[j] = i;
+		f[i] = D.maxFlow(i, par[i]);
+		rep(j, n) if (i != j && par[j] == par[i] && D.leftOfMinCut(j)) par[j] = i;
+		if (D.leftOfMinCut(par[par[i]])) {
+			swap(f[i], f[par[i]]);
+			tie(par[i], par[par[i]]) = pair(par[par[i]], i);
+		}
 	}
+	fwd(i, 1, n) tree.pb({i, par[i], f[i]});
 	return tree;
 }

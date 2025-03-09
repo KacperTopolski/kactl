@@ -9,82 +9,111 @@
 #include "../../content/graph/GomoryHu.h"
 #pragma GCC diagnostic pop
 
-void test(int N, ll mxFlow, int iters) {
-	static mt19937 rnd;
-	rep(it,iters) {
-		int n = int(rnd()%N+1);
-		int m = int(rnd()%(N*N));
-		vector<array<ll, 3>> edges;
-		vector<vector<ll>> mat(n, vector<ll>(n));
-		rep(ite,m) {
-			int i = int(rnd() % n);
-			int j = int(rnd() % n);
-			if (i == j) continue;
-			ll w = rnd() % mxFlow;
-			edges.push_back({i, j, w});
-			mat[i][j] += w;
-			mat[j][i] += w;
-		}
-		auto calc = [&](int s, int t) {
-			Dinic flow(n);
-			for (auto e : edges) {
-				flow.addEdge((int)e[0], (int)e[1], e[2], e[2]);
-			}
-			return flow.maxFlow(s, t);
-		};
-		vector<Edge> gomoryHuTree = gomoryHu(n, edges);
-		vector<vector<array<ll, 2>>> adj(n);
-		for (auto e : gomoryHuTree) {
-			adj[e[0]].push_back({e[1], e[2]});
-			adj[e[1]].push_back({e[0], e[2]});
-		}
-		auto dfs = make_y_combinator([&](auto f, int start, int cur, int p, ll mn) -> void {
-			if (start != cur) {
-				assert(mn == calc(start, cur));
-			}
-			for (auto i : adj[cur]) {
-				if (i[0] != p)
-					f(start, (int)i[0], cur, min(mn, i[1]));
-			}
-		});
-		dfs(0, 0, -1, INF);
+int other(Edge e, int i) {
+	if (e[0] == i) return (int)e[1];
+	if (e[1] == i) return (int)e[0];
+	assert(false);
+}
 
-		// Check that the lightest edge agrees with GlobalMinCut.
-		if (n >= 2) {
-			ll minCut = INF;
-			for (auto e : gomoryHuTree) {
-				minCut = min(minCut, e[2]);
-			}
-			auto mat2 = mat;
-			auto pa = globalMinCut(mat2);
-			assert(pa.first == minCut);
-			vi inCut(n);
-			assert(sz(pa.second) != 0);
-			assert(sz(pa.second) != n);
-			for (int x : pa.second) {
-				assert(0 <= x && x < n);
-				assert(!inCut[x]);
-				inCut[x] = 1;
-			}
-			ll cutw = 0;
-			rep(i,n) rep(j,n) if (inCut[i] && !inCut[j]) {
-				cutw += mat[i][j];
-			}
-			assert(pa.first == cutw);
+Edge lighter(Edge a, Edge b) {
+	return a[2] < b[2] ? a : b;
+}
+
+struct Test {
+	int n;
+	vector<Edge> ed;
+	vector<vector<Edge>> tree;
+	vector<vector<ll>> asMatrix;
+
+	ll acrossCut(vi cutList) {
+		vi cut(n);
+		for (int i : cutList) cut[i] = true;
+
+		ll r{};
+		rep(i, n) rep(j, n) if (cut[i] && !cut[j])
+			r += asMatrix[i][j];
+		return r;
+	}
+
+	void dfs_vis(int i, int par, vi &visList) {
+		visList.pb(i);
+		for (Edge e : tree[i]) {
+			int j = other(e, i);
+			if (j != par)
+				dfs_vis(j, i, visList);
 		}
 	}
-}
+
+	void dfs_check(int s, int t, int par, Edge light) {
+		for (Edge e : tree[t]) {
+			int i = other(e, t);
+			e = s == t ? e : lighter(light, e);
+			if (i != par)
+				dfs_check(s, i, t, e);
+		}
+		if (s == t) return;
+
+		Dinic dinic(n);
+		for (auto [x, y, w] : ed)
+			dinic.addEdge((int)x, (int)y, w, w);
+
+		ll flow = dinic.maxFlow(s, t);
+		vi cutList;
+		dfs_vis((int)light[0], (int)light[1], cutList);
+		ll across = acrossCut(cutList);
+		if (flow != light[2] || flow != across) {
+			deb(flow, across, light);
+			deb(cutList);
+			deb(ed);
+			deb(tree);
+			exit(-1);
+		}
+	}
+
+	Test(int n_, vector<Edge> ed_) : n(n_), ed(ed_), tree(n), asMatrix(n, vector<ll>(n)) {
+		Edge lightest{-1, -1, ll(4e18)};
+		for (auto e : gomoryHu(n, ed)) {
+			tree[e[0]].pb(e);
+			tree[e[1]].pb(e);
+			lightest = lighter(lightest, e);
+		}
+
+		for (auto [x, y, w] : ed) {
+			asMatrix[x][y] += w;
+			asMatrix[y][x] += w;
+		}
+
+		rep(i, n)
+			dfs_check(i, i, i, {});
+
+		if (n < 2) return;
+		auto [flow, cutList] = globalMinCut(asMatrix);
+		ll across = acrossCut(cutList);
+
+		if (flow != lightest[2] || flow != across) {
+			deb(flow, across, lightest);
+			deb(cutList);
+			deb(ed);
+			deb(tree);
+			exit(-1);
+		}
+	}
+};
+
 int main() {
-	test(25, 5, 200);
-	test(100, 1000, 5);
-	test(100, 1, 20);
-	test(5, 5, 20000);
+	for (int n : {0,1,2,3,4,5,10,15,25,50}) rep(mul, 10) for (ll bound : {2LL, 100LL, ll(1e12)}) {
+		deb(n, mul, bound);
 
-	const ll MX = 1e12;
-	test(5, MX, 2000);
-	test(25, MX, 200);
-	test(125, MX, 20);
+		mt19937 rnd{(long unsigned int)(bound * 156 + n * 1516 + mul * 2322)};
+		vector<Edge> ed;
 
-	cerr<<"todo https://github.com/kth-competitive-programming/kactl/issues/292"<<endl;
+		rep(_, n * (mul + 1)) {
+			ll i = rnd() % n, j = rnd() % n, w = rnd() % bound;
+			if (i != j) ed.pb({i, j, w});
+		}
+
+		Test(n, ed);
+	}
+
 	cout<<"Tests passed!"<<endl;
 }
