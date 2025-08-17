@@ -10,24 +10,32 @@
 
 #include "euclid.h"
 
-const ll mod = 17; // change to something else
+const ll mod = 998244353; // change to something else
 struct Mod {
 	ll x;
-	Mod(ll xx) : x(xx) {}
-	Mod operator+(Mod b) { return Mod((x + b.x) % mod); }
-	Mod operator-(Mod b) { return Mod((x - b.x + mod) % mod); }
-	Mod operator*(Mod b) { return Mod((x * b.x) % mod); }
-	Mod operator/(Mod b) { return *this * invert(b); }
-	Mod invert(Mod a) {
-		ll x, y, g = euclid(a.x, mod, x, y);
+	Mod(ll xx = 0) : x((xx % mod + mod) % mod) {}
+	Mod operator+(Mod b) const { return Mod((x + b.x) % mod); }
+	Mod operator-(Mod b) const { return Mod((x - b.x + mod) % mod); }
+	Mod operator*(Mod b) const { return Mod((x * b.x) % mod); }
+	Mod operator/(Mod b) const { return *this * b.inv(); }
+	Mod operator-() const { return Mod(-x); }
+	Mod& operator+=(Mod b) { return *this = *this + b; }
+	Mod& operator-=(Mod b) { return *this = *this - b; }
+	Mod& operator*=(Mod b) { return *this = *this * b; }
+	Mod& operator/=(Mod b) { return *this = *this / b; }
+	Mod inv() const {
+		ll s, t, g = euclid(x, mod, s, t);
 		assert(g == 1);
-		return Mod((x + mod) % mod);
+		return Mod(s);
 	}
-	Mod operator^(ll e) {
-		if (!e)
-			return Mod(1);
-		Mod r = *this ^ (e / 2);
-		r = r * r;
-		return e & 1 ? *this * r : r;
+	Mod pow(ll e) const {
+		Mod r(1), a(x);
+		while (e) {
+			if (e & 1)
+				r *= a;
+			a *= a;
+			e /= 2;
+		}
+		return r;
 	}
 };

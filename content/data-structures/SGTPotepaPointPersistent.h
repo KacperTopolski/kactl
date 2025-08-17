@@ -13,7 +13,6 @@ struct SegTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
 	T f(T a, T b) { return max(a, b); }
-	#endif //!HIDE
 
 	vector<T> agg{ID};   // Aggregated data
 	vector<bool> cow{1}; // Copy children on push

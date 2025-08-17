@@ -11,6 +11,7 @@ help:
 	@echo "	make clean		- to clean up the build process"
 	@echo "	make veryclean		- to clean up and remove kactl.pdf"
 	@echo "	make test		- to run all the stress tests in stress-tests/"
+	@echo "	make test-compiles	- to test compiling all headers"
 	@echo "	make help		- to show this information"
 	@echo "	make showexcluded	- to show files that are not included in the doc"
 	@echo ""
@@ -37,6 +38,13 @@ build:
 
 test:
 	./doc/scripts/run-all.sh .
+
+test-compiles:
+	./doc/scripts/compile-all.sh .
+
+test-session.pdf: content/test-session/test-session.tex content/test-session/chapter.tex | build
+	$(LATEXCMD) content/test-session/test-session.tex
+	cp build/test-session.pdf test-session.pdf
 
 showexcluded: build
 	grep -RoPh '^\s*\\kactlimport{\K.*' content/ | sed 's/.$$//' > build/headers_included

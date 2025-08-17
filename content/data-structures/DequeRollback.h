@@ -17,9 +17,17 @@
  */
 #pragma once
 
+#include "UnionFindRollback.h"    					/// exclude-line
+struct DataStructure {								/// exclude-line
+	RollbackUF ds = RollbackUF(0);					/// exclude-line
+	int time() { return ds.time(); }				/// exclude-line
+	void rollback(int t) { ds.rollback(t); }		/// exclude-line
+	void insert(int a, int b) { ds.join(a, b); }	/// exclude-line
+};													/// exclude-line
+
 struct DequeUndo {
 	// Argument for insert(...) method of DS.
-	using T = tuple<int, int>;
+	using T = pii;
 	DataStructure ds; // Configure DS type here.
 	vector<T> elems[2];
 	vector<pii> his = {{0,0}};
@@ -39,14 +47,14 @@ struct DequeUndo {
 			B.erase(B.begin(), it);
 			reverse(all(A));   his.resize(1);
 			cnt[0] = sz(A);    cnt[1] = sz(B);
-		} else{ 
-            do {
-                cnt[his.back().y ^ side]++;
-                his.pop_back();
-            } while (cnt[0]*2 < cnt[1] && cnt[0] < sz(A));
+		} else{
+			do {
+				cnt[his.back().nd ^ side]++;
+				his.pop_back();
+			} while (cnt[0]*2 < cnt[1] && cnt[0] < sz(A));
 		}
 		cnt[0]--; A.pop_back();
-		ds.rollback(his.back().x);
+		ds.rollback(his.back().st);
 		for (int i : {1, 0})
 			while (cnt[i]) doPush(--cnt[i], i^side);
 	}

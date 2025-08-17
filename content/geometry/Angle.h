@@ -45,6 +45,6 @@ Angle operator+(Angle a, Angle b) { // point a + vector b
 	return r.t180() < a ? r.t360() : r;
 }
 Angle angleDiff(Angle a, Angle b) { // angle b - angle a
-	int tu = b.t - a.t; a.t = b.t;
+	ll tu = b.t - a.t; a.t = b.t;
 	return {a.x*b.x + a.y*b.y, a.x*b.y - a.y*b.x, tu - (b < a)};
 }

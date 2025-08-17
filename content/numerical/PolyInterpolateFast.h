@@ -1,12 +1,13 @@
-#include "PolynomialPotepa.h"
-#pragma once
-
 /**
  * Author: Krzysztof Potępa
  * Description: Compute k-th term of an n-order linear
  * recurrence C[i] = sum C[i-j-1]*D[j], given C[0..n-1] and D[0..n-1];
  * Time: O(n \log n \log k)
  */
+#pragma once
+
+#include "PolynomialPotepa.h"
+
 Zp linearRec(const Poly &C, const Poly &D, ll k) {
 	Poly f(sz(D) + 1, 1);
 	rep(i, sz(D)) f[i] = -D[sz(D) - i - 1];

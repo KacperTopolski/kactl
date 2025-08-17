@@ -26,17 +26,17 @@ vector<ll> spfa(vector<vector<Edge>>& G,
 	for (add(src, -2, 0); nxt[n] != n;) {
 		int v = nxt[n]; del(v);
 		for (auto e : G[v]) {
-			ll alt = dist[v] + e.y;
-			if (alt < dist[e.x]) {
-				que = {e.x};
+			ll alt = dist[v] + e.nd;
+			if (alt < dist[e.st]) {
+				que = {e.st};
 				rep(i, sz(que)) {
 					int w = que[i]; par[w] = -1;
 					del(w);
 					for (auto f : G[w])
-						if (par[f.x] == w) que.pb(f.x);
+						if (par[f.st] == w) que.pb(f.st);
 				}
 				if (par[v] == -1) return {};
-				add(e.x, v, alt);
+				add(e.st, v, alt);
 			}
 		}
 	}

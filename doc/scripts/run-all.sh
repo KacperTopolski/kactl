@@ -16,7 +16,7 @@ declare -i fail=0
 failTests=""
 ulimit -s 524288 # For 2-sat test
 for test in $tests; do
-    echo "$(basename $test): "
+    echo "$(basename $test)"
     start=`date +%s.%N`
     g++ -Wall -Wfatal-errors -Wconversion -std=c++20 -O2 $test && ./a.out
     retCode=$?

@@ -10,6 +10,8 @@
  * Status: N/A
  */
 
+#include "Zfunc.h"
+
 struct Sqr {
 	int begin, end, len;
 };
