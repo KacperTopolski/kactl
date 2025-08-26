@@ -18,7 +18,7 @@ void norm(Poly &P) {
 		P.pop_back();
 }
 
-// Evaluate polynomial at x; time: O(n)
+// Evaluate polynomial at x; time: O(n)								/// exclude-line
 Zp eval(const Poly &P, Zp x) {
 	Zp n = 0, y = 1;
 	for (auto &a : P) n += a * y, y *= x;
@@ -43,7 +43,7 @@ Poly operator-(Poly l, const Poly &r) { return l -= r; }
 
 Poly &operator*=(Poly &l, const Poly &r) {
 	if (min(sz(l), sz(r)) < 50) {
-		// Naive multiplication
+		// Naive multiplication										/// exclude-line
 		Poly p(sz(l) + sz(r));
 		rep(i, sz(l)) rep(j, sz(r)) p[i + j] += l[i] * r[j];
 		l.swap(p);
@@ -62,8 +62,7 @@ Poly invert(const Poly &P, int n) {
 		(ret *= Poly{2} - tmp * ret).resize(i * 2);
 	}
 	ret.resize(n);
-	return ret;
-}
+	return ret; }
 
 // Floor division by polynomial; O(n lg n)
 Poly &operator/=(Poly &l, Poly r) {
@@ -78,8 +77,7 @@ Poly &operator/=(Poly &l, Poly r) {
 	l *= invert(r, d);
 	l.resize(d);
 	reverse(all(l));
-	return l;
-}
+	return l; }
 Poly operator/(Poly l, const Poly &r) { return l /= r; }
 
 // Remainder modulo a polynomial; O(n lg n)
@@ -94,11 +92,9 @@ Poly pow(Poly a, ll e, int n) {
 		if (e % 2)
 			(t *= a).resize(n);
 		e /= 2;
-		(a *= a).resize(n);
-	}
+		(a *= a).resize(n); }
 	norm(t);
-	return t;
-}
+	return t; }
 
 // Compute a^e mod m, where a and m are
 // polynomials; time: O(|m| log |m| log e)
@@ -108,35 +104,28 @@ Poly pow(Poly a, ll e, const Poly &m) {
 		if (e % 2)
 			t = t * a % m;
 		e /= 2;
-		a = a * a % m;
-	}
-	return t;
-}
+		a = a * a % m; }
+	return t; }
 
 Poly derivate(Poly P) {
 	if (!P.empty()) {
 		fwd(i, 1, sz(P)) P[i - 1] = P[i] * i;
-		P.pop_back();
-	}
-	return P;
-}
+		P.pop_back(); }
+	return P; }
 
 Poly integrate(Poly P) {
 	if (!P.empty()) {
 		P.pb(0);
 		for (int i = sz(P); --i;)
 			P[i] = P[i - 1] / i;
-		P[0] = 0;
-	}
-	return P;
-}
+		P[0] = 0; }
+	return P; }
 
 // Compute ln(P) mod x^n; time: O(n log n)
 Poly log(const Poly &P, int n) {
 	Poly a = integrate(derivate(P) * invert(P, n));
 	a.resize(n);
-	return a;
-}
+	return a; }
 
 // Compute exp(P) mod x^n; time: O(n lg n)  Requires P(0) = 0.
 Poly exp(Poly P, int n) {
@@ -147,8 +136,7 @@ Poly exp(Poly P, int n) {
 		(ret *= (tmp - log(ret, i * 2))).resize(i * 2);
 	}
 	ret.resize(n);
-	return ret;
-}
+	return ret; }
 
 // Compute sqrt(P) mod x^n; Requiers ModSqrt.h time: O(n log n)
 bool sqrt(Poly &P, int n) {
@@ -176,8 +164,7 @@ bool sqrt(Poly &P, int n) {
 	P.resize(tail / 2);
 	P.insert(P.end(), all(ret));
 	P.resize(n);
-	return 1;
-}
+	return 1; }
 
 // Compute polynomial P(x+c); time: O(n lg n)
 Poly shift(Poly P, Zp c) {
@@ -194,8 +181,7 @@ Poly shift(Poly P, Zp c) {
 	P.erase(P.begin(), P.begin() + n - 1);
 	fac = 1;
 	fwd(i, 1, n) P[i] /= (fac *= i);
-	return P;
-}
+	return P; }
 
 // Compute values P(x^0), ..., P(x^{n-1}); time: O(n lg n)
 Poly chirpz(Poly P, Zp x, int n) {
@@ -207,8 +193,7 @@ Poly chirpz(Poly P, Zp x, int n) {
 	P *= Q;
 	rep(i, n) P[i] = P[k + i - 1] / Q[i];
 	P.resize(n);
-	return P;
-}
+	return P; }
 
 // Evaluate polynomial P in given points; time: O(n lg^2 n)
 Poly eval(const Poly &P, Poly points) {
@@ -229,8 +214,7 @@ Poly eval(const Poly &P, Poly points) {
 		auto &vec = tree[len + i];
 		points[i] = vec.empty() ? 0 : vec[0];
 	}
-	return points;
-}
+	return points; }
 
 // Given n points (x, f(x)) compute n-1-degree polynomial f that
 // passes through them; time: O(n lg^2 n)
@@ -252,8 +236,7 @@ Poly interpolate(const vector<pair<Zp, Zp>> &P) {
 
 	for (int i = len; --i;)
 		tree[i] = tree[i * 2] * mult[i * 2 + 1] + mult[i * 2] * tree[i * 2 + 1];
-	return tree[1];
-}
+	return tree[1]; }
 
 
 // Count number of possible subsets that sum
@@ -262,7 +245,7 @@ Poly interpolate(const vector<pair<Zp, Zp>> &P) {
 // i.e. counts[x] = how many times elements x
 // is contained in the multiset.
 // Requires counts[0] == 0.
-//! Source: https://arxiv.org/pdf/1807.11597.pdf
+//! Source: https://arxiv.org/pdf/1807.11597.pdf						/// exclude-line
 Poly subsetSum(Poly counts, int n) {
 	assert(counts[0].x == 0);
 	Poly mul(n);
@@ -272,5 +255,4 @@ Poly subsetSum(Poly counts, int n) {
 	for (int i = n-2; i > 0; i--)
 		for (int j = 2; i*j < n; j++)
 			counts[i*j] += mul[j] * counts[i];
-	return exp(counts, n);
-}
+	return exp(counts, n); }

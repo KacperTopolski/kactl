@@ -5,6 +5,15 @@
 	\kactlimport{SPFA.h}
 	\kactlimport{Shapes.h}
 
+\section{Karp's minimal average cycle dp }
+    \scalebox{0.75}{\parbox{\linewidth}{
+		\begin{align*}
+		H_0[v]=0 \quad
+		H_{i+1}[v]=\min_{(u, v, W) \in G} H_i[u] + W \quad
+		\min_{v \in G} \max_{0 \leq k < n} \frac{H_n[v]-H_k[v]}{n-k}
+		\end{align*}
+    }}
+
 \section{Network flow}
 	\kactlimport{EdmondsKarp.h}
 	\kactlimport{PushRelabelKactl.h}

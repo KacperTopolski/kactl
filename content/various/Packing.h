@@ -2,12 +2,8 @@
  * Author: Potepus
  * License: N/A
  * Source: Own work
- * Description: Packing.
+ * Description: Encodes 13 bits using two characters.
  */
-
-// Utilities for packing precomputed tables.
-// Encodes 13 bits using two characters.
-
 // Writer out; out.ints(-123, 8);
 // out.done(); cout << out.buf;
 struct Writer {

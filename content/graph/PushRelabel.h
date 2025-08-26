@@ -20,10 +20,8 @@ struct PushRelabel {
 	vector<flow_t> extra;
 	vi hei, arc, prv, nxt, act, bot;
 	queue<int> Q;
-	int n, high, cut, work;
-	// Initialize for k vertices
-	PushRelabel(int k = 0) : G(k) {}
-	// Add new vertex
+	int n, high, cut, work; // Initialize for k vertices
+	PushRelabel(int k = 0) : G(k) {} // Add new vertex
 	int addVert() { G.pb({}); return sz(G)-1; }
 	// Add edge from u to v with capacity cap
 	// and reverse capacity rcap.
@@ -90,9 +88,7 @@ struct PushRelabel {
 				raise(nxt[j+n], n);
 			cut = k;
 		} else raise(v, h), work++;
-	}
-
-	// Compute maximum flow from src to dst
+	} // Compute maximum flow from src to dst
 	flow_t maxFlow(int src, int dst) {
 		extra.assign(n = sz(G), 0);
 		arc.assign(n, 0);
@@ -114,11 +110,9 @@ struct PushRelabel {
 			}
 
 		return extra[dst];
-	}
-	// Get flow through e-th edge of vertex v
+	} // Get flow through e-th edge of vertex v
 	flow_t getFlow(int v, int e) {
 		return G[v][e].cap - G[v][e].rem;
-	}
-	// Get if v belongs to cut component with src
+	} // Get if v belongs to cut component with src
 	bool leftOfMinCut(int v) { return hei[v] >= n; }
 };

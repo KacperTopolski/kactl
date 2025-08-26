@@ -15,8 +15,7 @@ void countSort(vi& vec, auto key, int k) {
 	for (auto &e : buf) cnt[key(e)]++;
 	fwd(i, 1, k+1) cnt[i] += cnt[i-1];
 	for (int i = sz(vec)-1; i >= 0; i--)
-		vec[--cnt[key(buf[i])]] = buf[i];
-}
+		vec[--cnt[key(buf[i])]] = buf[i]; }
 
 // Input values are assumed to be in [1;k]
 vi sufArray(vi str, int k) {
@@ -75,8 +74,6 @@ vi sufArray(vi str, int k) {
 			return code[l] < code[r];
 		});
 
-	return suf;
-}
+	return suf; }
 vi sufArray(const string& str) {
-	return sufArray(vi(all(str)), 255);
-}
+	return sufArray(vi(all(str)), 255); }

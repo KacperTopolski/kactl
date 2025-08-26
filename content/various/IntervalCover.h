@@ -25,6 +25,4 @@ vi cover(pair<T, T> G, vector<pair<T, T>> I) {
 		if (mx.second == -1) return {};
 		cur = mx.first;
 		R.pb(mx.second);
-	}
-	return R;
-}
+	} return R; }

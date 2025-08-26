@@ -3,20 +3,77 @@
 #include "../../content/numerical/FastSubsetTransform.h"
 
 int main() {
-	rep(k,10) {
-		vi a(1 << k), b = a, c = a, target = a;
-		for(auto &x: a) x = rand() % 6 - 2;
-		for(auto &x: b) x = rand() % 6 - 2;
-		rep(i,1 << k) rep(j,1 << k) target[i & j] += a[i] * b[j];
-		// rep(i,1 << k) cout << a[i] << ' '; cout << endl;
-		// rep(i,1 << k) cout << b[i] << ' '; cout << endl;
-		FST(a, false);
-		FST(b, false);
-		rep(i,1 << k) c[i] = a[i] * b[i];
-		FST(c, true);
-		// rep(i,1 << k) cout << c[i] << ' '; cout << endl;
-		// rep(i,1 << k) cout << target[i] << ' '; cout << endl;
-		assert(c == target);
+	rep(k, 10) {
+		vi a(1 << k), b = a, c = a, bruted, got;
+		for(int &x : a) x = rand() % 6 - 2;
+		for(int &x : b) x = rand() % 6 - 2;
+
+		mode_global = mode_and;
+		bruted.assign(1 << k, 0);
+		rep(i, 1 << k) rep(j, 1 << k) bruted[i & j] += a[i] * b[j];
+		got = conv(a, b);
+		assert(bruted == got);
+
+		mode_global = mode_or;
+		bruted.assign(1 << k, 0);
+		rep(i, 1 << k) rep(j, 1 << k) bruted[i | j] += a[i] * b[j];
+		got = conv(a, b);
+		assert(bruted == got);
+
+		mode_global = mode_xor;
+		bruted.assign(1 << k, 0);
+		rep(i, 1 << k) rep(j, 1 << k) bruted[i ^ j] += a[i] * b[j];
+		got = conv(a, b);
+		assert(bruted == got);
+	}
+	rep(k, 10) {
+		vi a(1 << k), aTr;
+		for(int &x : a) x = rand() % 6 - 2;
+
+		aTr = a;
+		mode_global = mode_xor;
+		FST(aTr, false);
+
+		rep(i, 1 << k) {
+			int bruted = singleST(a, i)[4];
+			assert(bruted == aTr[i]);
+		}
+		rep(i, 1 << k) {
+			int bruted = singleST(aTr, i)[5];
+			assert(bruted == a[i]);
+		}
+
+		aTr = a;
+		mode_global = mode_and;
+		FST(aTr, false);
+
+		rep(i, 1 << k) {
+			int bruted = singleST(a, i)[0];
+			assert(bruted == aTr[i]);
+		}
+		rep(i, 1 << k) {
+			int bruted = singleST(aTr, i)[1];
+			assert(bruted == a[i]);
+		}
+
+		aTr = a;
+		mode_global = mode_or;
+		FST(aTr, false);
+
+		rep(i, 1 << k) {
+			int bruted = singleST(a, i)[2];
+			if (aTr[i] != bruted) {
+				deb(a, aTr, i, bruted);
+			}
+			assert(bruted == aTr[i]);
+		}
+		rep(i, 1 << k) {
+			int bruted = singleST(aTr, i)[3];
+			if (a[i] != bruted) {
+				deb(a, aTr, i, bruted);
+			}
+			assert(bruted == a[i]);
+		}
 	}
 	cout<<"Tests passed!"<<endl;
 }
