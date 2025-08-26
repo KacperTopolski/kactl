@@ -20,5 +20,6 @@ int main() {
 		rotate(minkowski.begin(), min_element(all(minkowski)), minkowski.end());
 		assert(bruted == minkowski);
 	}
+	cerr<<"do you really need so much in Angle.h?"<<endl;
 	cout<<"Tests passed!"<<endl;
 }

@@ -3,6 +3,8 @@
 #include "../../content/data-structures/LineContainer.h"
 
 namespace other {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 // source: https://github.com/niklasb/contest-algos/blob/master/convex_hull/dynamic.cpp
 const ll is_query = -(1LL<<62);
 struct Line {
@@ -29,7 +31,7 @@ struct HullDynamic : public multiset<Line> { // will maintain upper hull for max
 	}
 	void add(ll m, ll b) {
 		auto y = insert({ m, b });
-		y->succ = [=] { return next(y) == end() ? 0 : &*next(y); };
+		y->succ = [this, y] { return next(y) == this->end() ? 0 : &*next(y); };
 		if (bad(y)) { erase(y); return; }
 		while (next(y) != end() && bad(next(y))) erase(next(y));
 		while (y != begin() && bad(prev(y))) erase(prev(y));
@@ -39,6 +41,7 @@ struct HullDynamic : public multiset<Line> { // will maintain upper hull for max
 		return l.m * x + l.b;
 	}
 };
+#pragma GCC diagnostic pop
 }
 
 int test2() {

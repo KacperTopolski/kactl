@@ -1,5 +1,7 @@
 #include "../utilities/template.h"
+int sgn(double x, double eps=1e-8) { return (x>eps) - (x<eps); }
 
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 #include "../../content/geometry/SegmentIntersection.h"
 
 namespace oldImpl {
@@ -50,10 +52,10 @@ int main() {
 		if (res==1) {
 			assert(eq(*res2.begin(), tmp1));
 		} else if (res==2) {
-			vector<P> a(res2.begin(), res2.end());
-			vector<P> b({tmp1, tmp2});
-			sort(all(b));
-			assert(eq(a[0], b[0]) && eq(a[1],b[1]));
+			vector<P> aa(res2.begin(), res2.end());
+			vector<P> bb({tmp1, tmp2});
+			sort(all(bb));
+			assert(eq(aa[0], bb[0]) && eq(aa[1],bb[1]));
 		}
 	}
 	cout<<"Tests passed!"<<endl;

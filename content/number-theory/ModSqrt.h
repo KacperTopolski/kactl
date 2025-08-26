@@ -11,7 +11,7 @@
 
 #include "ModPow.h"
 
-ll sqrt(ll a, ll p) {
+ll modSqrt(ll a, ll p) {
 	a %= p; if (a < 0) a += p;
 	if (a == 0) return 0;
 	assert(modpow(a, (p-1)/2, p) == 1); // else no solution

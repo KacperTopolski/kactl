@@ -1,13 +1,17 @@
-#pragma once
-
 /**
  *
  * Author: Krzysztof Potępa
  * Description: Poynomials. Implement Zp.
  * Time: see below
  */
+#pragma once
 
-using Poly = vector<Zp>;
+#include "../number-theory/ModularArithmetic.h" 					/// exclude-line
+using Zp = Mod;														/// exclude-line
+
+using Poly = vector<Zp>; // Zp should have .x member and implicit constructor
+
+#include "../number-theory/ModSqrt.h" // sqrt only
 
 void norm(Poly &P) {
 	while (!P.empty() && !P.back().x)
@@ -17,7 +21,7 @@ void norm(Poly &P) {
 // Evaluate polynomial at x; time: O(n)
 Zp eval(const Poly &P, Zp x) {
 	Zp n = 0, y = 1;
-	each(a, P) n += a * y, y *= x;
+	for (auto &a : P) n += a * y, y *= x;
 	return n;
 }
 
@@ -158,7 +162,7 @@ bool sqrt(Poly &P, int n) {
 	if (tail % 2)
 		return 0;
 
-	ll sq = modSqrt(P[tail].x, MOD);
+	ll sq = modSqrt(P[tail].x, mod);
 	if (sq == -1)
 		return 0;
 
@@ -166,7 +170,7 @@ bool sqrt(Poly &P, int n) {
 	for (int i = 1; i < n - tail / 2; i *= 2) {
 		fwd(j, i, min(i * 2, sz(P) - tail)) tmp.pb(P[tail + j]);
 		(ret += tmp * invert(ret, i * 2)).resize(i * 2);
-		each(e, ret) e /= 2;
+		for (auto &e : ret) e /= 2;
 	}
 
 	P.resize(tail / 2);
@@ -236,7 +240,7 @@ Poly interpolate(const vector<pair<Zp, Zp>> &P) {
 		len *= 2;
 
 	vector<Poly> mult(len * 2, {1}), tree(len * 2);
-	rep(i, sz(P)) mult[len + i] = {-P[i].x, 1};
+	rep(i, sz(P)) mult[len + i] = {-P[i].st, 1};
 
 	for (int i = len; --i;)
 		mult[i] = mult[i * 2] * mult[i * 2 + 1];
@@ -244,7 +248,7 @@ Poly interpolate(const vector<pair<Zp, Zp>> &P) {
 	tree[0] = derivate(mult[1]);
 	fwd(i, 1, len * 2) tree[i] = tree[i / 2] % mult[i];
 
-	rep(i, sz(P)) tree[len + i][0] = P[i].y / tree[len + i][0];
+	rep(i, sz(P)) tree[len + i][0] = P[i].nd / tree[len + i][0];
 
 	for (int i = len; --i;)
 		tree[i] = tree[i * 2] * mult[i * 2 + 1] + mult[i * 2] * tree[i * 2 + 1];

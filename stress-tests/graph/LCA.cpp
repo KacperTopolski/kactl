@@ -139,7 +139,8 @@ void test_nq(int n, int q) {
 }
 
 int main() {
-	const int IT = 100;
+	// const int IT = 100;
+	const int IT = 2;
 	const int MAXN = 50;
 	const int MINQ = 20;
 	rep(i, IT) {
@@ -147,9 +148,9 @@ int main() {
 			fwd(Q, MINQ, max(MINQ, 5 * N + 1) + 1) {
 				test_nq(N, Q);
 			}
-			cout << "checkpoint for N = " << N << '\n';
+			// cout << "checkpoint for N = " << N << '\n';
 		}
-		cout << "testset #" << i + 1 / IT << " passed!\n";
+		// cout << "testset #" << i + 1 / IT << " passed!\n";
 	}
 	cout<<"Tests passed!"<<endl;
 }

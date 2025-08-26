@@ -1,10 +1,10 @@
 /**
- * Author: folklore
- * Date: 2019-05-10
- * License: GPL3+
+ * Author: ???
+ * Date: 2024-03-24
+ * License: N/A
  * Source: https://codeforces.com/contest/1949/submission/253084155
  * Description: Chinese max clique heuristic, good for geometric packing problems. Vertices should be ordered by (X, Y) (not shuffled!).
- * Status: stress-tested
+ * Status: not tested
  */
 #pragma once
 

@@ -6,6 +6,8 @@
  * Time: ???
  */
 
+#include "../data-structures/WaveletTree.h"
+
 // NxN matrix A is simple (sub-)unit-Monge
 // iff there exists a (sub-)permutation
 // (N-1)x(N-1) matrix P such that:
@@ -130,7 +132,6 @@ vi mongeMul(const vi& P, const vi& Q, int n) {
 // scale yuor valooes
 // Range Longest Increasing Subsequence Query;
 // preprocessing: O(n lg^2 n), query: O(lg n)
-// #include "../structures/wavelet_tree.h"
 struct ALIS {
 	WaveletTree tree;
 	ALIS() {}

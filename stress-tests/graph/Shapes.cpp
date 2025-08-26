@@ -1,7 +1,9 @@
 #include "../utilities/template.h"
 #include "../../content/graph/Shapes.h"
 
-namespace UW { // RIP if UW Triangles doesn't work :')
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+namespace UW {
 	#define LL ll
 	#define REP rep
 	struct Triangles {
@@ -60,6 +62,72 @@ namespace UW { // RIP if UW Triangles doesn't work :')
 	}
 };
 };
+#pragma GCC diagnostic pop
+
+namespace Brute {
+#define assertEq(x, y) if (x != y) { deb((ll)x, (ll)y); rep(i, n) deb(i, g[i]); exit(1); }
+
+const int INF = 1e9;
+bool ordered(int x, int y = INF, int z = INF+1, int s = INF+2, int t = INF+3) {
+	return x < y && y < z && z < s && s < t;
+}
+bool different(int x, int y = INF, int z = INF+1, int s = INF+2, int t = INF+3) {
+	return x!=y && x!=z && x!=s && x!=t
+		        && y!=z && y!=s && y!=t
+			   	        && z!=s && z!=t
+					 	        && s!=t;
+}
+void safeDiv(auto &x, auto y) {
+	assert(x % y == 0);
+	x /= y;
+}
+
+struct Brute {
+	int n;
+	vector<vi> g;
+
+	ll tri = 0, rect = 0, path3 = 0, path4 = 0, star3 = 0, p = 0, y = 0, star4 = 0;
+
+	Brute(vector<vi> &adj) : n(sz(adj)) {
+		g.assign(n, vi(n));
+		rep(i, n) for (int j : adj[i]) {
+			assert(i != j && !g[i][j]);
+			g[i][j] = true;
+		}
+
+		rep(i, n) rep(j, n) rep(k, n) {
+			if (!different(i, j, k)) continue;
+			tri += g[i][j] && g[i][k] && g[j][k] && ordered(i, j, k);
+		}
+		rep(i, n) rep(j, n) rep(k, n) rep(l, n) {
+			if (!different(i, j, k, l)) continue;
+			star3 += g[i][j] && g[i][k] && g[i][l] && ordered(j, k, l);
+			path3 += g[i][j] && g[j][k] && g[k][l] && ordered(i, l);
+			p += g[i][j] && g[i][k] && g[i][l] && g[j][k] && ordered(j, k);
+			rect += g[i][j] && g[j][k] && g[k][l] && g[l][i];
+		}
+		rep(i, n) rep(j, n) rep(k, n) rep(l, n) rep(m, n) {
+			if (!different(i, j, k, l, m)) continue;
+			star4 += g[i][j] && g[i][k] && g[i][l] && g[i][m] && ordered(j, k, l, m);
+			path4 += g[i][j] && g[j][k] && g[k][l] && g[l][m] && ordered(i, m);
+			y += g[i][j] && g[i][k] && g[i][l] && g[l][m] && ordered(j, k);
+		}
+
+		safeDiv(rect, 8);
+	}
+
+	void validate(Shapes &sh) {
+		assertEq(sh.tri, tri);
+		assertEq(sh.rect, rect);
+		assertEq(sh.path3, path3);
+		assertEq(sh.path4, path4);
+		assertEq(sh.star3, star3);
+		assertEq(sh.p, p);
+		assertEq(sh.y, y);
+		assertEq(sh.star4, star4);
+	}
+};
+}
 
 mt19937_64 rng(2137);
 
@@ -113,25 +181,30 @@ void random_graph(const int n, const int m) {
 	if (shp.y != tri.ys4) {
 		fail("number of Y-shapes differs");
 	}
+
+	if (n < 20) {
+		Brute::Brute br(g);
+		br.validate(shp);
+	}
 }
 
-void random_graph_testset(const string testset_name, const int minN, const int maxN, const int IT) {
+void random_graph_testset(const int minN, const int maxN, const int IT) {
 	rep(it, IT) {
 		fwd(n, minN, maxN + 1) {
 			fwd(m, 0, n * (n - 1) / 2) {
 				random_graph(n, m);
 			}
 		}
-		cout << testset_name << " test pack #" << it + 1 << "/" << IT << " passed!\n";
+		// cout << testset_name << " test pack #" << it + 1 << "/" << IT << " passed!\n";
 	}
-	cout << testset_name << " tests passed!\n";
+	// cout << testset_name << " tests passed!\n";
 }
 
 void stress_tests() {
-	random_graph_testset("Tiny", 1, 10, 100);
-	//random_large_graph_testset("Medium", 1, 1000, 0, 500 * 1000);
-	//random_large_graph_testset("Large", 1, 10 * 1000, 0, 500 * 1000);
-	//random_large_graph_testset("Huge", 1, 100 * 1000, 0, 500 * 1000);
+	random_graph_testset(1, 10, 100);
+	//random_large_graph_testset(1, 1000, 0, 500 * 1000);
+	//random_large_graph_testset(1, 10 * 1000, 0, 500 * 1000);
+	//random_large_graph_testset(1, 100 * 1000, 0, 500 * 1000);
 	cout << "Tests passed!" << endl;
 }
 

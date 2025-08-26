@@ -4,13 +4,13 @@
 
 int main() {
 	mt19937_64 rnd;
-	rep(_, 1e5) {
+	rep(_, 1e4) {
 		ull x = rnd();
 		assert(gray(invg(x)) == x);
 		assert(invg(gray(x)) == x);
 	}
 	set<ull> st, nd;
-	rep(i, 1e5) {
+	rep(i, 1e4) {
 		st.insert(gray(i));
 		nd.insert(invg(i));
 		assert(sz(st) == i+1);

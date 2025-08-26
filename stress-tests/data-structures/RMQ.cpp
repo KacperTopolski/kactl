@@ -1,6 +1,7 @@
 #include "../utilities/template.h"
 
 #include "../../content/data-structures/RMQ.h"
+#include "../../content/data-structures/RMQF.h"
 
 int main() {
 	mt19937 rng(2137);
@@ -27,7 +28,7 @@ int main() {
 				}
 			}
 		}
-		cout << "Passed testset#" << IT + 1 << "/" << MAXIT << '\n'; 
+		// cout << "Passed testset#" << IT + 1 << "/" << MAXIT << '\n';
 	}
 	cout<<"Tests passed!"<<endl;
 }

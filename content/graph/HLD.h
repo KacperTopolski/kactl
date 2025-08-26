@@ -15,17 +15,16 @@
  */
 #pragma once
 
-#include "MyLazyTree.h" // make some sort of tree or whatever you like
-//this tree should support add(l, r, x) -> add on [l, r) and query(l, r)
+// struct LazyTree{}; should support add(l, r, x) -> add on [l, r] and query(l, r)
 
 template <bool VALS_EDGES> struct HLD {
 	int N, tim = 0;
 	vector<vi> adj;
 	vi par, siz, depth, rt, pos;
-	MyLazyTree *tree; // right-opened intervals [l,r),
+	LazyTree tree; // closed intervals [l, r]
 	HLD(vector<vi> adj_)
 		: N(sz(adj_)), adj(adj_), par(N, -1), siz(N, 1), depth(N),
-		  rt(N),pos(N),tree(new Node(0, N)){ dfsSz(0); dfsHld(0); }
+		  rt(N),pos(N),tree(N) { dfsSz(0); dfsHld(0); }
 	void dfsSz(int v) {
 		if (par[v] != -1) adj[v].erase(find(all(adj[v]), par[v]));
 		for (int& u : adj[v]) {
@@ -42,25 +41,25 @@ template <bool VALS_EDGES> struct HLD {
 			dfsHld(u);
 		}
 	}
-	template <class B> void process(int u, int v, B op) {
+	void process(int u, int v, auto op) {
 		for (; rt[u] != rt[v]; v = par[rt[v]]) {
 			if (depth[rt[u]] > depth[rt[v]]) swap(u, v);
-			op(pos[rt[v]], pos[v] + 1);
+			op(pos[rt[v]], pos[v]);
 		}
 		if (depth[u] > depth[v]) swap(u, v);
-		op(pos[u] + VALS_EDGES, pos[v] + 1); // return u for lca
+		op(pos[u] + VALS_EDGES, pos[v]); // return u for lca
 	}
 	void modifyPath(int u, int v, int val) {
-		process(u, v, [&](int l, int r) { tree->add(l, r, val); });
+		process(u, v, [&](int l, int r) { tree.add(l, r, val); });
 	}
 	int queryPath(int u, int v) { // Modify depending on problem
 		int res = -1e9;
 		process(u, v, [&](int l, int r) {
-				res = max(res, tree->query(l, r));
+			res = max(res, tree.query(l, r));
 		});
 		return res;
 	} //queryPoint = return tree->query(pos[v])
 	int querySubtree(int v) { // modifySubtree is similar
-		return tree->query(pos[v] + VALS_EDGES, pos[v] + siz[v]);
+		return tree.query(pos[v] + VALS_EDGES, pos[v] + siz[v] - 1);
 	}
 };

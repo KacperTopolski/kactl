@@ -6,6 +6,10 @@
 #include "../../content/geometry/PolygonArea.h"
 #include "random.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-conversion"
+#pragma GCC diagnostic ignored "-Wnarrowing"
+
 template<class P> pair<bool, vector<P>> conquer(vector<P> pts, int depth) {
 	if (depth>100) {
 		return {false, {}};
@@ -70,3 +74,5 @@ template<class P> vector<P> genPolygon(vector<P> pts, int depth=0) {
 	if (polygonArea2(pa) < 0) reverse(all(pa));
 	return pa;
 }
+
+#pragma GCC diagnostic pop

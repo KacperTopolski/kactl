@@ -8,7 +8,8 @@
 // interval-interval segment tree; space: O(n)
 struct SegTree {
 	// Choose/write configuration
-	//#include "general_config.h"
+	#define TREE_PLUS
+	#include "SGTPotepaConfig.h"
 
 	// Root node is 1, left is i*2, right i*2+1
 	vector<Agg> agg; // Aggregated data for nodes

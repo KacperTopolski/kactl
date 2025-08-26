@@ -1,7 +1,7 @@
 /**
  * Author: Kacper Topolski
  * Date: 2024-07-31
- * License: N/A
+ * License: CC0
  * Source: https://codeforces.com/blog/entry/92703
  * Description: Calculates prefsums of multiplicative function at each floor(N/i). keys[id(N/i)]=N/i.
  * Remember about overflows. See example below.
@@ -53,10 +53,10 @@ struct Min25 {
 	}
 };
 
-vector<ll> exampleUsage(Min25<ll> &m) { // OVERFLOWS!
+/*vector<ll> exampleUsage(Min25<ll> &m) { // OVERFLOWS!
 	auto primeCnt = m.overPrimes([](ll x){return x; });
 	auto primeSum = m.overPrimes([](ll x){return x*(x+1)/2; });
 	vector<ll> phi; rep(i, sz(m.keys))
 		phi.pb(primeSum[i] - primeCnt[i]);
 	m.fullSum(phi, [](int p,int k,ll pk){return pk-pk/p; });
-	return phi; }
+	return phi; }*/

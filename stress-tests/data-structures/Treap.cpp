@@ -2,75 +2,40 @@
 
 #include "../../content/data-structures/Treap.h"
 
-pair<Node*, Node*> split2(Node* n, int v) {
-	if (!n) return {};
-	if (n->val >= v) {
-		auto pa = split2(n->l, v);
-		n->l = pa.second;
-		n->recalc();
-		return {pa.first, n};
-	} else {
-		auto pa = split2(n->r, v);
-		n->r = pa.first;
-		n->recalc();
-		return {n, pa.second};
-	}
-}
+void compare(vi &vec, Treap &tr, int root) {
+	const int n = sz(vec);
 
-int ra() {
-	static unsigned x;
-	x *= 4176481;
-	x += 193861934;
-	return x >> 1;
+	assert(tr.size(root) == n);
+	rep(i, n) {
+		assert(tr.root(i) == root);
+		assert(tr.find(root, i) == vec[i]);
+		assert(tr.index(vec[i]) == i);
+	}
 }
 
 int main() {
-	srand(3);
-	fwd(it,0,1000) {
-		vector<Node> nodes;
-		vi exp;
-		rep(i,10) {
-			nodes.emplace_back(i*2+2);
-			exp.emplace_back(i*2+2);
+	rep(it, 3) for (int n : {1, 10, 100, 1000}) {
+		mt19937 rnd{(long unsigned int)it};
+
+		vi vec(n);
+		iota(all(vec), 0);
+		shuffle(all(vec), rnd);
+
+		Treap tr(n);
+		int root = -1;
+		for (int i : vec) root = tr.join(root, i);
+
+		compare(vec, tr, root);
+		rep(_, 1000) {
+			int l = int(rnd() % (n+1)), r = int(rnd() % (n+1));
+			if (l > r) swap(l, r);
+
+			reverse(vec.begin() + l, vec.begin() + r);
+			root = tr.reverse(root, l, r);
+
+			compare(vec, tr, root);
 		}
-		Node* n = 0;
-		rep(i,10)
-			n = merge(n, &nodes[i]);
-
-		int v = rand() % 25;
-		int left = cnt(split2(n, v).first);
-		int rleft = (int)(lower_bound(all(exp), v) - exp.begin());
-		assert(left == rleft);
 	}
 
-	fwd(it,0,10000) {
-		vector<Node> nodes;
-		vi exp;
-		rep(i,10) nodes.emplace_back(i);
-		rep(i,10) exp.emplace_back(i);
-		Node* n = 0;
-		rep(i,10)
-			n = merge(n, &nodes[i]);
-
-		int i = ra() % 11, j = ra() % 11;
-		if (i > j) swap(i, j);
-		int k = ra() % 11;
-		if (i < k && k < j) continue;
-
-		move(n, i, j, k);
-		// cerr << i << ' ' << j << ' ' << k << endl;
-
-		int nk = (k >= j ? k - (j - i) : k);
-		vi iv(exp.begin() + i, exp.begin() + j);
-		exp.erase(exp.begin() + i, exp.begin() + j);
-		exp.insert(exp.begin() + nk, all(iv));
-
-		int ind = 0;
-		each(n, [&](int x) {
-			// cerr << x << ' ';
-			assert(x == exp[ind++]);
-		});
-		// cerr << endl;
-	}
 	cout<<"Tests passed!"<<endl;
 }

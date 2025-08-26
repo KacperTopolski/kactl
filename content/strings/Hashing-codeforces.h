@@ -16,8 +16,8 @@ static int C; // initialized below
 // "typedef uint64_t H;" instead if Thue-Morse does not apply.
 template<int M, class B>
 struct A {
-	int x; B b; A(int x=0) : x(x), b(x) {}
-	A(int x, B b) : x(x), b(b) {}
+	int x; B b; A(int xx=0) : x(xx), b(xx) {}
+	A(int xx, B bb) : x(xx), b(bb) {}
 	A operator+(A o){int y = x+o.x; return{y - (y>=M)*M, b+o.b};}
 	A operator-(A o){int y = x-o.x; return{y + (y< 0)*M, b-o.b};}
 	A operator*(A o) { return {(int)(1LL*x*o.x % M), b*o.b}; }

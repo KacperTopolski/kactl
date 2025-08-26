@@ -13,6 +13,8 @@ using namespace __gnu_pbds;
 
 template <class T> using Tree = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
+void func_scope() {																/// exclude-line
+
 Tree<int> t, t2;
 auto it = t.insert(10).first; // it == t.upper_bound(9)
 t.order_of_key(10); // # of entries strictly smaller than key
@@ -25,3 +27,5 @@ struct chash { // large odd number for C
 	ll operator()(ll x) const { return __builtin_bswap64(x * C); }
 };
 gp_hash_table<ll, int, chash> h({}, {}, {}, {}, {1 << 16}); // cc_hash_table also exists if needed
+
+}																				/// exclude-line

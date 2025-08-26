@@ -1,6 +1,51 @@
 #include "../utilities/template.h"
 #include "../utilities/genTree.h"
 
+const int INF = 1e9;
+struct LazyTree {
+	int n = 1;
+	vector<int> lazy, val;
+	LazyTree(int k) {
+		while (n < k) n *= 2;
+		lazy.resize(2 * n);
+		val.resize(2 * n);
+	}
+	void push(int node) {
+		if (!lazy[node] || node >= n) return;
+		rep(i, 2) {
+			val[node * 2 + i] += lazy[node];
+			lazy[node * 2 + i] += lazy[node];
+		}
+		lazy[node] = 0;
+	}
+	void add(int l, int r, int v, int node = 1, int nl = 0, int nr = -1) {
+		if (nr < 0) nr = n - 1;
+		if (l > nr || nl > r) return;
+		if (l <= nl && nr <= r) {
+			val[node] += v;
+			lazy[node] += v;
+			return;
+		}
+		push(node);
+		int mid = (nl+nr)/2;
+		add(l,r,v,node*2,nl,mid);
+		add(l,r,v,node*2+1,mid+1,nr);
+		val[node] = max(val[node*2], val[node*2+1]);
+	}
+	int query(int l, int r, int node = 1, int nl = 0, int nr = -1) {
+		if (nr < 0) nr = n - 1;
+		if (l > nr || nl > r) return -INF;
+		if (l <= nl && nr <= r)
+			return val[node];
+		push(node);
+		int mid = (nl+nr)/2;
+		return max(
+			query(l,r,node*2,nl,mid),
+			query(l,r,node*2+1,mid+1,nr)
+		);
+	}
+};
+
 #include "../../content/graph/HLD.h"
 
 namespace old {
@@ -84,7 +129,6 @@ void testAgainstOld(int n, int iters, int queries) {
 		}
 		HLD<false> hld(tree1);
 		old::HLD hld2(tree2);
-		hld.tree->set(0, n, 0);
 		for (int itr = 0; itr < queries; itr++) {
 			if (rand() % 2) {
 				int node = rand() % n;
@@ -109,7 +153,6 @@ void testAgainstBrute(int n, int iters, int queries) {
 		}
 		HLD<false> hld(tree1);
 		bruteforce hld2(tree1);
-		hld.tree->set(0, n, 0);
 		for (int itr = 0; itr < queries; itr++) {
 			int rng = rand() % 3;
 			if (rng == 0) {

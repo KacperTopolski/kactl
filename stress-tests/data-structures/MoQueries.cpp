@@ -32,7 +32,7 @@ vi mo(vector<pii> Q) {
 	vi s(sz(Q)), res = s;
 #define K(x) pii(x.first/blk, x.second ^ -(x.first/blk & 1))
 	iota(all(s), 0);
-	sort(all(s), [&](int s, int t){ return K(Q[s]) < K(Q[t]); });
+	sort(all(s), [&](int ss, int tt){ return K(Q[ss]) < K(Q[tt]); });
 	for (int qi : s) {
 		pii q = Q[qi];
 		while (L > q.first) add(--L, 0);
@@ -112,7 +112,7 @@ vi moTree(vector<array<int, 2>> Q, vector<vi>& ed, int root=0){
 	dfs(root, -1, 0, dfs);
 #define K(x) pii(I[x[0]] / blk, I[x[1]] ^ -(I[x[0]] / blk & 1))
 	iota(all(s), 0);
-	sort(all(s), [&](int s, int t){ return K(Q[s]) < K(Q[t]); });
+	sort(all(s), [&](int ss, int tt){ return K(Q[ss]) < K(Q[tt]); });
 	for (int qi : s) fwd(end,0,2) {
 		int &a = pos[end], b = Q[qi][end], i = 0;
 #define step(c) { if (in[c]) del(a, end), in[a] = 0; \
@@ -177,5 +177,7 @@ int main() {
 	fwd(it,0,10) fwd(n,1,15) rep(q,n*n) {
 		test(n, q);
 	}
+
+	cerr << "MoQueries test use copy paste..." << endl;
 	cout << "Tests passed!" << endl;
 }

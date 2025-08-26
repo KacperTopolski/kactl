@@ -7,6 +7,7 @@
  * scc.comps[i] = vertices of i-th scc,
  * components in reverse topological order
  * Time: O(|E| + |V|)
+ * Status: Stress-tested
  */
 #pragma once
 struct SCC : vi {

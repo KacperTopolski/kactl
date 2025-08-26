@@ -34,7 +34,7 @@ struct Dinic {
 		}
 		return 0;
 	}
-	ll calc(int s, int t) {
+	ll maxFlow(int s, int t) {
 		ll flow = 0; q[0] = s;
 		rep(L,31) do { // 'int L=30' maybe faster for
 			lvl = ptr = vi(sz(q)); // random data

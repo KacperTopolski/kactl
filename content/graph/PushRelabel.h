@@ -4,14 +4,14 @@
  * License: N/A
  * Description: Fast.
  * Time: $O(V^2\sqrt E)$
- * Status: Tested on Kattis and SPOJ, and stress-tested
+ * Status: stress-tested
  */
 #pragma once
-using flow_t = int;
+using flow_t = ll; // change to int if possible
 
 // Push-relabel algorithm for maximum flow;
 // O(V^2*sqrt(E)), but very fast in practice.
-struct MaxFlow {
+struct PushRelabel {
 	struct Edge {
 		int to, inv;
 		flow_t rem, cap;
@@ -22,7 +22,7 @@ struct MaxFlow {
 	queue<int> Q;
 	int n, high, cut, work;
 	// Initialize for k vertices
-	MaxFlow(int k = 0) : G(k) {}
+	PushRelabel(int k = 0) : G(k) {}
 	// Add new vertex
 	int addVert() { G.pb({}); return sz(G)-1; }
 	// Add edge from u to v with capacity cap
@@ -120,5 +120,5 @@ struct MaxFlow {
 		return G[v][e].cap - G[v][e].rem;
 	}
 	// Get if v belongs to cut component with src
-	bool cutSide(int v) { return hei[v] >= n; }
+	bool leftOfMinCut(int v) { return hei[v] >= n; }
 };

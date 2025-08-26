@@ -18,7 +18,7 @@ void compare(string s) {
 mt19937_64 rnd;
 string random_gen(int n, int k) {
 	string out(n, 'a');
-	for (char &ch : out) ch += rnd() % k;
+	for (char &ch : out) ch += char(rnd() % k);
 	return out;
 }
 

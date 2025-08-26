@@ -1,12 +1,13 @@
 #include "../utilities/template.h"
+#include "../utilities/random.h"
 
-#include "../../content/graph/2sat.h"
+#include "../../content/graph/2Sat.h"
 
 int main1() {
 	const int N = 100000, M = 10000000;
 	// Random constraints, unsolvable
 	{
-		TwoSat ts(N);
+		SAT2 ts(N);
 		rep(i,M) {
 			int r = rand();
 			int s = r;
@@ -23,7 +24,7 @@ int main1() {
 	{
 		vector<bool> v(N);
 		rep(i,N) v[i] = rand() & (1 << 20);
-		TwoSat ts(N);
+		SAT2 ts(N);
 		rep(i,M) {
 			int r = rand();
 			int s = r;
@@ -41,12 +42,12 @@ int main1() {
 
 int main2() {
 	int N = 4;
-	TwoSat ts(N);
+	SAT2 ts(N);
 	ts.either(0,1);
 	ts.either(0,~1);
 	ts.either(~2,~3);
 	assert(ts.solve()==1);
-	assert(ts.values == vi({1, 1, 0, 0}));
+	assert(ts == vi({1, 1, 0, 0}));
 	return 0;
 }
 
@@ -65,17 +66,17 @@ int main() {
 	fwd(it,0,100) {
 		vector<bool> v(N);
 		rep(i,N) v[i] = ra() & (1 << 20);
-		TwoSat ts(N);
+		SAT2 ts(N);
 		vector<vi> atm;
 		vi r;
 		rep(i,M) {
 			if (ra()%100 < 5) {
-				int r = ra();
-				int s = r;
-				r >>= 2;
-				int a = r % N;
-				r >>= 5;
-				int b = r % N;
+				int ri = ra();
+				int s = ri;
+				ri >>= 2;
+				int a = ri % N;
+				ri >>= 5;
+				int b = ri % N;
 				if (a == b) continue;
 				ts.either(v[a] ? a : ~a, (s&1) ? b : ~b);
 			} else {
@@ -86,17 +87,17 @@ int main() {
 					r.push_back(v[a] ? ~a : a);
 				}
 				r.push_back(ra() % (2*N) - N);
-				random_shuffle(all(r), [](int x) { return ra() % x; });
-				ts.atMostOne(r);
+				shuffle_vec(r);
+				ts.atMostOneTrue(r);
 				atm.push_back(r);
 			}
 		}
 		assert(ts.solve());
 		int to = 0;
-		rep(i,N) to += (ts.values[i] == v[i]);
-		for(auto &r: atm) {
+		rep(i,N) to += (ts[i] == v[i]);
+		for(auto &ri: atm) {
 			int co = 0;
-			for(auto &x: r) co += (ts.values[max(x, ~x)] == (x >= 0));
+			for(auto &x: ri) co += (ts[max(x, ~x)] == (x >= 0));
 			assert(co <= 1);
 		}
 	}

@@ -1,14 +1,11 @@
 /**
  * Author: koosaga
  * Date: ???
- * Description: Read below.
+ * Description: Edmond's Blossom algorithm for weighted maximum matching in general graphs.
+ * Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.pdf
  * Time: O(N^3)
  */
-
-// Edmond's Blossom algorithm for weighted
-// maximum matching in general graphs; O(n^3)?
-// Weights must be positive (I believe).
-//! Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.pdf
+#pragma once
 struct WeightedBlossom {
 	struct edge { int u, v, w; };
 	int n, s, nx;

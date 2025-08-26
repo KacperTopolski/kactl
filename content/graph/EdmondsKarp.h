@@ -4,15 +4,16 @@
  * License: N/A
  * Source: N/A
  * Description: Use if too tired of life to rewrite push relabel for the 100th time.
+ * Status: stress-tested
  */
 #pragma once
 
-using flow_t = int;
-constexpr flow_t INF = 1e9+10;
+using flow_t = ll; // change to int if possible
+constexpr flow_t INF = 1e18;
 
 // Edmonds-Karp algorithm for finding
 // maximum flow in graph; time: O(V*E^2)
-struct MaxFlow {
+struct EdmondsKarp {
 	struct Edge {
 		int dst, inv;
 		flow_t flow, cap;
@@ -23,7 +24,7 @@ struct MaxFlow {
 	vi prev;
 
 	// Initialize for n vertices
-	MaxFlow(int n = 0) : G(n) {}
+	EdmondsKarp(int n = 0) : G(n) {}
 
 	// Add new vertex
 	int addVert() { G.pb({}); return sz(G)-1; }
@@ -81,5 +82,5 @@ struct MaxFlow {
 	}
 
 	// Get if v belongs to cut component with src
-	bool cutSide(int v) { return add[v] >= 0; }
+	bool leftOfMinCut(int v) { return add[v] >= 0; }
 };

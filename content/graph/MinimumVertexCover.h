@@ -13,7 +13,7 @@
 
 vi cover(vector<vi> &g, int n, int m) { // sizes of left and right sets, g = [left][right]
 	vi match(n + m, -1);
-	int res = turboMatching(g, match);
+	int res = matching(g, match);
 	vector<bool> lfound(n, true), seen(n + m);
 	fwd(i, n, n + m) if (match[i] != -1) lfound[match[i]] = false;
 	vi q, cover;

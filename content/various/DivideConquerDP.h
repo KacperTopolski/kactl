@@ -8,6 +8,9 @@
 vector<ll> dp_before, dp_cur;
 ll C(int i, int j);
 
+function<ll(int, int)> C_for_test;                      /// exclude-line
+ll C(int i, int j) { return C_for_test(i, j); }         /// exclude-line
+
 // compute dp_cur[l], ... dp_cur[r] (inclusive)
 void compute(int l, int r, int optl, int optr) {
     if (l > r) return;
