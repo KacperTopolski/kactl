@@ -62,16 +62,10 @@ int main() {
 
 		rep(i, 1 << k) {
 			int bruted = singleST(a, i)[2];
-			if (aTr[i] != bruted) {
-				deb(a, aTr, i, bruted);
-			}
 			assert(bruted == aTr[i]);
 		}
 		rep(i, 1 << k) {
 			int bruted = singleST(aTr, i)[3];
-			if (a[i] != bruted) {
-				deb(a, aTr, i, bruted);
-			}
 			assert(bruted == a[i]);
 		}
 	}

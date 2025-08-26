@@ -27,7 +27,7 @@ void FST(vi& a, bool inv) {
 		}
 	}
 	if (mode_global == mode_xor)									/// exclude-line
-	if (inv) for (int& x : a) x /= sz(a); 			// XOR only
+	if (inv) for (int& x : a) x /= sz(a); 		// XOR only
 }
 vi conv(vi a, vi b) {
 	FST(a, 0); FST(b, 0);
